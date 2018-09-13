@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.media.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="487.0" prefWidth="843.0" style="-fx-background-color: #778ca3;" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.listMenuController">
+   <bottom>
+      <HBox alignment="CENTER" prefHeight="57.0" prefWidth="600.0" spacing="70.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" styleClass="mainButton" text="View Creation(s)" />
+            <Button mnemonicParsing="false" styleClass="mainButton" text="Delete Creation(s)" />
+         </children>
+         <BorderPane.margin>
+            <Insets left="220.0" right="20.0" />
+         </BorderPane.margin>
+      </HBox>
+   </bottom>
+   <left>
+      <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets top="20.0" />
+         </BorderPane.margin>
+         <center>
+            <ListView prefHeight="400.0" prefWidth="180.0" style="-fx-background-color: #95a6b8;" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets bottom="10.0" left="20.0" />
+               </BorderPane.margin>
+            </ListView>
+         </center>
+      </BorderPane>
+   </left>
+   <top>
+      <BorderPane prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <left>
+            <Label alignment="CENTER" contentDisplay="CENTER" text="List of Creations:" BorderPane.alignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="19.0" />
+               </font>
+               <BorderPane.margin>
+                  <Insets left="30.0" top="20.0" />
+               </BorderPane.margin>
+            </Label>
+         </left>
+         <right>
+            <Button mnemonicParsing="false" onAction="#backButtonPressed" styleClass="mainButton" text="Back" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets right="10.0" top="20.0" />
+               </BorderPane.margin>
+            </Button>
+         </right>
+      </BorderPane>
+   </top>
+   <center>
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fitHeight="300.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
+               <VBox.margin>
+                  <Insets left="20.0" top="25.0" />
+               </VBox.margin>
+               <image>
+                  
+               </image>
+            </ImageView>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="400.0">
+               <children>
+                  <Button mnemonicParsing="false" text="Button" />
+                  <Button alignment="CENTER" mnemonicParsing="false" text="Button" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>

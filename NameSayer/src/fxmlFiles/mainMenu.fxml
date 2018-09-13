@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="206.0"
+            prefWidth="499.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainMenuController">
+   <center>
+      <BorderPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #778ca3;" stylesheets="@../css/main.css" BorderPane.alignment="CENTER">
+         <top>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="119.0" prefWidth="231.0" text="NameSayer" textFill="WHITE" BorderPane.alignment="CENTER">
+               <effect>
+                  <DropShadow height="36.18" offsetX="4.0" offsetY="4.0" radius="18.3475" spread="0.29" width="39.21" />
+               </effect>
+               <font>
+                  <Font size="31.0" />
+               </font>
+               <BorderPane.margin>
+                  <Insets top="-10.0" />
+               </BorderPane.margin>
+            </Label>
+         </top>
+         <center>
+            <HBox alignment="CENTER" prefHeight="93.0" prefWidth="499.0" spacing="80.0" style="-fx-background-radius: 10;" BorderPane.alignment="CENTER">
+               <children>
+                  <Button id="listButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
+                          onAction="#listButtonPressed" prefHeight="40.0" prefWidth="115.0" styleClass="mainButton" text="List" textFill="WHITE">
+                     <HBox.margin>
+                        <Insets top="-60.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button id="createButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
+                          prefHeight="40.0" prefWidth="115.0" styleClass="mainButton" text="Create" textAlignment="CENTER" textFill="WHITE">
+                     <HBox.margin>
+                        <Insets top="-60.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+               <BorderPane.margin>
+                  <Insets />
+               </BorderPane.margin>
+            </HBox>
+         </center>
+      </BorderPane>
+   </center>
+</BorderPane>
