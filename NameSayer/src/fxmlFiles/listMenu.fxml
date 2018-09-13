@@ -1,80 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.image.*?>
-<?import javafx.scene.text.*?>
+<?import java.net.*?>
 <?import javafx.geometry.*?>
-<?import javafx.scene.media.*?>
 <?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="487.0" prefWidth="843.0" style="-fx-background-color: #778ca3;" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.listMenuController">
-   <bottom>
-      <HBox alignment="CENTER" prefHeight="57.0" prefWidth="600.0" spacing="70.0" BorderPane.alignment="CENTER">
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="406.0"
+      prefWidth="635.0" spacing="20.0" style="-fx-background-color: #778ca3;"
+      stylesheets="@../css/list.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controllers.listMenuController">
+   <children>
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0" spacing="10.0">
          <children>
-            <Button mnemonicParsing="false" styleClass="mainButton" text="View Creation(s)" />
-            <Button mnemonicParsing="false" styleClass="mainButton" text="Delete Creation(s)" />
-         </children>
-         <BorderPane.margin>
-            <Insets left="220.0" right="20.0" />
-         </BorderPane.margin>
-      </HBox>
-   </bottom>
-   <left>
-      <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <BorderPane.margin>
-            <Insets top="20.0" />
-         </BorderPane.margin>
-         <center>
-            <ListView prefHeight="400.0" prefWidth="180.0" style="-fx-background-color: #95a6b8;" BorderPane.alignment="CENTER">
-               <BorderPane.margin>
-                  <Insets bottom="10.0" left="20.0" />
-               </BorderPane.margin>
-            </ListView>
-         </center>
-      </BorderPane>
-   </left>
-   <top>
-      <BorderPane prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <left>
-            <Label alignment="CENTER" contentDisplay="CENTER" text="List of Creations:" BorderPane.alignment="CENTER">
-               <font>
-                  <Font name="System Bold" size="19.0" />
-               </font>
-               <BorderPane.margin>
-                  <Insets left="30.0" top="20.0" />
-               </BorderPane.margin>
-            </Label>
-         </left>
-         <right>
-            <Button mnemonicParsing="false" onAction="#backButtonPressed" styleClass="mainButton" text="Back" BorderPane.alignment="CENTER">
-               <BorderPane.margin>
-                  <Insets right="10.0" top="20.0" />
-               </BorderPane.margin>
-            </Button>
-         </right>
-      </BorderPane>
-   </top>
-   <center>
-      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
-         <children>
-            <ImageView fitHeight="300.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
+            <Label maxWidth="177.0" prefWidth="177.0" text="Select Name(s) to play">
                <VBox.margin>
-                  <Insets left="20.0" top="25.0" />
+                  <Insets left="10.0" />
                </VBox.margin>
-               <image>
-                  
-               </image>
-            </ImageView>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="400.0">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <ListView prefHeight="300.0" prefWidth="200.0" style="-fx-background-color: #5d728a;">
+               <VBox.margin>
+                  <Insets left="10.0" />
+               </VBox.margin>
+            </ListView>
+         </children>
+         <HBox.margin>
+            <Insets />
+         </HBox.margin>
+      </VBox>
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0" spacing="10.0">
+         <children>
+            <Label text="Select Version of Name">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <ListView prefHeight="300.0" prefWidth="200.0" style="-fx-background-color: #5d728a;">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </ListView>
+         </children>
+         <HBox.margin>
+            <Insets />
+         </HBox.margin>
+      </VBox>
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0" spacing="10.0">
+         <children>
+            <Label contentDisplay="CENTER" prefHeight="20.0" prefWidth="177.0" text="Name(s) Selected">
+               <VBox.margin>
+                  <Insets right="10.0" top="50.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <ListView prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #5d728a;">
+               <VBox.margin>
+                  <Insets bottom="10.0" right="10.0" />
+               </VBox.margin>
+            </ListView>
+            <HBox alignment="TOP_CENTER" prefHeight="60.0" prefWidth="200.0" spacing="10.0">
                <children>
-                  <Button mnemonicParsing="false" text="Previous" />
-                  <Button alignment="CENTER" mnemonicParsing="false" text="Next" />
+                  <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="101.0" styleClass="defaultButton"
+                          disable="true" text="Play Name(s)" />
+                  <ToggleButton mnemonicParsing="false" prefHeight="27.0" prefWidth="62.0" styleClass="shuffleButton"
+                                text="Shuffle" />
                </children>
             </HBox>
+            <Button mnemonicParsing="false" prefHeight="18.0" prefWidth="87.0" styleClass="defaultButton" text="Go Back"
+            onAction="#backButtonPressed" >
+               <VBox.margin>
+                  <Insets bottom="45.0" top="-20.0" />
+               </VBox.margin></Button>
          </children>
+         <HBox.margin>
+            <Insets top="-12.0" />
+         </HBox.margin>
       </VBox>
-   </center>
-</BorderPane>
+   </children>
+</HBox>
