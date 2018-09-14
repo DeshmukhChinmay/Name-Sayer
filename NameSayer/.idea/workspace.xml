@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="test">
+    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/MainMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/MainMenuController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/listMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/listMenuController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fxmlFiles/listMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/fxmlFiles/listMenu.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fxmlFiles/mainMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/fxmlFiles/mainMenu.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Main.java" afterDir="false" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -447,7 +442,7 @@
       <workItem from="1359379250712" duration="1302000" />
       <workItem from="1536814812315" duration="82000" />
       <workItem from="1536815028987" duration="10137000" />
-      <workItem from="1536918139588" duration="5256000" />
+      <workItem from="1536918139588" duration="5287000" />
     </task>
     <task id="LOCAL-00001" summary="MainMenu UI">
       <created>1536815416426</created>
@@ -498,11 +493,18 @@
       <option name="project" value="LOCAL" />
       <updated>1536841400941</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="added play Scene">
+      <created>1536923683741</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1536923683742</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="16777000" />
+    <option name="totallyTimeSpent" value="16808000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1680" height="949" extended-state="0" />
@@ -518,7 +520,7 @@
       <window_info anchor="right" id="Maven Projects" order="6" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.32945284" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32945284" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32945284" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
@@ -556,7 +558,8 @@
     <MESSAGE value="Redo UI layout" />
     <MESSAGE value="added list css" />
     <MESSAGE value="test" />
-    <option name="LAST_COMMIT_MESSAGE" value="test" />
+    <MESSAGE value="added play Scene" />
+    <option name="LAST_COMMIT_MESSAGE" value="added play Scene" />
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
