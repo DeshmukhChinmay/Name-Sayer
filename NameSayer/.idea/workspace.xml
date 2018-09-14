@@ -80,6 +80,7 @@
     <session id="1617153678">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
+          <entry key="project.closed" value="1" />
           <entry key="project.open.time.1" value="1" />
           <entry key="project.opened" value="1" />
         </counts>
@@ -339,7 +340,7 @@
       <workItem from="1359379250712" duration="1302000" />
       <workItem from="1536814524458" duration="225000" />
       <workItem from="1536814774564" duration="35000" />
-      <workItem from="1536916817087" duration="3215000" />
+      <workItem from="1536916817087" duration="3357000" />
     </task>
     <task id="LOCAL-00001" summary="New project">
       <created>1536814577582</created>
@@ -352,7 +353,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="4777000" />
+    <option name="totallyTimeSpent" value="4919000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1280" height="714" extended-state="0" />
@@ -378,7 +379,7 @@
       <window_info anchor="bottom" id="Changes" order="10" />
       <window_info anchor="bottom" id="Profiler" order="11" />
       <window_info anchor="bottom" id="Event Log" order="12" />
-      <window_info active="true" anchor="bottom" id="Messages" order="13" visible="true" weight="0.329582" />
+      <window_info anchor="bottom" id="Messages" order="13" weight="0.329582" />
       <window_info anchor="bottom" id="Database Changes" order="14" show_stripe_button="false" />
       <window_info anchor="bottom" id="Terminal" order="15" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
