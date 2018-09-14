@@ -8,4 +8,9 @@ public class listMenuController {
     public void backButtonPressed(){
         Main.loadMainPage();
     }
+
+    //Goes to the play menu
+    public void playButtonPressed(){
+    Main.loadPlayPage();
+    }
 }

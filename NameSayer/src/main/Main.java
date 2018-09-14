@@ -11,7 +11,9 @@ public class Main extends Application {
     private static Stage _primaryStage;
 
     private static Scene mainMenuScene;
-    private static Scene listenMenuScene;
+    private static Scene listMenuScene;
+    private static Scene playMenuScene;
+
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -22,8 +24,12 @@ public class Main extends Application {
         mainMenuScene = new Scene(mainMenuPane, 554, 394);
 
         FXMLLoader listLoader = new FXMLLoader(getClass().getResource("../fxmlFiles/listMenu.fxml"));
-        Parent listenMenuPane = listLoader.load();
-        listenMenuScene = new Scene(listenMenuPane, 635, 406);
+        Parent listMenuPane = listLoader.load();
+        listMenuScene = new Scene(listMenuPane, 635, 406);
+
+        FXMLLoader playLoader = new FXMLLoader(getClass().getResource("../fxmlFiles/playMenu.fxml"));
+        Parent playMenuPane = playLoader.load();
+        playMenuScene = new Scene(playMenuPane, 635, 406);
 
         _primaryStage.setTitle("NameSayer");
         _primaryStage.setScene(mainMenuScene);
@@ -35,9 +41,14 @@ public class Main extends Application {
         _primaryStage.setScene(mainMenuScene);
     }
     //Loads list page in the primary stage
-    public static void loadListenPage(){
-        _primaryStage.setScene(listenMenuScene);
+    public static void loadListPage(){
+        _primaryStage.setScene(listMenuScene);
     }
+    //Loads play page in primary stage
+    public static void loadPlayPage(){
+        _primaryStage.setScene(playMenuScene);
+    }
+
 
     public static void main(String[] args) {
         launch(args);

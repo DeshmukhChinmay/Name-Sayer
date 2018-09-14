@@ -9,9 +9,8 @@
 <?import javafx.scene.layout.*?>
 
 <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="406.0"
-      prefWidth="635.0" spacing="20.0" style="-fx-background-color: #778ca3;"
-      stylesheets="@../css/list.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="controllers.listMenuController">
+      prefWidth="635.0" spacing="20.0" style="-fx-background-color: #778ca3;" stylesheets="@../css/list.css"
+      xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.listMenuController">
    <children>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0" spacing="10.0">
          <children>
@@ -67,14 +66,13 @@
             </ListView>
             <HBox alignment="TOP_CENTER" prefHeight="60.0" prefWidth="200.0" spacing="10.0">
                <children>
-                  <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="101.0" styleClass="defaultButton"
-                          disable="true" text="Play Name(s)" />
-                  <ToggleButton mnemonicParsing="false" prefHeight="27.0" prefWidth="62.0" styleClass="shuffleButton"
-                                text="Shuffle" />
+                  <Button mnemonicParsing="false" onAction="#playButtonPressed" prefHeight="27.0"
+                          prefWidth="101.0" styleClass="defaultButton" text="Play Name(s)" />
+                  <ToggleButton mnemonicParsing="false" prefHeight="27.0" prefWidth="62.0" styleClass="shuffleButton" text="Shuffle" />
                </children>
             </HBox>
-            <Button mnemonicParsing="false" prefHeight="18.0" prefWidth="87.0" styleClass="defaultButton" text="Go Back"
-            onAction="#backButtonPressed" >
+            <Button mnemonicParsing="false" onAction="#backButtonPressed" prefHeight="18.0" prefWidth="87.0"
+                    styleClass="defaultButton" text="Go Back">
                <VBox.margin>
                   <Insets bottom="45.0" top="-20.0" />
                </VBox.margin></Button>

@@ -18,7 +18,7 @@
                   <DropShadow offsetX="4.0" offsetY="1.0" spread="0.4" />
                </effect>
             </Label>
-            <Button mnemonicParsing="false" onAction="#listenButtonPressed" prefHeight="60.0" prefWidth="160.0"
+            <Button mnemonicParsing="false" onAction="#listButtonPressed" prefHeight="60.0" prefWidth="160.0"
                     styleClass="mainButton" text="Listen to Name(s)" />
             <Button mnemonicParsing="false" prefHeight="60.0" prefWidth="160.0" styleClass="mainButton" text="Show Saved Attempts" />
             <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="60.0" prefWidth="160.0"
