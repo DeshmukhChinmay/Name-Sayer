@@ -8,5 +8,10 @@ public class PlayMenuController {
         public void backButtonPressed() {
             Main.loadListPage();
         }
+
+        public void practiceButtonPressed(){
+            Main.loadPracticePage();
+
+        }
 }
 

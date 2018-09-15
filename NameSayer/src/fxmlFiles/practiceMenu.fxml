@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="202.0" prefWidth="528.0" style="-fx-background-color: #778ca3;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.PracticeMenuController">
+    <children>
+        <Label alignment="CENTER" layoutY="24.0" prefHeight="34.0" prefWidth="535.0" text="Press the Record button">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Label>
+        <Button id="recordButton" fx:id="recordButton" layoutX="219.0" layoutY="68.0" mnemonicParsing="false" onAction="#startRecording" prefHeight="46.0" prefWidth="98.0" text="Record">
+         <stylesheets>
+            <URL value="@../css/play.css" />
+            <URL value="@../css/record.css" />
+         </stylesheets></Button>
+        <ProgressBar fx:id="progressBar" layoutY="182.0" prefHeight="20.0" prefWidth="535.0" progress="0.0" style="-fx-background-color: #46637f;" />
+      <HBox alignment="CENTER" layoutY="130.0" prefHeight="46.0" prefWidth="535.0" spacing="20.0">
+         <children>
+            <Button fx:id="listenButton" disable="true" minWidth="70.0" mnemonicParsing="false" onAction="#listenToAudio" prefHeight="25.0" prefWidth="77.0" styleClass="mainButton" stylesheets="@../css/main.css" text="Listen" />
+            <Button fx:id="compareButton" disable="true" minWidth="70.0" mnemonicParsing="false" onAction="#compareToAudio" prefHeight="25.0" prefWidth="77.0" styleClass="mainButton" stylesheets="@../css/main.css" text="Compare" />
+            <Button fx:id="saveButton" disable="true" minWidth="70.0" mnemonicParsing="false" onAction="#SaveAudio" prefHeight="25.0" prefWidth="77.0" styleClass="mainButton" stylesheets="@../css/main.css" text="Save" />
+         </children>
+      </HBox>
+      <Button layoutX="462.0" layoutY="11.0" minWidth="65.0" mnemonicParsing="false" onAction="#goBackButton" prefHeight="27.0" prefWidth="65.0" styleClass="mainButton" stylesheets="@../css/main.css" text="Back" />
+    </children>
+</AnchorPane>
