@@ -1,0 +1,16 @@
+.defaultButton{
+    -fx-background-color: #95a6b8;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 0);
+}
+.defaultButton:hover{
+    -fx-background-color: #8699ad;
+}
+.defaultButton:pressed {
+    -fx-background-color: #3e4c5d;
+}
+.shuffleButton{
+    -fx-background-color:#f28082;
+}
+.shuffleButton:selected {
+    -fx-background-color:#68e8a8;
+}
