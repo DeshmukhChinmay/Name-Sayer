@@ -84,6 +84,10 @@ public class PracticeMenuController {
     public void goBackButton(){
         Main.loadPlayPage();
         recordButton.setDisable(false);
+        saveButton.setDisable(true);
+        listenButton.setDisable(true);
+        compareButton.setDisable(true);
+        recordButton.setDisable(true);
         progressBar.progressProperty().unbind();
         progressBar.setProgress(0);
     }
