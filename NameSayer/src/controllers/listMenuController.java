@@ -57,24 +57,6 @@ public class listMenuController implements Initializable {
         namesList.setItems(namesViewList);
         namesList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
-
-
-//        namesVersion.setCellFactory(param -> new ListCell<NameVersions>(){
-//
-//            @Override
-//            protected void updateItem(NameVersions obj, boolean empty) {
-//                super.updateItem(obj, empty);
-//
-//                if (empty || (obj == null) || (obj.getVersion() == null)) {
-//                    setText(null);
-//                } else {
-//                    setText(obj.getVersion());
-//                }
-//            }
-//        });
-
-
-
         namesVersion.setCellFactory(CheckBoxListCell.forListView(NameVersions::versionSelected, new StringConverter<NameVersions>() {
             @Override
             public String toString(NameVersions object) {
