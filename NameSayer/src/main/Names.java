@@ -5,34 +5,55 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.util.LinkedList;
-
 public class Names {
 
     private String name;
-    private ObservableList<String> versions = FXCollections.observableArrayList();
-    private BooleanProperty state = new SimpleBooleanProperty();
+    final private ObservableList<NameVersions> versions = FXCollections.observableArrayList();
 
     public Names(String name) {
         this.name = name;
-        versions.add("Version 1");
-        state.setValue(false);
+        versions.add(new NameVersions("Version 1"));
     }
 
     public String getName() {
         return name;
     }
 
-    public void addVersion(String version) {
+    public void addVersion(NameVersions version) {
         versions.add(version);
     }
 
-    public ObservableList<String> getVersions() {
+    public ObservableList<NameVersions> getVersions() {
         return versions;
     }
 
-    public BooleanProperty getState() {
-        return state;
+    public static class NameVersions {
+
+        String version;
+        BooleanProperty selected = new SimpleBooleanProperty(false);
+
+        public NameVersions(String version) {
+            this.version = version;
+            selected.setValue(false);
+        }
+
+        public String getVersion() {
+            return version;
+        }
+
+        public BooleanProperty versionSelected() {
+            return selected;
+        }
+
+        public boolean versionIsSelected() {
+            return selected.get();
+        }
+
+        public void setVersionSelected(boolean selected) {
+            this.selected.set(selected);
+        }
+
+
     }
 
 }

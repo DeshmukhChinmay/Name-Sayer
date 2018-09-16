@@ -12,5 +12,5 @@
     -fx-background-color:#f28082;
 }
 .shuffleButton:selected {
-    -fx-background-color:#68e8a8;
+    -fx-background-color: #68e8a8;
 }
