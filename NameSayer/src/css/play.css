@@ -20,3 +20,10 @@
 .cycleButton:pressed {
     -fx-background-color:#fbecb7;
 }
+.toggleButton{
+    -fx-background-color:#68e8a8;
+}
+.toggleButton:selected {
+    -fx-background-color:#f28082;
+
+}
