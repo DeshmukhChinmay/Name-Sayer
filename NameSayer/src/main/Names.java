@@ -31,10 +31,12 @@ public class Names {
 
         String version;
         BooleanProperty selected = new SimpleBooleanProperty(false);
+        BooleanProperty badQuality = new SimpleBooleanProperty(false);
 
         public NameVersions(String version) {
             this.version = version;
             selected.setValue(false);
+            badQuality.setValue(false);
         }
 
         public String getVersion() {
@@ -53,7 +55,13 @@ public class Names {
             this.selected.set(selected);
         }
 
+        public BooleanProperty getBadQuality() {
+            return badQuality;
+        }
 
+        public void setBadQuality(boolean badQuality) {
+            this.badQuality.set(badQuality);
+        }
     }
 
 }
