@@ -8,9 +8,9 @@
 .defaultButton:pressed {
     -fx-background-color: #3e4c5d;
 }
-.shuffleButton{
+.toggleButton{
     -fx-background-color:#f28082;
 }
-.shuffleButton:selected {
-    -fx-background-color: #68e8a8;
+.toggleButton:selected {
+    -fx-background-color:#68e8a8;
 }

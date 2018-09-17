@@ -1,0 +1,29 @@
+#playButton{
+    -fx-background-color: #ECF0F1;
+    -fx-background-radius: 7;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 0);
+}
+#playButton:hover{
+    -fx-background-color: #E1E7E9;
+}
+#playButton:pressed {
+    -fx-background-color: #cad5d8;
+}
+.cycleButton{
+    -fx-background-color:#fefbef;
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 0);
+}
+.cycleButton:hover {
+    -fx-background-color:#fdf6dd;
+}
+.cycleButton:pressed {
+    -fx-background-color:#fbecb7;
+}
+.toggleButton{
+    -fx-background-color:#68e8a8;
+}
+.toggleButton:selected {
+    -fx-background-color:#f28082;
+
+}

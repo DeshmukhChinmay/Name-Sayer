@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="394.0"
-            prefWidth="554.0" style="-fx-background-color: #778ca3;" stylesheets="@../css/main.css"
-            xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainMenuController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="394.0" prefWidth="554.0" style="-fx-background-color: #778ca3;" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainMenuController">
    <center>
       <VBox alignment="CENTER" prefHeight="394.0" prefWidth="508.0" spacing="30.0" BorderPane.alignment="CENTER">
          <children>
-            <Label text="NameSayer" textFill="WHITE">
+            <Label alignment="CENTER" contentDisplay="CENTER" text="NameSayer" textFill="WHITE">
                <font>
                   <Font size="42.0" />
                </font>
@@ -18,11 +18,9 @@
                   <DropShadow offsetX="4.0" offsetY="1.0" spread="0.4" />
                </effect>
             </Label>
-            <Button mnemonicParsing="false" onAction="#listenButtonPressed" prefHeight="60.0" prefWidth="160.0"
-                    styleClass="mainButton" text="Listen to Name(s)" />
-            <Button mnemonicParsing="false" prefHeight="60.0" prefWidth="160.0" styleClass="mainButton" text="Show Saved Attempts" />
-            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="60.0" prefWidth="160.0"
-                    styleClass="mainButton" text="Test Microphone" />
+            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#listButtonPressed" prefHeight="60.0" prefWidth="160.0" styleClass="mainButton" text="Listen to Name(s)" />
+            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="60.0" prefWidth="160.0" styleClass="mainButton" text="Show Saved Attempts" />
+            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="60.0" prefWidth="160.0" styleClass="mainButton" text="Test Microphone" />
          </children>
       </VBox>
    </center>

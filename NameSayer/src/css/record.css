@@ -1,0 +1,8 @@
+#recordButton{
+    -fx-background-color: #f28082;
+    -fx-background-radius: 7;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 0);
+}
+#recordButton:hover{
+    -fx-background-color: #ee5c5f
+}
