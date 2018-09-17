@@ -27,6 +27,8 @@ import java.util.ResourceBundle;
 
 public class listMenuController implements Initializable {
 
+    private String currentWorkingDir;
+
     public ListView namesList;
     public ListView<NameVersions> namesVersion;
     public ListView selectedNames;
@@ -39,6 +41,10 @@ public class listMenuController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        currentWorkingDir = System.getProperty("user.dir");
+        initialiseFolders();
+
         nameObjects.add(new Names("John Doe"));
         nameObjects.add(new Names("Jane Doe"));
         nameObjects.add(new Names("Jack Doe"));
@@ -103,6 +109,13 @@ public class listMenuController implements Initializable {
         selectedNames.setItems(selectedVersionsViewList);
 
     }
+
+    public void initialiseFolders() {
+
+
+
+    }
+
 
     //Returns to the main menu
     public void backButtonPressed(){
