@@ -119,7 +119,16 @@ public class listMenuController implements Initializable {
 
     //Returns to the main menu
     public void backButtonPressed(){
+        //Resets all items from selected lists except first one
+        namesVersion.getItems().clear();
+        selectedNames.getItems().clear();
         Main.loadMainPage();
+    }
+
+
+    //Goes to the play menu
+    public void playButtonPressed(){
+    Main.loadPlayPage();
     }
 
 }

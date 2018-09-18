@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="406.0" prefWidth="635.0" style="-fx-background-color: #778ca3;" stylesheets="@../css/play.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.PlayMenuController">
+   <center>
+      <HBox prefHeight="285.0" prefWidth="512.0" spacing="20.0" BorderPane.alignment="CENTER">
+         <children>
+            <VBox alignment="TOP_CENTER" prefHeight="325.0" prefWidth="200.0" spacing="10.0">
+               <HBox.margin>
+                  <Insets bottom="20.0" left="20.0" top="20.0" />
+               </HBox.margin>
+               <children>
+                  <Label text="Selected Name(s)">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <ListView prefHeight="336.0" prefWidth="200.0" style="-fx-background-color: #5d728a;" />
+               </children>
+            </VBox>
+            <VBox alignment="TOP_CENTER" prefHeight="366.0" prefWidth="380.0">
+               <HBox.margin>
+                  <Insets bottom="20.0" top="20.0" />
+               </HBox.margin>
+               <children>
+                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#backButtonPressed" prefHeight="27.0" prefWidth="78.0" styleClass="mainButton" stylesheets="@../css/main.css" text="Back">
+                     <VBox.margin>
+                        <Insets left="325.0" />
+                     </VBox.margin>
+                  </Button>
+                  <HBox alignment="CENTER" prefHeight="166.0" prefWidth="380.0" spacing="48.0">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <VBox.margin>
+                        <Insets top="30.0" />
+                     </VBox.margin>
+                     <children>
+                        <Button mnemonicParsing="false" styleClass="cycleButton" text="Previous" />
+                        <Button id="playButton" maxWidth="131.0" mnemonicParsing="false" prefHeight="59.0" prefWidth="131.0" text="Play">
+                           <font>
+                              <Font size="21.0" />
+                           </font>
+                        </Button>
+                        <Button maxWidth="71.0" mnemonicParsing="false" prefWidth="71.0" styleClass="cycleButton" text="Next" />
+                     </children>
+                  </HBox>
+                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#practiceButtonPressed" prefHeight="46.0" prefWidth="125.0" styleClass="mainButton" stylesheets="@../css/main.css" text="Practice Name">
+                     <VBox.margin>
+                        <Insets top="-10.0" />
+                     </VBox.margin>
+                  </Button>
+                  <ToggleButton fx:id="qualityButton" id="toggleButton" mnemonicParsing="false" onAction="#qualityRatingSelected" styleClass="toggleButton" stylesheets="@../css/play.css" text="Good Quality">
+                     <VBox.margin>
+                        <Insets top="30.0" />
+                     </VBox.margin>
+                  </ToggleButton>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </center>
+</BorderPane>
