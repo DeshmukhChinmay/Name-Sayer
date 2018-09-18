@@ -25,11 +25,9 @@ public class TestMicrophoneController{
     private int sound = 0;
     private byte[] audioData;
     TargetDataLine line;
-
     private void openMicLine(){
         AudioFormat fmt = new AudioFormat(44100f, 16, 1, true, false);
         final int bufferByteSize = 2048;
-
         try {
             line = AudioSystem.getTargetDataLine(fmt);
             line.open(fmt, bufferByteSize);
@@ -41,7 +39,7 @@ public class TestMicrophoneController{
         audioData = new byte[bufferByteSize];
         line.start();
     }
-
+    //This code was found from https://stackoverflow.com/questions/3899585/microphone-level-in-java
     private int calculateRMSLevel(byte[] audioData) {
         long lSum = 0;
         for(int i=0; i < audioData.length; i++)
