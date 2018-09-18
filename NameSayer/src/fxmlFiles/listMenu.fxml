@@ -69,7 +69,7 @@
                   <ToggleButton mnemonicParsing="false" prefHeight="27.0" prefWidth="62.0" styleClass="toggleButton" text="Shuffle" />
                </children>
             </HBox>
-            <Button mnemonicParsing="false" onAction="#backButtonPressed" prefHeight="18.0" prefWidth="87.0" styleClass="defaultButton" text="Go Back">
+            <Button mnemonicParsing="false" onAction="#backButtonPressed" prefHeight="18.0" prefWidth="87.0" styleClass="defaultButton" text="Back">
                <VBox.margin>
                   <Insets bottom="45.0" top="-20.0" />
                </VBox.margin></Button>

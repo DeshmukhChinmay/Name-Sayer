@@ -28,7 +28,7 @@
                   <Insets bottom="20.0" top="20.0" />
                </HBox.margin>
                <children>
-                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#backButtonPressed" prefHeight="27.0" prefWidth="78.0" styleClass="mainButton" stylesheets="@../css/main.css" text="Back">
+                  <Button alignment="CENTER" maxWidth="65.0" minWidth="65.0" mnemonicParsing="false" onAction="#backButtonPressed" prefHeight="27.0" prefWidth="65.0" styleClass="mainButton" stylesheets="@../css/main.css" text="Back">
                      <VBox.margin>
                         <Insets left="325.0" />
                      </VBox.margin>
@@ -55,7 +55,7 @@
                         <Insets top="-10.0" />
                      </VBox.margin>
                   </Button>
-                  <ToggleButton fx:id="qualityButton" id="toggleButton" mnemonicParsing="false" onAction="#qualityRatingSelected" styleClass="toggleButton" stylesheets="@../css/play.css" text="Good Quality">
+                  <ToggleButton id="toggleButton" fx:id="qualityButton" mnemonicParsing="false" onAction="#qualityRatingSelected" styleClass="toggleButton" stylesheets="@../css/play.css" text="Good Quality">
                      <VBox.margin>
                         <Insets top="30.0" />
                      </VBox.margin>

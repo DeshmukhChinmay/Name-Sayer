@@ -1,5 +1,7 @@
 package main;
 
+import controllers.MainMenuController;
+import controllers.TestMicrophoneController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,7 +19,8 @@ public class Main extends Application {
     private static Scene listMenuScene;
     private static Scene playMenuScene;
     private static Scene practiceMenuScene;
-
+    private static Scene micTestScene;
+    private static Scene databaseScene;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -39,6 +42,19 @@ public class Main extends Application {
         Parent practiceMenuPane = practiceLoader.load();
         practiceMenuScene = new Scene(practiceMenuPane, 534, 206);
 
+        FXMLLoader micTestLoader = new FXMLLoader(getClass().getResource("../fxmlFiles/testMicrophone.fxml"));
+        Parent micTestPane = micTestLoader.load();
+        micTestScene = new Scene(micTestPane, 534, 206);
+
+        FXMLLoader databaseLoader = new FXMLLoader(getClass().getResource("../fxmlFiles/databaseMenu.fxml"));
+        Parent databasePane = databaseLoader.load();
+        databaseScene = new Scene(databasePane, 635, 406);
+
+        //Adds a TestMicController to MainMenuController
+        TestMicrophoneController testMicrophoneController = micTestLoader.getController();
+        MainMenuController mainMenuController = mainMenuLoader.getController();
+        mainMenuController.setTestMicController(testMicrophoneController);
+
         _primaryStage.setTitle("NameSayer");
         _primaryStage.setScene(mainMenuScene);
         _primaryStage.setResizable(false);
@@ -52,6 +68,7 @@ public class Main extends Application {
     }
     //Loads Main page in the primary stage
     public static void loadMainPage(){
+        _secondaryStage.close();
         _primaryStage.setScene(mainMenuScene);
     }
     //Loads list page in the primary stage
@@ -64,9 +81,18 @@ public class Main extends Application {
         _secondaryStage.close();
         _primaryStage.setScene(playMenuScene);
     }
+    //Loads practice page
     public static void loadPracticePage(){
         _secondaryStage.setScene(practiceMenuScene);
         _secondaryStage.show();
+    }
+    //Loads mic test page
+    public static void loadMicTestPage(){
+        _secondaryStage.setScene(micTestScene);
+        _secondaryStage.show();
+    }
+    public static void loadDatabaseMenu(){
+        _primaryStage.setScene(databaseScene);
     }
 
 

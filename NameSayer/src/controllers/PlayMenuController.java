@@ -3,6 +3,7 @@ package controllers;
 import javafx.fxml.FXML;
 import javafx.scene.control.ToggleButton;
 import main.Main;
+import main.Names;
 
 public class PlayMenuController {
         @FXML
@@ -10,6 +11,7 @@ public class PlayMenuController {
 
         //Changes scene to where the list view of all creations are shown
         public void backButtonPressed() {
+
             Main.loadListPage();
         }
 
@@ -17,15 +19,15 @@ public class PlayMenuController {
             Main.loadPracticePage();
 
         }
-//        public void getQualityRating(Names name){
-//            if (name.getBadQuality()){
-//                toggleButton.setSelected(true);
-//            }
-//            else{
-//                toggleButton.setSelected(false);
-//            }
-//
-//        }
+        public void getQualityRating(Names.NameVersions name){
+            if (name.getBadQuality().get()){
+                qualityButton.setSelected(true);
+            }
+            else{
+                qualityButton.setSelected(false);
+            }
+
+        }
 
         public void qualityRatingSelected(){
 //            Gets the name of the currently playing name
