@@ -8,9 +8,7 @@ import javafx.beans.value.WeakChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.cell.CheckBoxListCell;
 import javafx.util.Callback;
@@ -22,6 +20,9 @@ import main.Names.NameVersions;
 
 import java.io.File;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
 
@@ -114,6 +115,32 @@ public class listMenuController implements Initializable {
     public void initialiseFolders() {
 
         databaseFolder = Main.getDatabaseFolder();
+
+    }
+
+    public void intialiseNameObjects() {
+
+        File[] namesInDatabase = databaseFolder.listFiles();
+        String tempFilename;
+        String tempName;
+
+        for (File f: namesInDatabase) {
+            tempFilename = f.getName();
+            String[] tempFilenameParts = tempFilename.split("_");
+            String[] tempNameParts = tempFilenameParts[3].split(".");
+            tempName = tempNameParts[0];
+            tempName.toLowerCase().charAt(0);
+
+            File tempFolder = new File(currentWorkingDir + "/NameSayer/Recordings/" + tempName);
+
+            if (tempFolder.exists()) {
+
+            } else {
+                tempFolder.mkdirs();
+
+            }
+
+        }
 
     }
 

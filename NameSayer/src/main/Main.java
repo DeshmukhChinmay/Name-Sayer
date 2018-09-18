@@ -21,7 +21,7 @@ public class Main extends Application {
     private static Scene practiceMenuScene;
 
 
-    private static File _databaseFolder;
+    private static File _databaseFolder = null;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
