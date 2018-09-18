@@ -6,6 +6,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.io.File;
+
 public class Main extends Application {
 
     private static Stage _primaryStage;
@@ -13,6 +15,8 @@ public class Main extends Application {
 
     private static Scene mainMenuScene;
     private static Scene listMenuScene;
+
+    private static File databaseFolder;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -38,6 +42,15 @@ public class Main extends Application {
     public static void loadListPage(){
         _primaryStage.setScene(listMenuScene);
     }
+
+    public static File getDatabaseFolder() {
+        return databaseFolder;
+    }
+
+    public static void setDatabaseFolder(File databaseFolder) {
+        this.databaseFolder = databaseFolder;
+    }
+
     public static void main(String[] args) {
         launch(args);
     }
