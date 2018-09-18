@@ -16,6 +16,11 @@ public class TestMicrophoneController{
     @FXML
     ProgressBar micVolume;
 
+    @FXML
+    public void initialize(){
+        openMicLine();
+    }
+
     public static boolean startTest = true;
     private int sound = 0;
     private byte[] audioData;
@@ -54,8 +59,8 @@ public class TestMicrophoneController{
     }
 
     public void testMic() {
-        startTest = true;
         openMicLine();
+        startTest = true;
         Task<Void> updateMicBar = new Task<Void>() {
             @Override
             public Void call() throws Exception {
@@ -75,6 +80,7 @@ public class TestMicrophoneController{
 
     public void backButtonPressed(){
         startTest = false;
+        micVolume.progressProperty().unbind();
         Main.loadMainPage();
     }
 }

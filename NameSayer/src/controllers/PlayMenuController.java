@@ -34,9 +34,11 @@ public class PlayMenuController {
 //            and sets the quality good or bad
             if(qualityButton.isSelected()){
                 qualityButton.setText("Bad Quality");
+                //Add functionality for selected file to be bad quality
             }
             else{
                 qualityButton.setText("Good Quality");
+                //Add functionality for selected file to be Good quality
             }
 
         }
