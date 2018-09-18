@@ -28,6 +28,7 @@ import java.util.ResourceBundle;
 public class listMenuController implements Initializable {
 
     private String currentWorkingDir;
+    private File databaseFolder;
 
     public ListView namesList;
     public ListView<NameVersions> namesVersion;
@@ -112,7 +113,7 @@ public class listMenuController implements Initializable {
 
     public void initialiseFolders() {
 
-
+        databaseFolder = Main.getDatabaseFolder();
 
     }
 
