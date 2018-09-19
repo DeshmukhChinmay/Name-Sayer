@@ -8,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="406.0" prefWidth="635.0" spacing="20.0" style="-fx-background-color: #778ca3;" stylesheets="@../css/list.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.listMenuController">
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="406.0" prefWidth="635.0" spacing="20.0" style="-fx-background-color: #778ca3;" stylesheets="@../css/list.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ListMenuController">
    <children>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0" spacing="10.0">
          <children>
@@ -32,7 +32,7 @@
       </VBox>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0" spacing="10.0">
          <children>
-            <Label text="Select Version of Name">
+            <Label text="Select Version(s) of Name">
                <font>
                   <Font size="16.0" />
                </font>
