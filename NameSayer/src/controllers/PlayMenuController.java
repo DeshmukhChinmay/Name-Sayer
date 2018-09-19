@@ -1,15 +1,35 @@
 package controllers;
 
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.ListView;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.control.cell.CheckBoxListCell;
+import javafx.util.StringConverter;
 import main.Main;
 import main.Names;
+import main.Names.NameVersions;
 
-public class PlayMenuController {
-        @FXML
-        private ToggleButton qualityButton;
+import java.net.URL;
+import java.util.LinkedList;
+import java.util.ResourceBundle;
 
-        //Changes scene to where the list view of all creations are shown
+public class PlayMenuController implements Initializable {
+    @FXML
+    private ToggleButton qualityButton;
+
+    public ListView<NameVersions> selectedListView;
+
+    private LinkedList<NameVersions> selectedVersionList = new LinkedList<>();
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
+
+
+    }
+
+    //Changes scene to where the list view of all creations are shown
         public void backButtonPressed() {
 
             Main.loadListPage();

@@ -1,17 +1,13 @@
 package controllers;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.beans.value.WeakChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.cell.CheckBoxListCell;
-import javafx.util.Callback;
 
 import javafx.util.StringConverter;
 import main.Main;
@@ -20,9 +16,6 @@ import main.Names.NameVersions;
 
 import java.io.File;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
 
@@ -36,6 +29,7 @@ public class ListMenuController implements Initializable {
     public ListView selectedNames;
 
     private LinkedList<Names> nameObjects = new LinkedList<>();
+    private LinkedList<NameVersions> selectedVersionObjects = new LinkedList<>();
     final private ObservableList<String> namesViewList = FXCollections.observableArrayList();
     final private ObservableList<String> selectedVersionsViewList = FXCollections.observableArrayList();
 
@@ -51,12 +45,13 @@ public class ListMenuController implements Initializable {
         nameObjects.add(new Names("Jane Doe"));
         nameObjects.add(new Names("Jack Doe"));
 
-        nameObjects.get(0).addVersion(new NameVersions("Version 2a"));
-        nameObjects.get(0).addVersion(new NameVersions("Version 3a"));
-        nameObjects.get(1).addVersion(new NameVersions("Version 2b"));
-        nameObjects.get(2).addVersion(new NameVersions("Version 2c"));
-        nameObjects.get(2).addVersion(new NameVersions("Version 3c"));
-        nameObjects.get(2).addVersion(new NameVersions("Version 4c"));
+        nameObjects.get(0).addVersion("John Doe");
+        nameObjects.get(0).addVersion("John Doe");
+        nameObjects.get(1).addVersion("Jane Doe");
+        nameObjects.get(2).addVersion("Jack Doe");
+        nameObjects.get(2).addVersion("Jack Doe");
+        nameObjects.get(2).addVersion("Jack Doe");
+
 
         for (Names n: nameObjects) {
             namesViewList.add(n.getName());
@@ -95,10 +90,12 @@ public class ListMenuController implements Initializable {
                             if (n.versionIsSelected()) {
                                 if (!(selectedVersionsViewList.contains(n.getVersion()))) {
                                     selectedVersionsViewList.add(n.getVersion());
+                                    selectedVersionObjects.add(n);
                                 }
                             } else {
                                 if (selectedVersionsViewList.contains(n.getVersion())) {
                                     selectedVersionsViewList.remove(n.getVersion());
+                                    selectedVersionObjects.remove(n);
                                 }
                             }
                         }
@@ -148,11 +145,16 @@ public class ListMenuController implements Initializable {
         return selectedVersionsViewList;
     }
 
+    public LinkedList<NameVersions> getSelectedVersionObjects() {
+        return selectedVersionObjects;
+    }
+
     //Returns to the main menu
     public void backButtonPressed(){
         //Resets all items from selected lists except first one
         namesVersion.getItems().clear();
         selectedNames.getItems().clear();
+        selectedVersionObjects.clear();
         Main.loadMainPage();
     }
 
