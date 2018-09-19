@@ -1,6 +1,8 @@
 package main;
 
+import controllers.ListMenuController;
 import controllers.MainMenuController;
+import controllers.PlayMenuController;
 import controllers.TestMicrophoneController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -54,6 +56,11 @@ public class Main extends Application {
         TestMicrophoneController testMicrophoneController = micTestLoader.getController();
         MainMenuController mainMenuController = mainMenuLoader.getController();
         mainMenuController.setTestMicController(testMicrophoneController);
+        //Adds a ListMenuController to the PlayMenuController and vice versa
+        ListMenuController listMenuController = listLoader.getController();
+        PlayMenuController playMenuController = playLoader.getController();
+        playMenuController.setListMenuController(listMenuController);
+        listMenuController.setPlayMenuController(playMenuController);
 
         _primaryStage.setTitle("NameSayer");
         _primaryStage.setScene(mainMenuScene);
