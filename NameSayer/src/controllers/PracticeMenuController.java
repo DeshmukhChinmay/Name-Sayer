@@ -24,6 +24,8 @@ public class PracticeMenuController {
     public void compareToAudio(){
     }
     public void SaveAudio(){
+        saveButton.setDisable(true);
+        saveButton.setText("Saved!");
     }
 
     public void startRecording(){
@@ -47,7 +49,7 @@ public class PracticeMenuController {
                         saveButton.setDisable(false);
                         listenButton.setDisable(false);
                         compareButton.setDisable(false);
-                        recordButton.setText("Record");
+                        recordButton.setText("Recorded!");
                         recordButton.setDisable(true);
                     }
                 });
@@ -84,10 +86,11 @@ public class PracticeMenuController {
     public void goBackButton(){
         Main.loadPlayPage();
         recordButton.setDisable(false);
+        recordButton.setText("Record");
+        saveButton.setText("Save");
         saveButton.setDisable(true);
         listenButton.setDisable(true);
         compareButton.setDisable(true);
-        recordButton.setDisable(true);
         progressBar.progressProperty().unbind();
         progressBar.setProgress(0);
     }
