@@ -1,28 +1,27 @@
 package controllers;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.control.cell.CheckBoxListCell;
-import javafx.util.StringConverter;
 import main.Main;
-import main.Names;
 import main.Names.NameVersions;
-
+import java.io.IOException;
 import java.net.URL;
-import java.util.LinkedList;
 import java.util.ResourceBundle;
 
 public class PlayMenuController implements Initializable {
     @FXML
     private ToggleButton qualityButton;
-
+    @FXML
+    private Button playButton;
     private ListMenuController listMenuController;
 
     public ListView<NameVersions> selectedListView;
@@ -58,11 +57,11 @@ public class PlayMenuController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends NameVersions> observable, NameVersions oldValue, NameVersions newValue) {
                 currentSelection = newValue;
-                getQualityRating(currentSelection);
-
+                if(currentSelection != null){
+                    getQualityRating(currentSelection);
+                }
             }
         });
-
     }
 
     public void getQualityRating(NameVersions version){
@@ -73,7 +72,6 @@ public class PlayMenuController implements Initializable {
         else{
             qualityButton.setSelected(false);
             qualityButton.setText("Good Quality");
-
         }
     }
     public void setQualityRating(){
@@ -102,6 +100,27 @@ public class PlayMenuController implements Initializable {
         public void practiceButtonPressed(){
             Main.loadPracticePage();
 
+        }
+
+        public void playButtonPressed() throws IOException {
+            playButton.setDisable(true);
+            playButton.setText("Playing");
+            Task<Void> task = new Task<Void>() {
+                @Override
+                public Void call() throws Exception {
+                    Thread.sleep(4000);
+//                    ProcessBuilder playProcess = new ProcessBuilder("ffplay",currentSelection.getAudioPath());
+//                    playProcess.start();
+                    Platform.runLater(new Runnable() {
+                        public void run() {
+                            playButton.setText("Play");
+                            playButton.setDisable(false);
+                        }
+                    });
+                    return null;
+                }
+            };
+            new Thread(task).start();
         }
 }
 

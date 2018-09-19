@@ -153,7 +153,6 @@ public class ListMenuController implements Initializable {
                 v.versionSelected().setValue(false);
             }
         }
-
         selectedVersionObjects.clear();
         Main.loadMainPage();
     }

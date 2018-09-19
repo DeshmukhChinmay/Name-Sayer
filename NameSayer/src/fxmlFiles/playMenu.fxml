@@ -42,7 +42,8 @@
                      </VBox.margin>
                      <children>
                         <Button mnemonicParsing="false" styleClass="cycleButton" text="Previous" />
-                        <Button id="playButton" maxWidth="131.0" mnemonicParsing="false" prefHeight="59.0" prefWidth="131.0" text="Play">
+                        <Button fx:id="playButton" maxWidth="131.0" mnemonicParsing="false" prefHeight="59.0"
+                                prefWidth="131.0" text="Play" onAction="#playButtonPressed">
                            <font>
                               <Font size="21.0" />
                            </font>
