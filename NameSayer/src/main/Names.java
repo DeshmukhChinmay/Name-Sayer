@@ -55,17 +55,10 @@ public class Names {
             return selected.get();
         }
 
-        public void setVersionSelected(boolean selected) {
-            this.selected.set(selected);
-        }
-
         public BooleanProperty getBadQuality() {
             return badQuality;
         }
 
-        public void setBadQuality(boolean badQuality) {
-            this.badQuality.set(badQuality);
-        }
     }
 
 }

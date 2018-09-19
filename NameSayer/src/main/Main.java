@@ -1,9 +1,6 @@
 package main;
 
-import controllers.ListMenuController;
-import controllers.MainMenuController;
-import controllers.PlayMenuController;
-import controllers.TestMicrophoneController;
+import controllers.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -28,6 +25,11 @@ public class Main extends Application {
     private static Scene databaseScene;
 
     private static ListMenuController listMenuController;
+    private static DatabaseMenuController databaseMenuController;
+    private static MainMenuController mainMenuController;
+    private static PlayMenuController playMenuController;
+    private static PracticeMenuController practiceMenuController;
+    private static TestMicrophoneController testMicrophoneController;
 
     private static File _databaseFolder = null;
 
@@ -38,6 +40,7 @@ public class Main extends Application {
         FXMLLoader mainMenuLoader = new FXMLLoader(getClass().getResource("../fxmlFiles/mainMenu.fxml"));
         Parent mainMenuPane = mainMenuLoader.load();
         mainMenuScene = new Scene(mainMenuPane, 554, 394);
+        mainMenuController = mainMenuLoader.getController();
 
         FXMLLoader listLoader = new FXMLLoader(getClass().getResource("../fxmlFiles/listMenu.fxml"));
         Parent listMenuPane = listLoader.load();
@@ -47,28 +50,22 @@ public class Main extends Application {
         FXMLLoader playLoader = new FXMLLoader(getClass().getResource("../fxmlFiles/playMenu.fxml"));
         Parent playMenuPane = playLoader.load();
         playMenuScene = new Scene(playMenuPane, 635, 406);
+        playMenuController = playLoader.getController();
 
         FXMLLoader practiceLoader = new FXMLLoader(getClass().getResource("../fxmlFiles/practiceMenu.fxml"));
         Parent practiceMenuPane = practiceLoader.load();
         practiceMenuScene = new Scene(practiceMenuPane, 534, 206);
+        practiceMenuController = practiceLoader.getController();
 
         FXMLLoader micTestLoader = new FXMLLoader(getClass().getResource("../fxmlFiles/testMicrophone.fxml"));
         Parent micTestPane = micTestLoader.load();
         micTestScene = new Scene(micTestPane, 534, 206);
+        testMicrophoneController = micTestLoader.getController();
 
         FXMLLoader databaseLoader = new FXMLLoader(getClass().getResource("../fxmlFiles/databaseMenu.fxml"));
         Parent databasePane = databaseLoader.load();
         databaseScene = new Scene(databasePane, 635, 406);
-
-        //Adds a TestMicController to MainMenuController
-        TestMicrophoneController testMicrophoneController = micTestLoader.getController();
-        MainMenuController mainMenuController = mainMenuLoader.getController();
-        mainMenuController.setTestMicController(testMicrophoneController);
-        //Adds a ListMenuController to the PlayMenuController and vice versa
-        ListMenuController listMenuController = listLoader.getController();
-        PlayMenuController playMenuController = playLoader.getController();
-        playMenuController.setListMenuController(listMenuController);
-        listMenuController.setPlayMenuController(playMenuController);
+        databaseMenuController = databaseLoader.getController();
 
         _primaryStage.setTitle("NameSayer");
         _primaryStage.setScene(mainMenuScene);
@@ -120,6 +117,26 @@ public class Main extends Application {
 
     public static ListMenuController getListMenuController() {
         return listMenuController;
+    }
+
+    public static DatabaseMenuController getDatabaseMenuController() {
+        return databaseMenuController;
+    }
+
+    public static MainMenuController getMainMenuController() {
+        return mainMenuController;
+    }
+
+    public static PlayMenuController getPlayMenuController() {
+        return playMenuController;
+    }
+
+    public static PracticeMenuController getPracticeMenuController() {
+        return practiceMenuController;
+    }
+
+    public static TestMicrophoneController getTestMicrophoneController() {
+        return testMicrophoneController;
     }
 
     public static void main(String[] args) {
