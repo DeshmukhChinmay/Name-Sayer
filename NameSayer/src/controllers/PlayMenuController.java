@@ -18,6 +18,8 @@ public class PlayMenuController implements Initializable {
     @FXML
     private ToggleButton qualityButton;
 
+    private ListMenuController listMenuController;
+
     public ListView<NameVersions> selectedListView;
 
     private LinkedList<NameVersions> selectedVersionList = new LinkedList<>();
@@ -29,29 +31,18 @@ public class PlayMenuController implements Initializable {
 
     }
 
-    //Changes scene to where the list view of all creations are shown
-        public void backButtonPressed() {
-
-            Main.loadListPage();
-        }
-
-        public void practiceButtonPressed(){
-            Main.loadPracticePage();
-
-        }
-        public void getQualityRating(Names.NameVersions name){
+        public void getQualityRating(NameVersions name){
             if (name.getBadQuality().get()){
                 qualityButton.setSelected(true);
             }
             else{
                 qualityButton.setSelected(false);
             }
-
         }
 
         public void qualityRatingSelected(){
-//            Gets the name of the currently playing name
-//            and sets the quality good or bad
+            //Gets the name of the currently playing name
+            //and sets the quality good or bad
             if(qualityButton.isSelected()){
                 qualityButton.setText("Bad Quality");
                 //Add functionality for selected file to be bad quality
@@ -62,6 +53,17 @@ public class PlayMenuController implements Initializable {
             }
 
         }
+        public void setListMenuController(ListMenuController listMenuController){
+            this.listMenuController = listMenuController;
+        }
+         //Changes scene to where the list view of all creations are shown
+        public void backButtonPressed() {
+            Main.loadListPage();
+        }
 
+        public void practiceButtonPressed(){
+            Main.loadPracticePage();
+
+        }
 }
 

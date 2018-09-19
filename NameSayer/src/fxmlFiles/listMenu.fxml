@@ -32,7 +32,7 @@
       </VBox>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0" spacing="10.0">
          <children>
-            <Label text="Select Version of Name">
+            <Label text="Select Version(s) of Name">
                <font>
                   <Font size="16.0" />
                </font>

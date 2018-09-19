@@ -3,6 +3,7 @@ package controllers;
 import main.Main;
 
 public class MainMenuController {
+
     private TestMicrophoneController controller;
 
     //Changes scene to where the list view of all creations are shown

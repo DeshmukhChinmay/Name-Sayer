@@ -16,23 +16,24 @@ import main.Names.NameVersions;
 
 import java.io.File;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
 
 public class ListMenuController implements Initializable {
 
+    private PlayMenuController playMenuController;
     private String currentWorkingDir;
     private File databaseFolder;
 
     public ListView namesList;
     public ListView<NameVersions> namesVersion;
     public ListView selectedNames;
-
     private LinkedList<Names> nameObjects = new LinkedList<>();
     private LinkedList<NameVersions> selectedVersionObjects = new LinkedList<>();
     final private ObservableList<String> namesViewList = FXCollections.observableArrayList();
     final private ObservableList<String> selectedVersionsViewList = FXCollections.observableArrayList();
-
+    public HashMap<String,NameVersions>  selectedNamesMap = new HashMap<>();
     Names tempName = null;
 
     @Override
@@ -101,12 +102,9 @@ public class ListMenuController implements Initializable {
                         }
                     }));
                 }
-
             }
         });
-
         selectedNames.setItems(selectedVersionsViewList);
-
     }
 
     public void initialiseFolders() {
@@ -161,7 +159,12 @@ public class ListMenuController implements Initializable {
 
     //Goes to the play menu
     public void playButtonPressed(){
-    Main.loadPlayPage();
+//        playMenuController.showListView();
+        Main.loadPlayPage();
+    }
+
+    public void setPlayMenuController(PlayMenuController playMenuController){
+        this.playMenuController = playMenuController;
     }
 
 }
