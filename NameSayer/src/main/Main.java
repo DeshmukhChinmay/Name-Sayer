@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.File;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Main extends Application {
@@ -32,6 +33,7 @@ public class Main extends Application {
     private static TestMicrophoneController testMicrophoneController;
 
     private static File _databaseFolder = null;
+    private static String currentWorkingDir = System.getProperty("user.dir");
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -66,6 +68,8 @@ public class Main extends Application {
         Parent databasePane = databaseLoader.load();
         databaseScene = new Scene(databasePane, 635, 406);
         databaseMenuController = databaseLoader.getController();
+
+        initialiseFolders();
 
         _primaryStage.setTitle("NameSayer");
         _primaryStage.setScene(mainMenuScene);
@@ -137,6 +141,17 @@ public class Main extends Application {
 
     public static TestMicrophoneController getTestMicrophoneController() {
         return testMicrophoneController;
+    }
+
+    public static void initialiseFolders() {
+
+        File recordingsFolder = new File(currentWorkingDir + "/NameSayer/Recordings");
+        LinkedList<String> tempFileNames = new LinkedList<>();
+
+        if (!(recordingsFolder.exists())) {
+            recordingsFolder.mkdirs();
+        }
+
     }
 
     public static void main(String[] args) {

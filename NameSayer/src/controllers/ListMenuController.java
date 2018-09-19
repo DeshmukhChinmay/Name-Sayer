@@ -22,7 +22,6 @@ import java.util.ResourceBundle;
 public class ListMenuController implements Initializable {
 
     private PlayMenuController playMenuController;
-    private String currentWorkingDir;
     private File databaseFolder;
 
     public ListView namesList;
@@ -38,7 +37,6 @@ public class ListMenuController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        currentWorkingDir = System.getProperty("user.dir");
         initialiseFolders();
 
         nameObjects.add(new Names("John Doe"));
@@ -114,27 +112,27 @@ public class ListMenuController implements Initializable {
 
     public void intialiseNameObjects() {
 
-        File[] namesInDatabase = databaseFolder.listFiles();
-        String tempFilename;
-        String tempName;
-
-        for (File f: namesInDatabase) {
-            tempFilename = f.getName();
-            String[] tempFilenameParts = tempFilename.split("_");
-            String[] tempNameParts = tempFilenameParts[3].split(".");
-            tempName = tempNameParts[0];
-            tempName.toLowerCase().charAt(0);
-
-            File tempFolder = new File(currentWorkingDir + "/NameSayer/Recordings/" + tempName);
-
-            if (tempFolder.exists()) {
-
-            } else {
-                tempFolder.mkdirs();
-
-            }
-
-        }
+//        File[] namesInDatabase = databaseFolder.listFiles();
+//        String tempFilename;
+//        String tempName;
+//
+//        for (File f: namesInDatabase) {
+//            tempFilename = f.getName();
+//            String[] tempFilenameParts = tempFilename.split("_");
+//            String[] tempNameParts = tempFilenameParts[3].split(".");
+//            tempName = tempNameParts[0];
+//            tempName.toLowerCase().charAt(0);
+//
+//            File tempFolder = new File + "/NameSayer/Recordings/" + tempName);
+//
+//            if (tempFolder.exists()) {
+//
+//            } else {
+//                tempFolder.mkdirs();
+//
+//            }
+//
+//        }
 
     }
 
