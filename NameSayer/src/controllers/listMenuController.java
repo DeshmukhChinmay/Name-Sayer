@@ -144,6 +144,9 @@ public class listMenuController implements Initializable {
 
     }
 
+    public ObservableList<String> getSelectedVersionsViewList() {
+        return selectedVersionsViewList;
+    }
 
     //Returns to the main menu
     public void backButtonPressed(){
