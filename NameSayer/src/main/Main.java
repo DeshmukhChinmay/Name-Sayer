@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.File;
+import java.util.List;
 
 public class Main extends Application {
 
@@ -25,6 +26,8 @@ public class Main extends Application {
     private static Scene practiceMenuScene;
     private static Scene micTestScene;
     private static Scene databaseScene;
+
+    private static ListMenuController listMenuController;
 
     private static File _databaseFolder = null;
 
@@ -39,6 +42,7 @@ public class Main extends Application {
         FXMLLoader listLoader = new FXMLLoader(getClass().getResource("../fxmlFiles/listMenu.fxml"));
         Parent listMenuPane = listLoader.load();
         listMenuScene = new Scene(listMenuPane, 635, 406);
+        listMenuController = listLoader.getController();
 
         FXMLLoader playLoader = new FXMLLoader(getClass().getResource("../fxmlFiles/playMenu.fxml"));
         Parent playMenuPane = playLoader.load();
@@ -112,6 +116,10 @@ public class Main extends Application {
 
     public static void setDatabaseFolder(File databaseFolder) {
         _databaseFolder = databaseFolder;
+    }
+
+    public static ListMenuController getListMenuController() {
+        return listMenuController;
     }
 
     public static void main(String[] args) {

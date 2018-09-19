@@ -1,7 +1,12 @@
 package controllers;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.cell.CheckBoxListCell;
@@ -22,33 +27,64 @@ public class PlayMenuController implements Initializable {
 
     public ListView<NameVersions> selectedListView;
 
-    private LinkedList<NameVersions> selectedVersionList = new LinkedList<>();
+    private ObservableList<NameVersions> selectedVersionList;
+    private NameVersions currentSelection;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        setListMenuController(Main.getListMenuController());
 
+        selectedVersionList = listMenuController.getSelectedVersionObjects();
+
+        selectedListView.setCellFactory(param -> new ListCell<NameVersions>() {
+
+            @Override
+            protected void updateItem(NameVersions version, boolean empty) {
+                super.updateItem(version, empty);
+
+                if (empty || version == null || version.getVersion() == null) {
+                    setText(null);
+                } else {
+                    setText(version.getVersion());
+                }
+            }
+
+        });
+
+        selectedListView.setItems(selectedVersionList);
+
+        selectedListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<NameVersions>() {
+            @Override
+            public void changed(ObservableValue<? extends NameVersions> observable, NameVersions oldValue, NameVersions newValue) {
+                currentSelection = newValue;
+                getQualityRating(currentSelection);
+
+            }
+        });
 
     }
 
-        public void getQualityRating(NameVersions name){
-            if (name.getBadQuality().get()){
-                qualityButton.setSelected(true);
-            }
-            else{
-                qualityButton.setSelected(false);
-            }
+    public void getQualityRating(NameVersions version){
+        if (version.getBadQuality().get()){
+            qualityButton.setSelected(true);
         }
+        else{
+            qualityButton.setSelected(false);
+        }
+    }
 
-        public void qualityRatingSelected(){
+    public void qualityRatingSelected(){
             //Gets the name of the currently playing name
             //and sets the quality good or bad
             if(qualityButton.isSelected()){
                 qualityButton.setText("Bad Quality");
+                currentSelection.getBadQuality().setValue(true);
                 //Add functionality for selected file to be bad quality
             }
             else{
                 qualityButton.setText("Good Quality");
+                currentSelection.getBadQuality().setValue(false);
                 //Add functionality for selected file to be Good quality
             }
 

@@ -16,7 +16,6 @@ import main.Names.NameVersions;
 
 import java.io.File;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
 
@@ -30,10 +29,10 @@ public class ListMenuController implements Initializable {
     public ListView<NameVersions> namesVersion;
     public ListView selectedNames;
     private LinkedList<Names> nameObjects = new LinkedList<>();
-    private LinkedList<NameVersions> selectedVersionObjects = new LinkedList<>();
+    private ObservableList<NameVersions> selectedVersionObjects = FXCollections.observableArrayList();
     final private ObservableList<String> namesViewList = FXCollections.observableArrayList();
     final private ObservableList<String> selectedVersionsViewList = FXCollections.observableArrayList();
-    public HashMap<String,NameVersions>  selectedNamesMap = new HashMap<>();
+
     Names tempName = null;
 
     @Override
@@ -143,15 +142,19 @@ public class ListMenuController implements Initializable {
         return selectedVersionsViewList;
     }
 
-    public LinkedList<NameVersions> getSelectedVersionObjects() {
+    public ObservableList<NameVersions> getSelectedVersionObjects() {
         return selectedVersionObjects;
     }
 
     //Returns to the main menu
     public void backButtonPressed(){
         //Resets all items from selected lists except first one
-        namesVersion.getItems().clear();
-        selectedNames.getItems().clear();
+        for (Names n: nameObjects) {
+            for (NameVersions v: n.getVersions()) {
+                v.versionSelected().setValue(false);
+            }
+        }
+
         selectedVersionObjects.clear();
         Main.loadMainPage();
     }
