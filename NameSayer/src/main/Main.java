@@ -67,6 +67,9 @@ public class Main extends Application {
         databaseScene = new Scene(databasePane, 635, 406);
         databaseMenuController = databaseLoader.getController();
 
+        //Adds a TestMicController to MainMenu Controller
+        mainMenuController.setTestMicController(testMicrophoneController);
+
         _primaryStage.setTitle("NameSayer");
         _primaryStage.setScene(mainMenuScene);
         _primaryStage.setResizable(false);
@@ -117,26 +120,6 @@ public class Main extends Application {
 
     public static ListMenuController getListMenuController() {
         return listMenuController;
-    }
-
-    public static DatabaseMenuController getDatabaseMenuController() {
-        return databaseMenuController;
-    }
-
-    public static MainMenuController getMainMenuController() {
-        return mainMenuController;
-    }
-
-    public static PlayMenuController getPlayMenuController() {
-        return playMenuController;
-    }
-
-    public static PracticeMenuController getPracticeMenuController() {
-        return practiceMenuController;
-    }
-
-    public static TestMicrophoneController getTestMicrophoneController() {
-        return testMicrophoneController;
     }
 
     public static void main(String[] args) {

@@ -21,7 +21,6 @@ import java.util.ResourceBundle;
 
 public class ListMenuController implements Initializable {
 
-    private PlayMenuController playMenuController;
     private String currentWorkingDir;
     private File databaseFolder;
 
@@ -162,12 +161,7 @@ public class ListMenuController implements Initializable {
 
     //Goes to the play menu
     public void playButtonPressed(){
-//        playMenuController.showListView();
         Main.loadPlayPage();
-    }
-
-    public void setPlayMenuController(PlayMenuController playMenuController){
-        this.playMenuController = playMenuController;
     }
 
 }

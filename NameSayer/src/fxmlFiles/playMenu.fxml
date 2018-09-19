@@ -55,7 +55,7 @@
                         <Insets top="-10.0" />
                      </VBox.margin>
                   </Button>
-                  <ToggleButton id="toggleButton" fx:id="qualityButton" mnemonicParsing="false" onAction="#qualityRatingSelected" styleClass="toggleButton" stylesheets="@../css/play.css" text="Good Quality">
+                  <ToggleButton id="toggleButton" fx:id="qualityButton" mnemonicParsing="false" onAction="#setQualityRating" styleClass="toggleButton" stylesheets="@../css/play.css" text="Good Quality">
                      <VBox.margin>
                         <Insets top="30.0" />
                      </VBox.margin>

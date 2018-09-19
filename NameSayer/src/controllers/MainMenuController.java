@@ -1,8 +1,12 @@
 package controllers;
 
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import main.Main;
 
-public class MainMenuController {
+import java.net.URL;
+
+public class MainMenuController{
 
     private TestMicrophoneController controller;
 

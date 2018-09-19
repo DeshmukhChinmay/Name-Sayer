@@ -68,13 +68,15 @@ public class PlayMenuController implements Initializable {
     public void getQualityRating(NameVersions version){
         if (version.getBadQuality().get()){
             qualityButton.setSelected(true);
+            qualityButton.setText("Bad Quality");
         }
         else{
             qualityButton.setSelected(false);
+            qualityButton.setText("Good Quality");
+
         }
     }
-
-    public void qualityRatingSelected(){
+    public void setQualityRating(){
             //Gets the name of the currently playing name
             //and sets the quality good or bad
             if(qualityButton.isSelected()){
