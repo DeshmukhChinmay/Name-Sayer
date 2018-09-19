@@ -5,24 +5,28 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.io.File;
+
 public class Names {
 
     private String name;
+    private int count;
     final private ObservableList<NameVersions> versions = FXCollections.observableArrayList();
 
-    public Names(String name) {
+    public Names(String name, String audioPath) {
         this.name = name;
-        String tempVersionName = name + " (" + (versions.size() + 1) + ")";
-        versions.add(new NameVersions(tempVersionName, ""));
+        count++;
+        String tempVersionName = name + " (" + Integer.toString(count) + ")";
+        versions.add(new NameVersions(tempVersionName, audioPath));
     }
 
     public String getName() {
         return name;
     }
 
-    public void addVersion(String name) {
+    public void addVersion(String name, String audioPath) {
         String tempVersionName = name + " (" + (versions.size() + 1) + ")";
-        versions.add(new NameVersions(tempVersionName, ""));
+        versions.add(new NameVersions(tempVersionName, audioPath));
     }
 
     public ObservableList<NameVersions> getVersions() {
