@@ -30,7 +30,7 @@
                <font>
                   <Font size="15.0" />
                </font></Button>
-            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#selectDatabasefolderPressed" prefHeight="60.0" prefWidth="160.0" styleClass="mainButton" text="Select Database Folder" textAlignment="CENTER" wrapText="true">
+            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#selectDatabaseFolderPressed" prefHeight="60.0" prefWidth="160.0" styleClass="mainButton" text="Select Database Folder" textAlignment="CENTER" wrapText="true">
                <font>
                   <Font size="15.0" />
                </font>

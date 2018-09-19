@@ -42,19 +42,6 @@ public class ListMenuController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        try {
-            initialiseNameObjects();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        for (Names n: nameObjects) {
-            namesViewList.add(n.getName());
-        }
-
-        namesList.setItems(namesViewList.sorted());
-        namesList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-
         namesVersion.setCellFactory(CheckBoxListCell.forListView(NameVersions::versionSelected, new StringConverter<NameVersions>() {
             @Override
             public String toString(NameVersions object) {
@@ -137,7 +124,14 @@ public class ListMenuController implements Initializable {
         }
 
     }
+    public void updateMainList(){
+        for (Names n: nameObjects) {
+            namesViewList.add(n.getName());
+        }
 
+        namesList.setItems(namesViewList.sorted());
+        namesList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+    }
     public ObservableList<String> getSelectedVersionsViewList() {
         return selectedVersionsViewList;
     }
@@ -155,6 +149,7 @@ public class ListMenuController implements Initializable {
             }
         }
         selectedVersionObjects.clear();
+        selectedNames.getItems().clear();
         Main.loadMainPage();
     }
 

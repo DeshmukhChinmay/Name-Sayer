@@ -38,7 +38,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-        _databaseFolder = new File("/Users/Chinmay/Downloads/names/");
+        _databaseFolder = null;
         initialiseFolders();
 
         _primaryStage = primaryStage;

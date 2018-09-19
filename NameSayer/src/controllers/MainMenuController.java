@@ -1,19 +1,14 @@
 package controllers;
 
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import main.Main;
-
 import java.io.File;
-import java.net.URL;
+import java.io.IOException;
 
 public class MainMenuController{
     Stage directoryChooserStage = new Stage();
-
     private TestMicrophoneController controller;
 
     //Changes scene to where the list view of all creations are shown
@@ -31,7 +26,7 @@ public class MainMenuController{
     public void setTestMicController(TestMicrophoneController controller){
         this.controller = controller;
     }
-    public void selectDatabasefolderPressed(){
+    public void selectDatabaseFolderPressed() throws IOException {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         File selectedDirectory = directoryChooser.showDialog(directoryChooserStage);
         if(selectedDirectory == null){
@@ -43,6 +38,8 @@ public class MainMenuController{
         }
         else{
             Main.setDatabaseFolder(selectedDirectory);
+            Main.getListMenuController().initialiseNameObjects();
+            Main.getListMenuController().updateMainList();
             System.out.println(selectedDirectory);
         }
 
