@@ -148,6 +148,7 @@ public class ListMenuController implements Initializable {
                 v.versionSelected().setValue(false);
             }
         }
+        //Clears lists for selected versions
         selectedVersionObjects.clear();
         selectedNames.getItems().clear();
         Main.loadMainPage();
