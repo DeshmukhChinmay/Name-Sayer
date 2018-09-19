@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.File;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Main extends Application {
@@ -32,9 +33,14 @@ public class Main extends Application {
     private static TestMicrophoneController testMicrophoneController;
 
     private static File _databaseFolder = null;
+    private static String currentWorkingDir = System.getProperty("user.dir");
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+
+        _databaseFolder = new File("/Users/Chinmay/Downloads/names/");
+        initialiseFolders();
+
         _primaryStage = primaryStage;
 
         FXMLLoader mainMenuLoader = new FXMLLoader(getClass().getResource("../fxmlFiles/mainMenu.fxml"));
@@ -120,6 +126,36 @@ public class Main extends Application {
 
     public static ListMenuController getListMenuController() {
         return listMenuController;
+    }
+
+    public static DatabaseMenuController getDatabaseMenuController() {
+        return databaseMenuController;
+    }
+
+    public static MainMenuController getMainMenuController() {
+        return mainMenuController;
+    }
+
+    public static PlayMenuController getPlayMenuController() {
+        return playMenuController;
+    }
+
+    public static PracticeMenuController getPracticeMenuController() {
+        return practiceMenuController;
+    }
+
+    public static TestMicrophoneController getTestMicrophoneController() {
+        return testMicrophoneController;
+    }
+
+    public static void initialiseFolders() {
+
+        File recordingsFolder = new File(currentWorkingDir + "/NameSayer/Recordings");
+
+        if (!(recordingsFolder.exists())) {
+            recordingsFolder.mkdirs();
+        }
+
     }
 
     public static void main(String[] args) {
