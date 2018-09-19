@@ -26,7 +26,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
 
-public class listMenuController implements Initializable {
+public class ListMenuController implements Initializable {
 
     private String currentWorkingDir;
     private File databaseFolder;
