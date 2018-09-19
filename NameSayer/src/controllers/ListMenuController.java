@@ -15,13 +15,18 @@ import main.Names;
 import main.Names.NameVersions;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
 
 public class ListMenuController implements Initializable {
 
     private PlayMenuController playMenuController;
+    private String currentWorkingDir = System.getProperty("user.dir");
     private File databaseFolder;
 
     public ListView namesList;
@@ -37,25 +42,17 @@ public class ListMenuController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        initialiseFolders();
-
-        nameObjects.add(new Names("John Doe"));
-        nameObjects.add(new Names("Jane Doe"));
-        nameObjects.add(new Names("Jack Doe"));
-
-        nameObjects.get(0).addVersion("John Doe");
-        nameObjects.get(0).addVersion("John Doe");
-        nameObjects.get(1).addVersion("Jane Doe");
-        nameObjects.get(2).addVersion("Jack Doe");
-        nameObjects.get(2).addVersion("Jack Doe");
-        nameObjects.get(2).addVersion("Jack Doe");
-
+        try {
+            initialiseNameObjects();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         for (Names n: nameObjects) {
             namesViewList.add(n.getName());
         }
 
-        namesList.setItems(namesViewList);
+        namesList.setItems(namesViewList.sorted());
         namesList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         namesVersion.setCellFactory(CheckBoxListCell.forListView(NameVersions::versionSelected, new StringConverter<NameVersions>() {
@@ -104,35 +101,40 @@ public class ListMenuController implements Initializable {
         selectedNames.setItems(selectedVersionsViewList);
     }
 
-    public void initialiseFolders() {
+    public void initialiseNameObjects() throws IOException {
 
         databaseFolder = Main.getDatabaseFolder();
 
-    }
+        File[] namesInDatabase = databaseFolder.listFiles();
+        String tempFilename;
+        String tempName;
 
-    public void intialiseNameObjects() {
+        for (File f: namesInDatabase) {
+            tempFilename = f.getName();
+            String[] tempFilenameParts = tempFilename.split("_");
+            String[] tempNameParts = tempFilenameParts[3].split("\\.");
+            tempName = tempNameParts[0].substring(0, 1).toUpperCase() + tempNameParts[0].substring(1);
 
-//        File[] namesInDatabase = databaseFolder.listFiles();
-//        String tempFilename;
-//        String tempName;
-//
-//        for (File f: namesInDatabase) {
-//            tempFilename = f.getName();
-//            String[] tempFilenameParts = tempFilename.split("_");
-//            String[] tempNameParts = tempFilenameParts[3].split(".");
-//            tempName = tempNameParts[0];
-//            tempName.toLowerCase().charAt(0);
-//
-//            File tempFolder = new File + "/NameSayer/Recordings/" + tempName);
-//
-//            if (tempFolder.exists()) {
-//
-//            } else {
-//                tempFolder.mkdirs();
-//
-//            }
-//
-//        }
+
+            File tempFolder = new File (currentWorkingDir + "/NameSayer/Recordings/" + tempName + "/");
+
+            if (tempFolder.exists()) {
+                File destination = new File(tempFolder + "/" + f.getName());
+                Files.copy(f.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                for (Names n: nameObjects) {
+                    if (n.getName().equals(tempName)) {
+                        n.addVersion(tempName, destination.getAbsolutePath());
+                    }
+                }
+            } else {
+                tempFolder.mkdirs();
+                File destination = new File(tempFolder + "/" + f.getName());
+                Files.copy(f.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                nameObjects.add(new Names(tempName, destination.getAbsolutePath()));
+
+            }
+
+        }
 
     }
 

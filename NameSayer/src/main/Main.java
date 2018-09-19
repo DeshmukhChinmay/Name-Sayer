@@ -37,6 +37,10 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+
+        _databaseFolder = new File("/Users/Chinmay/Downloads/names/");
+        initialiseFolders();
+
         _primaryStage = primaryStage;
 
         FXMLLoader mainMenuLoader = new FXMLLoader(getClass().getResource("../fxmlFiles/mainMenu.fxml"));
@@ -68,8 +72,6 @@ public class Main extends Application {
         Parent databasePane = databaseLoader.load();
         databaseScene = new Scene(databasePane, 635, 406);
         databaseMenuController = databaseLoader.getController();
-
-        initialiseFolders();
 
         _primaryStage.setTitle("NameSayer");
         _primaryStage.setScene(mainMenuScene);
@@ -146,7 +148,6 @@ public class Main extends Application {
     public static void initialiseFolders() {
 
         File recordingsFolder = new File(currentWorkingDir + "/NameSayer/Recordings");
-        LinkedList<String> tempFileNames = new LinkedList<>();
 
         if (!(recordingsFolder.exists())) {
             recordingsFolder.mkdirs();
