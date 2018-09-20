@@ -29,7 +29,6 @@ public class PlayMenuController implements Initializable {
     public ListView<NameVersions> selectedListView;
 
     private ObservableList<NameVersions> selectedVersionList;
-    private ObservableList<NameVersions> defaultVersionList;
     private NameVersions currentSelection;
 
     @Override
@@ -114,11 +113,11 @@ public class PlayMenuController implements Initializable {
         Main.loadListPage();
     }
 
-    public void practiceButtonPressed() throws IOException{
+    public void practiceButtonPressed(){
         Main.loadPracticePage();
     }
 
-    public void playButtonPressed() throws IOException {
+    public void playButtonPressed() {
         playButton.setDisable(true);
         playButton.setText("Playing");
         Task<Void> task = new Task<Void>() {
