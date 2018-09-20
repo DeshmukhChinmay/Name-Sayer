@@ -44,6 +44,13 @@ public class ListMenuController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        try {
+            initialiseNameObjects();
+            updateMainList();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         namesVersion.setCellFactory(CheckBoxListCell.forListView(NameVersions::versionSelected, new StringConverter<NameVersions>() {
             @Override
             public String toString(NameVersions object) {

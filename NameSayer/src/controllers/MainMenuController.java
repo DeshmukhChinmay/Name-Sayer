@@ -38,8 +38,8 @@ public class MainMenuController implements Initializable {
         Main.loadDatabaseMenu();
     }
 
-    public void setTestMicController(TestMicrophoneController controller) {
+    public void setTestMicController(TestMicrophoneController controller){
         this.controller = controller;
     }
-
+    
 }

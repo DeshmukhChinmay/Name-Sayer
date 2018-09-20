@@ -38,7 +38,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        _databaseFolder = new File(currentWorkingDir + "/names/");
+        _databaseFolder = new File(currentWorkingDir + "/names");
         initialiseFolders();
 
         _primaryStage = primaryStage;
