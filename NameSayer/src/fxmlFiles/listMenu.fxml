@@ -69,23 +69,19 @@
                 </ListView>
                 <HBox alignment="TOP_CENTER" prefHeight="60.0" prefWidth="200.0" spacing="10.0">
                     <children>
-
-                        <Button mnemonicParsing="false" onAction="#playButtonPressed" prefHeight="27.0"
-                                prefWidth="101.0" styleClass="defaultButton" text="Play Name(s)"/>
-                        <ToggleButton mnemonicParsing="false" prefHeight="27.0" prefWidth="62.0"
-                                      styleClass="toggleButton" text="Shuffle"/>
-                    </children>
-                </HBox>
-                <Button mnemonicParsing="false" onAction="#backButtonPressed" prefHeight="18.0" prefWidth="87.0"
-                        styleClass="defaultButton" text="Back">
-                    <VBox.margin>
-                        <Insets bottom="45.0" top="-20.0"/>
-                    </VBox.margin>
-                </Button>
-            </children>
-            <HBox.margin>
-                <Insets top="-12.0"/>
-            </HBox.margin>
-        </VBox>
-    </children>
+                  <Button mnemonicParsing="false" onAction="#playButtonPressed" prefHeight="27.0" prefWidth="101.0" styleClass="defaultButton" text="Play Name(s)" />
+                  <ToggleButton mnemonicParsing="false" onAction="#shuffleButtonPressed" prefHeight="27.0" prefWidth="62.0" styleClass="toggleButton" text="Shuffle" />
+               </children>
+            </HBox>
+            <Button mnemonicParsing="false" onAction="#backButtonPressed" prefHeight="18.0" prefWidth="87.0" styleClass="defaultButton" text="Back">
+               <VBox.margin>
+                  <Insets bottom="45.0" top="-20.0" />
+               </VBox.margin></Button>
+         </children>
+         <HBox.margin>
+            <Insets top="-12.0" />
+         </HBox.margin>
+      </VBox>
+   </children>
+>>>>>>> master
 </HBox>

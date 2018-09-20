@@ -41,5 +41,4 @@ public class MainMenuController implements Initializable {
     public void setTestMicController(TestMicrophoneController controller){
         this.controller = controller;
     }
-    
 }
