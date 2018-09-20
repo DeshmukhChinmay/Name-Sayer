@@ -1,5 +1,6 @@
 package controllers;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -19,7 +20,7 @@ public class DatabaseMenuController implements Initializable {
     @FXML
     public ListView<NameVersions> practiceNamesListView;
 
-    private ObservableList<NameVersions> practiceNamesList;
+    private ObservableList<NameVersions> practiceNamesList = FXCollections.observableArrayList();
 
     private String currentWorkingDir = System.getProperty("user.dir");
 
@@ -27,6 +28,7 @@ public class DatabaseMenuController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         updateList();
+        practiceNamesList.add(new NameVersions("Somename", ""));
 
         practiceNamesListView.setCellFactory(param -> new ListCell<NameVersions>() {
 
