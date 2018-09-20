@@ -66,7 +66,7 @@
                <children>
 
                   <Button mnemonicParsing="false" onAction="#playButtonPressed" prefHeight="27.0" prefWidth="101.0" styleClass="defaultButton" text="Play Name(s)" />
-                  <ToggleButton mnemonicParsing="false" prefHeight="27.0" prefWidth="62.0" styleClass="toggleButton" text="Shuffle" />
+                  <ToggleButton mnemonicParsing="false" onAction="#shuffleButtonPressed" prefHeight="27.0" prefWidth="62.0" styleClass="toggleButton" text="Shuffle" />
                </children>
             </HBox>
             <Button mnemonicParsing="false" onAction="#backButtonPressed" prefHeight="18.0" prefWidth="87.0" styleClass="defaultButton" text="Back">

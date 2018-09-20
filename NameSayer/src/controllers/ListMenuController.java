@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
 
@@ -182,6 +183,9 @@ public class ListMenuController implements Initializable {
         Main.loadMainPage();
     }
 
+    public void shuffleButtonPressed() {
+        Collections.shuffle(selectedVersionsViewList);
+    }
 
     //Goes to the play menu
     public void playButtonPressed(){
