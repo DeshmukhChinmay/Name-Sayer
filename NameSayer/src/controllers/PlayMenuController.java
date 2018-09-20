@@ -8,6 +8,8 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import main.BadAudioText;
 import main.Main;
 import main.Names.NameVersions;
@@ -22,10 +24,14 @@ public class PlayMenuController implements Initializable {
     private ToggleButton qualityButton;
     @FXML
     private Button playButton;
-    private ListMenuController listMenuController;
     @FXML
     private ToggleButton shuffleButton;
+    @FXML
+    public Button nextButton;
+    @FXML
+    public Button prevButton;
 
+    private ListMenuController listMenuController;
     public ListView<NameVersions> selectedListView;
 
     private ObservableList<NameVersions> selectedVersionList;
@@ -33,6 +39,7 @@ public class PlayMenuController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        prevButton.setDisable(true);//Makes it so that prevButton is always disabled
         setListMenuController(Main.getListMenuController());
         selectedVersionList = listMenuController.getSelectedVersionObjects();
         selectedListView.setCellFactory(param -> new ListCell<NameVersions>() {
@@ -109,11 +116,13 @@ public class PlayMenuController implements Initializable {
     }
 
     //Changes scene to where the list view of all creations are shown
-    public void backButtonPressed() throws IOException{
+    public void backButtonPressed() {
+        prevButton.setDisable(true);//Makes it so that prevButton is always disabled
+        nextButton.setDisable(false);
         Main.loadListPage();
     }
 
-    public void practiceButtonPressed(){
+    public void practiceButtonPressed() {
         Main.loadPracticePage();
     }
 
@@ -123,7 +132,6 @@ public class PlayMenuController implements Initializable {
         Task<Void> task = new Task<Void>() {
             @Override
             public Void call() throws Exception {
-                Thread.sleep(4000);
 //                    ProcessBuilder playProcess = new ProcessBuilder("ffplay",currentSelection.getAudioPath());
 //                    playProcess.start();
                 Platform.runLater(new Runnable() {
@@ -141,5 +149,28 @@ public class PlayMenuController implements Initializable {
     public void shuffleButtonPressed() {
         Collections.shuffle(selectedVersionList);
     }
+
+    public void nextButtonPressed() {
+        prevButton.setDisable(false);//If next button is pressed that means prev Button will be enabled
+        selectedListView.getSelectionModel().selectNext();
+        System.out.println(currentSelection.getVersion());
+        if (currentSelection == selectedListView.getItems().get(selectedListView.getItems().size() - 1)) {
+            nextButton.setDisable(true);
+        } else {
+            nextButton.setDisable(false);
+        }
+    }
+
+    public void prevButtonPressed() {
+        nextButton.setDisable(false);//If prev button is pressable that means that next button will be enabled
+        selectedListView.getSelectionModel().selectPrevious();
+        System.out.println(currentSelection.getVersion());
+        if (currentSelection == selectedListView.getItems().get(0)) {
+            prevButton.setDisable(true);
+        } else {
+            prevButton.setDisable(false);
+        }
+    }
+
 }
 

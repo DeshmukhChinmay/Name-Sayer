@@ -192,8 +192,17 @@ public class ListMenuController implements Initializable {
             errorAlert.setContentText("Please Select Names");
             errorAlert.showAndWait();
         } else {
+            //If only one creation selected should not be able to press next or prev
+            if(selectedNames.getItems().size() == 1){
+                playMenuController.nextButton.setDisable(true);
+            }
+
             Main.loadPlayPage();
         }
+    }
+
+    public void setPlayMenuController(){
+        this.playMenuController = Main.getPlayMenuController();
     }
 
 }

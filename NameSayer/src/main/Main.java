@@ -75,6 +75,7 @@ public class Main extends Application {
 
         //Adds a TestMicController to MainMenu Controller
         mainMenuController.setTestMicController(testMicrophoneController);
+        listMenuController.setPlayMenuController();
 
         _primaryStage.setTitle("NameSayer");
         _primaryStage.setScene(mainMenuScene);
