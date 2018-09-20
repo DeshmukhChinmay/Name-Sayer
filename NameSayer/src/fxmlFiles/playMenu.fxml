@@ -50,11 +50,7 @@
                                 <Button maxWidth="71.0" mnemonicParsing="false" prefWidth="71.0" styleClass="cycleButton" text="Next" />
                             </children>
                         </HBox>
-                  <ToggleButton fx:id="shuffleButton" mnemonicParsing="false" text="Shuffle" onAction="#shuffleButtonPressed">
-                     <VBox.margin>
-                        <Insets top="-30.0" />
-                     </VBox.margin>
-                  </ToggleButton>
+                  <Button alignment="CENTER" layoutX="138.0" layoutY="250.0" mnemonicParsing="false" onAction="#shuffleButtonPressed" prefHeight="46.0" prefWidth="125.0" styleClass="mainButton" stylesheets="@../css/main.css" text="Shuffle" />
                         <Button alignment="CENTER" mnemonicParsing="false" onAction="#practiceButtonPressed" prefHeight="46.0" prefWidth="125.0" styleClass="mainButton" stylesheets="@../css/main.css" text="Practice Name">
                             <VBox.margin>
                                 <Insets top="20.0" />
