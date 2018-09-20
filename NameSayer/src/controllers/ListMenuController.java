@@ -33,9 +33,10 @@ public class ListMenuController implements Initializable {
     public ListView namesList;
     public ListView<NameVersions> namesVersion;
     public ListView selectedNames;
+
     private LinkedList<Names> nameObjects = new LinkedList<>();
-    private ObservableList<NameVersions> selectedVersionObjects = FXCollections.observableArrayList();
     final private ObservableList<String> namesViewList = FXCollections.observableArrayList();
+    private ObservableList<NameVersions> selectedVersionObjects = FXCollections.observableArrayList();
     final private ObservableList<String> selectedVersionsViewList = FXCollections.observableArrayList();
 
     Names tempName = null;
@@ -103,23 +104,43 @@ public class ListMenuController implements Initializable {
             String[] tempNameParts = tempFilenameParts[3].split("\\.");
             tempName = tempNameParts[0].substring(0, 1).toUpperCase() + tempNameParts[0].substring(1);
 
-
             File tempFolder = new File(currentWorkingDir + "/NameSayer/Recordings/" + tempName + "/");
+            File destination = new File(tempFolder + "/" + f.getName());
 
-            if (tempFolder.exists()) {
-                File destination = new File(tempFolder + "/" + f.getName());
-                Files.copy(f.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            if (destination.exists()) {
+                boolean namePresent = false;
+                Names nameFound = null;
                 for (Names n : nameObjects) {
                     if (n.getName().equals(tempName)) {
-                        n.addVersion(tempName, destination.getAbsolutePath());
+//                        n.addVersion(tempName, destination.getAbsolutePath());
+                        namePresent = true;
+                        nameFound = n;
+                        break;
                     }
                 }
-            } else {
-                tempFolder.mkdirs();
-                File destination = new File(tempFolder + "/" + f.getName());
-                Files.copy(f.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                nameObjects.add(new Names(tempName, destination.getAbsolutePath()));
 
+                if (namePresent) {
+                    nameFound.addVersion(tempName, destination.getAbsolutePath());
+                } else {
+                    nameObjects.add(new Names(tempName, destination.getAbsolutePath()));
+                }
+
+            } else {
+                if (tempFolder.exists()) {
+//                File destination = new File(tempFolder + "/" + f.getName());
+                    Files.copy(f.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    for (Names n : nameObjects) {
+                        if (n.getName().equals(tempName)) {
+                            n.addVersion(tempName, destination.getAbsolutePath());
+                        }
+                    }
+                } else {
+                    tempFolder.mkdirs();
+//                File destination = new File(tempFolder + "/" + f.getName());
+                    Files.copy(f.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    nameObjects.add(new Names(tempName, destination.getAbsolutePath()));
+
+                }
             }
 
         }
@@ -153,21 +174,20 @@ public class ListMenuController implements Initializable {
         }
         //Clears lists for selected versions
         selectedVersionObjects.clear();
-        selectedNames.getItems().clear();
+        selectedVersionsViewList.clear();
         Main.loadMainPage();
     }
 
 
     //Goes to the play menu
     public void playButtonPressed() {
-        if(selectedNames.getItems().size() == 0){
+        if (selectedNames.getItems().size() == 0) {
             Alert errorAlert = new Alert(Alert.AlertType.WARNING);
             errorAlert.setTitle("No Names Selected");
             errorAlert.setHeaderText(null);
             errorAlert.setContentText("Please Select Names");
             errorAlert.showAndWait();
-        }
-        else {
+        } else {
             Main.loadPlayPage();
         }
     }
