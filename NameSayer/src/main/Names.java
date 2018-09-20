@@ -63,7 +63,7 @@ public class Names {
             return badQuality;
         }
 
-        public String getAudioPath(){
+        public String getAudioPath() {
             return audioPath;
         }
 

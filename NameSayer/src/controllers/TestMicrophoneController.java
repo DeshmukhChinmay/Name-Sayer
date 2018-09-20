@@ -10,13 +10,13 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.TargetDataLine;
 
-public class TestMicrophoneController{
+public class TestMicrophoneController {
 
     @FXML
     ProgressBar micVolume;
 
     @FXML
-    public void initialize(){
+    public void initialize() {
         openMicLine();
     }
 
@@ -24,13 +24,14 @@ public class TestMicrophoneController{
     private int sound = 0;
     private byte[] audioData;
     TargetDataLine line;
-    private void openMicLine(){
+
+    private void openMicLine() {
         AudioFormat fmt = new AudioFormat(44100f, 16, 1, true, false);
         final int bufferByteSize = 2048;
         try {
             line = AudioSystem.getTargetDataLine(fmt);
             line.open(fmt, bufferByteSize);
-        } catch(LineUnavailableException e) {
+        } catch (LineUnavailableException e) {
             System.err.println(e);
             return;
         }
@@ -38,21 +39,22 @@ public class TestMicrophoneController{
         audioData = new byte[bufferByteSize];
         line.start();
     }
+
     //This code was found from https://stackoverflow.com/questions/3899585/microphone-level-in-java
     private int calculateRMSLevel(byte[] audioData) {
         long lSum = 0;
-        for(int i=0; i < audioData.length; i++)
+        for (int i = 0; i < audioData.length; i++)
             lSum = lSum + audioData[i];
 
         double dAvg = lSum / audioData.length;
         double sumMeanSquare = 0d;
 
-        for(int j=0; j < audioData.length; j++)
+        for (int j = 0; j < audioData.length; j++)
             sumMeanSquare += Math.pow(audioData[j] - dAvg, 2d);
 
         double averageMeanSquare = sumMeanSquare / audioData.length;
 
-        return (int)(Math.pow(averageMeanSquare,0.5d) + 0.5);
+        return (int) (Math.pow(averageMeanSquare, 0.5d) + 0.5);
     }
 
     public void testMic() {
@@ -75,7 +77,7 @@ public class TestMicrophoneController{
         new Thread(updateMicBar).start();
     }
 
-    public void backButtonPressed(){
+    public void backButtonPressed() {
         startTest = false;
         micVolume.progressProperty().unbind();
         Main.loadMainPage();

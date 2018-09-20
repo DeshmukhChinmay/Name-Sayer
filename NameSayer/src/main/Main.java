@@ -36,7 +36,7 @@ public class Main extends Application {
     private static String currentWorkingDir = System.getProperty("user.dir");
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
 
         _databaseFolder = null;
         initialiseFolders();
@@ -87,32 +87,38 @@ public class Main extends Application {
         _secondaryStage.initModality(Modality.APPLICATION_MODAL);
 
     }
+
     //Loads Main page in the primary stage
-    public static void loadMainPage(){
+    public static void loadMainPage() {
         _secondaryStage.close();
         _primaryStage.setScene(mainMenuScene);
     }
+
     //Loads list page in the primary stage
-    public static void loadListPage(){
+    public static void loadListPage() {
         _secondaryStage.close();
         _primaryStage.setScene(listMenuScene);
     }
+
     //Loads play page in primary stage
-    public static void loadPlayPage(){
+    public static void loadPlayPage() {
         _secondaryStage.close();
         _primaryStage.setScene(playMenuScene);
     }
+
     //Loads practice page
-    public static void loadPracticePage(){
+    public static void loadPracticePage() {
         _secondaryStage.setScene(practiceMenuScene);
         _secondaryStage.show();
     }
+
     //Loads mic test page
-    public static void loadMicTestPage(){
+    public static void loadMicTestPage() {
         _secondaryStage.setScene(micTestScene);
         _secondaryStage.show();
     }
-    public static void loadDatabaseMenu(){
+
+    public static void loadDatabaseMenu() {
         _primaryStage.setScene(databaseScene);
     }
 

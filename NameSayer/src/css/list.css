@@ -1,16 +1,20 @@
-.defaultButton{
+.defaultButton {
     -fx-background-color: #95a6b8;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 0);
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.5), 10, 0, 0, 0);
 }
-.defaultButton:hover{
+
+.defaultButton:hover {
     -fx-background-color: #8699ad;
 }
+
 .defaultButton:pressed {
     -fx-background-color: #3e4c5d;
 }
-.toggleButton{
-    -fx-background-color:#f28082;
+
+.toggleButton {
+    -fx-background-color: #f28082;
 }
+
 .toggleButton:selected {
-    -fx-background-color:#68e8a8;
+    -fx-background-color: #68e8a8;
 }

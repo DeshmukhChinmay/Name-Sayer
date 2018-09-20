@@ -4,15 +4,15 @@ import main.Main;
 
 public class DatabaseMenuController {
 
-    public void backButtonPressed(){
+    public void backButtonPressed() {
         Main.loadMainPage();
     }
 
-    public void deleteButtonPressed(){
+    public void deleteButtonPressed() {
 
     }
 
-    public void playButtonPressed(){
+    public void playButtonPressed() {
 
     }
 }

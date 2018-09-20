@@ -58,7 +58,7 @@ public class ListMenuController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 
-                for (Names n: nameObjects) {
+                for (Names n : nameObjects) {
                     if (n.getName().equals(namesList.getSelectionModel().getSelectedItem())) {
                         tempName = n;
                     }
@@ -68,7 +68,7 @@ public class ListMenuController implements Initializable {
                     namesVersion.setItems(tempName.getVersions());
 
                     tempName.getVersions().forEach(NameVersions -> NameVersions.versionSelected().addListener((obs, oldVal, newVal) -> {
-                        for (NameVersions n: tempName.getVersions()) {
+                        for (NameVersions n : tempName.getVersions()) {
                             if (n.versionIsSelected()) {
                                 if (!(selectedVersionsViewList.contains(n.getVersion()))) {
                                     selectedVersionsViewList.add(n.getVersion());
@@ -96,19 +96,19 @@ public class ListMenuController implements Initializable {
         String tempFilename;
         String tempName;
 
-        for (File f: namesInDatabase) {
+        for (File f : namesInDatabase) {
             tempFilename = f.getName();
             String[] tempFilenameParts = tempFilename.split("_");
             String[] tempNameParts = tempFilenameParts[3].split("\\.");
             tempName = tempNameParts[0].substring(0, 1).toUpperCase() + tempNameParts[0].substring(1);
 
 
-            File tempFolder = new File (currentWorkingDir + "/NameSayer/Recordings/" + tempName + "/");
+            File tempFolder = new File(currentWorkingDir + "/NameSayer/Recordings/" + tempName + "/");
 
             if (tempFolder.exists()) {
                 File destination = new File(tempFolder + "/" + f.getName());
                 Files.copy(f.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                for (Names n: nameObjects) {
+                for (Names n : nameObjects) {
                     if (n.getName().equals(tempName)) {
                         n.addVersion(tempName, destination.getAbsolutePath());
                     }
@@ -124,14 +124,16 @@ public class ListMenuController implements Initializable {
         }
 
     }
-    public void updateMainList(){
-        for (Names n: nameObjects) {
+
+    public void updateMainList() {
+        for (Names n : nameObjects) {
             namesViewList.add(n.getName());
         }
 
         namesList.setItems(namesViewList.sorted());
         namesList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
     }
+
     public ObservableList<String> getSelectedVersionsViewList() {
         return selectedVersionsViewList;
     }
@@ -141,10 +143,10 @@ public class ListMenuController implements Initializable {
     }
 
     //Returns to the main menu
-    public void backButtonPressed(){
+    public void backButtonPressed() {
         //Resets all items from selected lists except first one
-        for (Names n: nameObjects) {
-            for (NameVersions v: n.getVersions()) {
+        for (Names n : nameObjects) {
+            for (NameVersions v : n.getVersions()) {
                 v.versionSelected().setValue(false);
             }
         }
@@ -156,7 +158,7 @@ public class ListMenuController implements Initializable {
 
 
     //Goes to the play menu
-    public void playButtonPressed(){
+    public void playButtonPressed() {
         Main.loadPlayPage();
     }
 

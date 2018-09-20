@@ -21,14 +21,15 @@ public class PracticeMenuController {
     @FXML
     private ProgressBar progressBar;
 
-    public void compareToAudio(){
+    public void compareToAudio() {
     }
-    public void SaveAudio(){
+
+    public void SaveAudio() {
         saveButton.setDisable(true);
         saveButton.setText("Saved!");
     }
 
-    public void startRecording(){
+    public void startRecording() {
         //Multi threading the recording
 //        Task<Void> task = new Task<Void>() {
 //            @Override
@@ -60,9 +61,9 @@ public class PracticeMenuController {
         Task<Void> update = new Task<Void>() {
             @Override
             public Void call() throws Exception {
-                for(int i=1;i<220;i++) {
+                for (int i = 1; i < 220; i++) {
                     Thread.sleep(20);
-                    updateProgress(i,220);
+                    updateProgress(i, 220);
                 }
                 return null;
             }
@@ -79,11 +80,11 @@ public class PracticeMenuController {
     }
 
 
-    public void listenToAudio(){
+    public void listenToAudio() {
 
     }
 
-    public void goBackButton(){
+    public void goBackButton() {
         Main.loadPlayPage();
         recordButton.setDisable(false);
         recordButton.setText("Record");
