@@ -37,7 +37,6 @@ public class MainMenuController{
             errorAlert.showAndWait();
         }
         else{
-            Main.setDatabaseFolder(selectedDirectory);
             Main.getListMenuController().initialiseNameObjects();
             Main.getListMenuController().updateMainList();
             System.out.println(selectedDirectory);
