@@ -38,7 +38,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-        _databaseFolder = null;
+        _databaseFolder = new File(currentWorkingDir + "/names/");
         initialiseFolders();
 
         _primaryStage = primaryStage;
@@ -118,10 +118,6 @@ public class Main extends Application {
 
     public static File getDatabaseFolder() {
         return _databaseFolder;
-    }
-
-    public static void setDatabaseFolder(File databaseFolder) {
-        _databaseFolder = databaseFolder;
     }
 
     public static ListMenuController getListMenuController() {
