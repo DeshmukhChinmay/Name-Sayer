@@ -41,6 +41,6 @@ public class BadAudioText {
         }
         writer.close();
         reader.close();
-        boolean successful = temp.renameTo(main);
+        temp.renameTo(main);
     }
 }

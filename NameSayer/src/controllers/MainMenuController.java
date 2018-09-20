@@ -14,7 +14,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class MainMenuController implements Initializable {
-    private Stage directoryChooserStage = new Stage();
     private TestMicrophoneController controller;
 
     //Initialize method to create the text file if not made
@@ -41,24 +40,6 @@ public class MainMenuController implements Initializable {
 
     public void setTestMicController(TestMicrophoneController controller) {
         this.controller = controller;
-    }
-
-    public void selectDatabaseFolderPressed() throws IOException {
-        DirectoryChooser directoryChooser = new DirectoryChooser();
-        File selectedDirectory = directoryChooser.showDialog(directoryChooserStage);
-        if (selectedDirectory == null) {
-            Alert errorAlert = new Alert(Alert.AlertType.WARNING);
-            errorAlert.setTitle("No Directory Selected");
-            errorAlert.setHeaderText(null);
-            errorAlert.setContentText("Please Choose a Directory");
-            errorAlert.showAndWait();
-        } else {
-            Main.setDatabaseFolder(selectedDirectory);
-            Main.getListMenuController().initialiseNameObjects();
-            Main.getListMenuController().updateMainList();
-            System.out.println(selectedDirectory);
-        }
-
     }
 
 }

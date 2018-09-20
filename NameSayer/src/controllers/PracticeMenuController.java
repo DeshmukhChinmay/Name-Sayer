@@ -47,9 +47,7 @@ public class PracticeMenuController {
                 Thread.sleep(5000);
                 Platform.runLater(new Runnable() {
                     public void run() {
-                        saveButton.setDisable(false);
-                        listenButton.setDisable(false);
-                        compareButton.setDisable(false);
+                        disableButtons(false);
                         recordButton.setText("Recorded!");
                         recordButton.setDisable(true);
                     }
@@ -83,15 +81,17 @@ public class PracticeMenuController {
     public void listenToAudio() {
 
     }
-
+    public void disableButtons(boolean selector){
+        saveButton.setDisable(selector);
+        listenButton.setDisable(selector);
+        compareButton.setDisable(selector);
+    }
     public void goBackButton() {
         Main.loadPlayPage();
-        recordButton.setDisable(false);
         recordButton.setText("Record");
         saveButton.setText("Save");
-        saveButton.setDisable(true);
-        listenButton.setDisable(true);
-        compareButton.setDisable(true);
+        recordButton.setDisable(false);
+        disableButtons(true);
         progressBar.progressProperty().unbind();
         progressBar.setProgress(0);
     }

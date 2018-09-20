@@ -6,46 +6,31 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="520.0"
-            prefWidth="553.0" style="-fx-background-color: #778ca3;" stylesheets="@../css/main.css"
-            xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="controllers.MainMenuController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="408.0" prefWidth="604.0" style="-fx-background-color: #778ca3;" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainMenuController">
     <center>
-        <VBox alignment="CENTER" prefHeight="554.0" prefWidth="558.0" spacing="30.0" BorderPane.alignment="CENTER">
+        <VBox alignment="CENTER" prefHeight="435.0" prefWidth="553.0" spacing="30.0" BorderPane.alignment="CENTER">
             <children>
                 <Label alignment="CENTER" contentDisplay="CENTER" text="NameSayer" textFill="WHITE">
                     <font>
-                        <Font size="42.0"/>
+                        <Font size="42.0" />
                     </font>
                     <effect>
-                        <DropShadow offsetX="4.0" offsetY="1.0" spread="0.4"/>
+                        <DropShadow offsetX="4.0" offsetY="1.0" spread="0.4" />
                     </effect>
                 </Label>
-                <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#listButtonPressed"
-                        prefHeight="60.0" prefWidth="160.0" styleClass="mainButton" text="Listen to Name(s)">
+                <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#listButtonPressed" prefHeight="60.0" prefWidth="160.0" styleClass="mainButton" text="Listen to Name(s)">
                     <font>
-                        <Font size="15.0"/>
+                        <Font size="15.0" />
                     </font>
                 </Button>
-                <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                        onAction="#showAttemptsButtonPressed" prefHeight="60.0" prefWidth="160.0"
-                        styleClass="mainButton" text="Show Previous Practices" textAlignment="CENTER" wrapText="true">
+                <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#showAttemptsButtonPressed" prefHeight="60.0" prefWidth="160.0" styleClass="mainButton" text="Show Previous Practices" textAlignment="CENTER" wrapText="true">
                     <font>
-                        <Font size="15.0"/>
+                        <Font size="15.0" />
                     </font>
                 </Button>
-                <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                        onAction="#micTestButtonPressed" prefHeight="60.0" prefWidth="160.0" styleClass="mainButton"
-                        text="Test Microphone">
+                <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#micTestButtonPressed" prefHeight="60.0" prefWidth="160.0" styleClass="mainButton" text="Test Microphone">
                     <font>
-                        <Font size="15.0"/>
-                    </font>
-                </Button>
-                <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                        onAction="#selectDatabaseFolderPressed" prefHeight="60.0" prefWidth="160.0"
-                        styleClass="mainButton" text="Select Database Folder" textAlignment="CENTER" wrapText="true">
-                    <font>
-                        <Font size="15.0"/>
+                        <Font size="15.0" />
                     </font>
                 </Button>
             </children>

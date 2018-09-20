@@ -5,6 +5,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.cell.CheckBoxListCell;
@@ -159,7 +160,16 @@ public class ListMenuController implements Initializable {
 
     //Goes to the play menu
     public void playButtonPressed() {
-        Main.loadPlayPage();
+        if(selectedNames.getItems().size() == 0){
+            Alert errorAlert = new Alert(Alert.AlertType.WARNING);
+            errorAlert.setTitle("No Names Selected");
+            errorAlert.setHeaderText(null);
+            errorAlert.setContentText("Please Select Names");
+            errorAlert.showAndWait();
+        }
+        else {
+            Main.loadPlayPage();
+        }
     }
 
 }
