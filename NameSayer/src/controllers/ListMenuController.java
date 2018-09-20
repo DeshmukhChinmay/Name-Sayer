@@ -184,6 +184,8 @@ public class ListMenuController implements Initializable {
         selectedVersionObjects.clear();
         selectedVersionsViewList.clear();
         Main.loadMainPage();
+
+        //comment
     }
 
     public void shuffleButtonPressed() {
