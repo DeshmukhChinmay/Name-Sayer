@@ -11,10 +11,3 @@
     -fx-background-color: #3e4c5d;
 }
 
-.toggleButton {
-    -fx-background-color: #f28082;
-}
-
-.toggleButton:selected {
-    -fx-background-color: #68e8a8;
-}

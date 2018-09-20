@@ -34,3 +34,10 @@
     -fx-background-color: #f28082;
 
 }
+#shuffleButton {
+    -fx-background-color: #f28082;
+}
+
+#shuffleButton:selected {
+    -fx-background-color: #68e8a8;
+}

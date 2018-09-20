@@ -14,6 +14,7 @@ import main.Names.NameVersions;
 
 import java.io.*;
 import java.net.URL;
+import java.util.Collections;
 import java.util.ResourceBundle;
 
 public class PlayMenuController implements Initializable {
@@ -22,17 +23,19 @@ public class PlayMenuController implements Initializable {
     @FXML
     private Button playButton;
     private ListMenuController listMenuController;
+    @FXML
+    private ToggleButton shuffleButton;
 
     public ListView<NameVersions> selectedListView;
 
     private ObservableList<NameVersions> selectedVersionList;
+    private ObservableList<NameVersions> defaultVersionList;
     private NameVersions currentSelection;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setListMenuController(Main.getListMenuController());
         selectedVersionList = listMenuController.getSelectedVersionObjects();
-
         selectedListView.setCellFactory(param -> new ListCell<NameVersions>() {
 
             @Override
@@ -134,6 +137,15 @@ public class PlayMenuController implements Initializable {
             }
         };
         new Thread(task).start();
+    }
+
+    public void shuffleButtonPressed() {
+        if(shuffleButton.isSelected()){
+            Collections.shuffle(selectedVersionList);
+        }
+        else{
+            //Unshuffle
+        }
     }
 }
 

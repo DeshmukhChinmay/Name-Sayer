@@ -184,12 +184,6 @@ public class ListMenuController implements Initializable {
         selectedVersionObjects.clear();
         selectedVersionsViewList.clear();
         Main.loadMainPage();
-
-        //comment
-    }
-
-    public void shuffleButtonPressed() {
-        Collections.shuffle(selectedVersionsViewList);
     }
 
     //Goes to the play menu
