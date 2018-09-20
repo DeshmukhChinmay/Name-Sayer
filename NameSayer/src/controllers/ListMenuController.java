@@ -16,7 +16,6 @@ import main.Names;
 import main.Names.NameVersions;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
@@ -135,7 +134,6 @@ public class ListMenuController implements Initializable {
 
             } else {
                 if (tempFolder.exists()) {
-//                File destination = new File(tempFolder + "/" + f.getName());
                     Files.copy(f.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
                     for (Names n : nameObjects) {
                         if (n.getName().equals(tempName)) {
@@ -144,7 +142,6 @@ public class ListMenuController implements Initializable {
                     }
                 } else {
                     tempFolder.mkdirs();
-//                File destination = new File(tempFolder + "/" + f.getName());
                     Files.copy(f.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
                     nameObjects.add(new Names(tempName, destination.getAbsolutePath()));
 
