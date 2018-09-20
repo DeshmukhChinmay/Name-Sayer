@@ -139,12 +139,7 @@ public class PlayMenuController implements Initializable {
     }
 
     public void shuffleButtonPressed() {
-        if(shuffleButton.isSelected()){
-            Collections.shuffle(selectedVersionList);
-        }
-        else{
-            //Unshuffle
-        }
+        Collections.shuffle(selectedVersionList);
     }
 }
 
