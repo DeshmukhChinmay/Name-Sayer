@@ -20,9 +20,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class ListMenuController implements Initializable {
 
@@ -119,7 +117,6 @@ public class ListMenuController implements Initializable {
                 Names nameFound = null;
                 for (Names n : nameObjects) {
                     if (n.getName().equals(tempName)) {
-//                        n.addVersion(tempName, destination.getAbsolutePath());
                         namePresent = true;
                         nameFound = n;
                         break;
@@ -143,7 +140,7 @@ public class ListMenuController implements Initializable {
                 } else {
                     tempFolder.mkdirs();
                     Files.copy(f.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                    nameObjects.add(new Names(tempName, destination.getAbsolutePath()));
+                    nameObjects.add(createNamesObject(tempName, destination.getAbsolutePath()));
 
                 }
             }
@@ -159,6 +156,10 @@ public class ListMenuController implements Initializable {
 
         namesList.setItems(namesViewList.sorted());
         namesList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+    }
+
+    public Names createNamesObject(String name, String path) {
+        return (new Names(name, path));
     }
 
     public ObservableList<String> getSelectedVersionsViewList() {
