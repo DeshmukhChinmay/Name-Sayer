@@ -159,7 +159,6 @@ public class ListMenuController implements Initializable {
                     Names nameFound = null;
                     for (Names n : nameObjects) {
                         if (n.getName().equals(tempName)) {
-//                        n.addVersion(tempName, destination.getAbsolutePath());
                             namePresent = true;
                             nameFound = n;
                             break;
@@ -225,7 +224,7 @@ public class ListMenuController implements Initializable {
     }
 
     //Goes to the play menu
-    public void playButtonPressed() {
+    public void nextButtonPressed() {
         if (selectedNames.getItems().size() == 0) {
             Alert errorAlert = new Alert(Alert.AlertType.WARNING);
             errorAlert.setTitle("No Names Selected");
@@ -235,9 +234,10 @@ public class ListMenuController implements Initializable {
         } else {
             //If only one creation selected should not be able to press next or prev
             if(selectedNames.getItems().size() == 1){
+                playMenuController.single = true;
                 playMenuController.nextButton.setDisable(true);
             }
-
+            playMenuController.playButton.setDisable(true);
             Main.loadPlayPage();
         }
     }

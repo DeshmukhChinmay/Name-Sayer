@@ -1,6 +1,5 @@
 package controllers;
 
-import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
@@ -8,8 +7,6 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import main.BadAudioText;
 import main.Main;
 import main.Names.NameVersions;
@@ -23,9 +20,7 @@ public class PlayMenuController implements Initializable {
     @FXML
     private ToggleButton qualityButton;
     @FXML
-    private Button playButton;
-    @FXML
-    private ToggleButton shuffleButton;
+    public Button playButton;
     @FXML
     public Button nextButton;
     @FXML
@@ -36,7 +31,7 @@ public class PlayMenuController implements Initializable {
 
     private ObservableList<NameVersions> selectedVersionList;
     private NameVersions currentSelection;
-
+    public boolean single;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         prevButton.setDisable(true);//Makes it so that prevButton is always disabled
@@ -58,18 +53,22 @@ public class PlayMenuController implements Initializable {
         });
 
         selectedListView.setItems(selectedVersionList);
-
         selectedListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<NameVersions>() {
             @Override
             public void changed(ObservableValue<? extends NameVersions> observable, NameVersions oldValue, NameVersions newValue) {
                 currentSelection = newValue;
-                if (currentSelection != null) {
-                    getQualityRating(currentSelection);
-                }
+                checkLogicOfCycleButton();
             }
         });
     }
-
+    //Method to enable play button if a name is selected
+    public void listClicked() {
+        if (currentSelection != null) {
+            getQualityRating(currentSelection);
+            playButton.setDisable(false);
+        }
+    }
+    //Sets the quality rating on the UI screen whenever a name is selected
     public void getQualityRating(NameVersions version) {
         if (version.getBadQuality().get()) {
             qualityButton.setSelected(true);
@@ -80,7 +79,7 @@ public class PlayMenuController implements Initializable {
             qualityButton.setText("Good Quality");
         }
     }
-
+    //Sets the quality on the UI screen when the toggle button is toggled
     public void setQualityRating() throws IOException {
         if (currentSelection == null) {
             if (qualityButton.isSelected()) {
@@ -133,10 +132,17 @@ public class PlayMenuController implements Initializable {
             @Override
             public Void call() throws Exception {
                     ProcessBuilder playProcess = new ProcessBuilder("ffplay","-autoexit","-nodisp",currentSelection.getAudioPath());
-                    playProcess.start();
+                    Process process =  playProcess.start();
+                    while(process.isAlive()){
+                        playButton.setDisable(true);
+                    }
                 return null;
             }
         };
+        task.setOnSucceeded(e -> {
+            playButton.setDisable(false);
+            playButton.setText("Play");
+        });
         new Thread(task).start();
     }
 
@@ -162,6 +168,25 @@ public class PlayMenuController implements Initializable {
         if (currentSelection == selectedListView.getItems().get(0)) {
             prevButton.setDisable(true);
         } else {
+            prevButton.setDisable(false);
+        }
+    }
+    //Checks when to disable/enable next and previous buttons
+    public void checkLogicOfCycleButton(){
+        if(single){
+            nextButton.setDisable(true);
+            prevButton.setDisable(true);
+        }
+        else if (currentSelection == selectedListView.getItems().get(selectedListView.getItems().size() - 1)) {
+            nextButton.setDisable(true);
+            prevButton.setDisable(false);
+        }
+        else if (currentSelection == selectedListView.getItems().get(0)) {
+            nextButton.setDisable(false);
+            prevButton.setDisable(true);
+        }
+        else{
+            nextButton.setDisable(false);
             prevButton.setDisable(false);
         }
     }
