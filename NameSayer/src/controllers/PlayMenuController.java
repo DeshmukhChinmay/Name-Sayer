@@ -127,19 +127,13 @@ public class PlayMenuController implements Initializable {
     }
 
     public void playButtonPressed() {
-        playButton.setDisable(true);
         playButton.setText("Playing");
+        playButton.setDisable(true);
         Task<Void> task = new Task<Void>() {
             @Override
             public Void call() throws Exception {
-//                    ProcessBuilder playProcess = new ProcessBuilder("ffplay",currentSelection.getAudioPath());
-//                    playProcess.start();
-                Platform.runLater(new Runnable() {
-                    public void run() {
-                        playButton.setText("Play");
-                        playButton.setDisable(false);
-                    }
-                });
+                    ProcessBuilder playProcess = new ProcessBuilder("ffplay","-autoexit","-nodisp",currentSelection.getAudioPath());
+                    playProcess.start();
                 return null;
             }
         };

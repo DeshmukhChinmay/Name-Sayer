@@ -15,12 +15,15 @@ import main.Main;
 import main.Names;
 import main.Names.NameVersions;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
 
@@ -38,6 +41,7 @@ public class ListMenuController implements Initializable {
     final private ObservableList<String> namesViewList = FXCollections.observableArrayList();
     private ObservableList<NameVersions> selectedVersionObjects = FXCollections.observableArrayList();
     final private ObservableList<String> selectedVersionsViewList = FXCollections.observableArrayList();
+    private HashMap<String,Names> namesMap = new HashMap<>();
 
     Names tempName = null;
 
@@ -47,10 +51,11 @@ public class ListMenuController implements Initializable {
         try {
             initialiseNameObjects();
             updateMainList();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        initialiseNameMap();
         namesVersion.setCellFactory(CheckBoxListCell.forListView(NameVersions::versionSelected, new StringConverter<NameVersions>() {
             @Override
             public String toString(NameVersions object) {
@@ -95,6 +100,39 @@ public class ListMenuController implements Initializable {
             }
         });
         selectedNames.setItems(selectedVersionsViewList);
+        try {
+            checkQualityStatus();
+        }catch(IOException e){}
+    }
+    //Initalises the quality rating by checking the Bad_Recordings.txt file
+    public void checkQualityStatus() throws IOException{
+        File file = new File("Bad_Recordings.txt");
+        //Checks if such file already exists
+       if(file.exists()){
+           BufferedReader reader = new BufferedReader(new FileReader(file));
+           String line = null;
+           while((line = reader.readLine())!=null){
+               //Gets the key by only using the string up to the white space
+               String key = line.substring(0,line.indexOf(" "));
+               //Returns the name object associated with the key
+               Names name = namesMap.get(key);
+               if(name != null){
+                   //Loops through all the versions of that name until the string is the same
+                   for(NameVersions nVer : name.getVersions()){
+                       if (nVer.getVersion().equals(line)){
+                           //Sets bad quality to true
+                           nVer.getBadQuality().setValue(true);
+                       }
+                   }
+               }
+           }
+       }
+    }
+
+    public void initialiseNameMap(){
+        for (Names n : nameObjects) {
+           namesMap.put(n.getName(), n);
+        }
     }
 
     public void initialiseNameObjects() throws IOException {
@@ -106,50 +144,53 @@ public class ListMenuController implements Initializable {
         String tempName;
 
         for (File f : namesInDatabase) {
-            tempFilename = f.getName();
-            String[] tempFilenameParts = tempFilename.split("_");
-            String[] tempNameParts = tempFilenameParts[3].split("\\.");
-            tempName = tempNameParts[0].substring(0, 1).toUpperCase() + tempNameParts[0].substring(1);
-
-            File tempFolder = new File(currentWorkingDir + "/NameSayer/Recordings/" + tempName + "/");
-            File destination = new File(tempFolder + "/" + f.getName());
-
-            if (destination.exists()) {
-                boolean namePresent = false;
-                Names nameFound = null;
-                for (Names n : nameObjects) {
-                    if (n.getName().equals(tempName)) {
-//                        n.addVersion(tempName, destination.getAbsolutePath());
-                        namePresent = true;
-                        nameFound = n;
-                        break;
-                    }
-                }
-
-                if (namePresent) {
-                    nameFound.addVersion(tempName, destination.getAbsolutePath());
-                } else {
-                    nameObjects.add(new Names(tempName, destination.getAbsolutePath()));
-                }
-
+            if (f.isHidden()) {
+                continue;
             } else {
-                if (tempFolder.exists()) {
-                    Files.copy(f.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                tempFilename = f.getName();
+                String[] tempFilenameParts = tempFilename.split("_");
+                String[] tempNameParts = tempFilenameParts[3].split("\\.");
+                tempName = tempNameParts[0].substring(0, 1).toUpperCase() + tempNameParts[0].substring(1);
+                File tempFolder = new File(currentWorkingDir + "/NameSayer/Recordings/" + tempName + "/");
+                File destination = new File(tempFolder + "/" + f.getName());
+
+                if (destination.exists()) {
+                    boolean namePresent = false;
+                    Names nameFound = null;
                     for (Names n : nameObjects) {
                         if (n.getName().equals(tempName)) {
-                            n.addVersion(tempName, destination.getAbsolutePath());
+//                        n.addVersion(tempName, destination.getAbsolutePath());
+                            namePresent = true;
+                            nameFound = n;
+                            break;
                         }
                     }
+
+                    if (namePresent) {
+                        nameFound.addVersion(tempName, destination.getAbsolutePath());
+                    } else {
+                        nameObjects.add(new Names(tempName, destination.getAbsolutePath()));
+                    }
+
                 } else {
-                    tempFolder.mkdirs();
-                    Files.copy(f.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                    nameObjects.add(new Names(tempName, destination.getAbsolutePath()));
+                    if (tempFolder.exists()) {
+                        Files.copy(f.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                        for (Names n : nameObjects) {
+                            if (n.getName().equals(tempName)) {
+                                n.addVersion(tempName, destination.getAbsolutePath());
 
+                            }
+                        }
+                    } else {
+                        tempFolder.mkdirs();
+                        Files.copy(f.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                        nameObjects.add(new Names(tempName, destination.getAbsolutePath()));
+
+                    }
                 }
+
             }
-
         }
-
     }
 
     public void updateMainList() {

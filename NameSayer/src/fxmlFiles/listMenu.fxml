@@ -64,7 +64,7 @@
                 </ListView>
                 <HBox alignment="TOP_CENTER" prefHeight="60.0" prefWidth="200.0" spacing="10.0">
                     <children>
-                  <Button mnemonicParsing="false" onAction="#playButtonPressed" prefHeight="27.0" prefWidth="101.0" styleClass="defaultButton" text="Play Name(s)" />
+                  <Button mnemonicParsing="false" onAction="#playButtonPressed" prefHeight="27.0" prefWidth="101.0" styleClass="defaultButton" text="Next" />
                </children>
             </HBox>
             <Button mnemonicParsing="false" onAction="#backButtonPressed" prefHeight="18.0" prefWidth="87.0" styleClass="defaultButton" text="Back">
