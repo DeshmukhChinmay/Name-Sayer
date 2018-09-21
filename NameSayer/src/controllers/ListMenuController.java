@@ -237,7 +237,7 @@ public class ListMenuController implements Initializable {
             if(selectedNames.getItems().size() == 1){
                 playMenuController.nextButton.setDisable(true);
             }
-
+            Main.getPlayMenuController().assignCurrentSelection();
             Main.loadPlayPage();
         }
     }

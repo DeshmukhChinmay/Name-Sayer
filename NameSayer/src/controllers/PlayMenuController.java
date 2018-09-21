@@ -115,6 +115,11 @@ public class PlayMenuController implements Initializable {
         this.listMenuController = listMenuController;
     }
 
+    public void assignCurrentSelection() {
+        currentSelection = selectedVersionList.get(0);
+        selectedListView.getSelectionModel().selectFirst();
+    }
+
     //Changes scene to where the list view of all creations are shown
     public void backButtonPressed() {
         prevButton.setDisable(true);//Makes it so that prevButton is always disabled

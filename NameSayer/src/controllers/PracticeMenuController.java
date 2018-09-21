@@ -21,6 +21,8 @@ public class PracticeMenuController {
     @FXML
     private ProgressBar progressBar;
 
+    private String currentWorkingDir = System.getProperty("user.dir");
+
     public void compareToAudio() {
     }
 
@@ -69,10 +71,7 @@ public class PracticeMenuController {
         progressBar.progressProperty().bind(update.progressProperty());
         new Thread(update).start();
         new Thread(timer).start();
-//        if(_mediaPlayer!=null) {
-//            _mediaPlayer.stop();
-//            _mediaPlayer= null;
-//        }
+
         recordButton.setDisable(true);
         recordButton.setText("Recording...");
     }
@@ -80,7 +79,22 @@ public class PracticeMenuController {
 
     public void listenToAudio() {
 
+        Task<Void> task = new Task<Void>() {
+            @Override
+            public Void call() throws Exception {
+                ProcessBuilder playProcess = new ProcessBuilder("ffplay","-autoexit","-nodisp",(currentWorkingDir + "/NameSayer/Temp/tempAudio.wav"));
+                playProcess.start();
+                return null;
+            }
+        };
+        new Thread(task).start();
+
+        task.setOnSucceeded(Event -> {
+            System.out.println("Audio Playback Finished");
+        });
+
     }
+
     public void disableButtons(boolean selector){
         saveButton.setDisable(selector);
         listenButton.setDisable(selector);
