@@ -154,9 +154,19 @@ public class Main extends Application {
     public static void initialiseFolders() {
 
         File recordingsFolder = new File(currentWorkingDir + "/NameSayer/Recordings");
+        File tempFolder = new File(currentWorkingDir + "/NameSayer/temp");
+        File practiceFolder = new File(currentWorkingDir + "/NameSayer/PracticeNames");
 
         if (!(recordingsFolder.exists())) {
             recordingsFolder.mkdirs();
+        }
+
+        if (!(tempFolder.exists())) {
+            tempFolder.mkdirs();
+        }
+
+        if (!(practiceFolder.exists())) {
+            practiceFolder.mkdirs();
         }
 
     }

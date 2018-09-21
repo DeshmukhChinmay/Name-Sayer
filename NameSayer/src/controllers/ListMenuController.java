@@ -108,30 +108,30 @@ public class ListMenuController implements Initializable {
     public void checkQualityStatus() throws IOException{
         File file = new File("Bad_Recordings.txt");
         //Checks if such file already exists
-       if(file.exists()){
-           BufferedReader reader = new BufferedReader(new FileReader(file));
-           String line = null;
-           while((line = reader.readLine())!=null){
-               //Gets the key by only using the string up to the white space
-               String key = line.substring(0,line.indexOf(" "));
-               //Returns the name object associated with the key
-               Names name = namesMap.get(key);
-               if(name != null){
-                   //Loops through all the versions of that name until the string is the same
-                   for(NameVersions nVer : name.getVersions()){
-                       if (nVer.getVersion().equals(line)){
-                           //Sets bad quality to true
-                           nVer.getBadQuality().setValue(true);
-                       }
-                   }
-               }
-           }
-       }
+        if(file.exists()){
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+            String line = null;
+            while((line = reader.readLine())!=null){
+                //Gets the key by only using the string up to the white space
+                String key = line.substring(0,line.indexOf(" "));
+                //Returns the name object associated with the key
+                Names name = namesMap.get(key);
+                if(name != null){
+                    //Loops through all the versions of that name until the string is the same
+                    for(NameVersions nVer : name.getVersions()){
+                        if (nVer.getVersion().equals(line)){
+                            //Sets bad quality to true
+                            nVer.getBadQuality().setValue(true);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     public void initialiseNameMap(){
         for (Names n : nameObjects) {
-           namesMap.put(n.getName(), n);
+            namesMap.put(n.getName(), n);
         }
     }
 
