@@ -65,7 +65,6 @@ public class PracticeMenuController {
         Task<Void> task = new Task<Void>() {
             @Override
             public Void call() throws Exception {
-
                 ProcessBuilder voiceRec = new ProcessBuilder("ffmpeg","-f","alsa","-ac","1","-ar","44100","-i","default","-t","5","tempAudio.wav");
                 voiceRec.directory(new File(currentWorkingDir + "/NameSayer/Temp/"));
                 voiceRec.start();
@@ -118,12 +117,11 @@ public class PracticeMenuController {
             @Override
             public Void call() throws Exception {
                 ProcessBuilder playProcess = new ProcessBuilder("ffplay","-autoexit","-nodisp",(currentWorkingDir + "/NameSayer/Temp/tempAudio.wav"));
-                playProcess.start();
+                Process process = playProcess.start();
+                process.waitFor();
                 return null;
             }
         };
-        new Thread(task).start();
-
         task.setOnSucceeded(Event -> {
             listenButton.setText("Listen");
             listenButton.setDisable(false);
@@ -132,7 +130,7 @@ public class PracticeMenuController {
             saveButton.setDisable(false);
             System.out.println("Audio Playback Finished");
         });
-
+        new Thread(task).start();
     }
 
     public void setNameVersion(NameVersions version) {
