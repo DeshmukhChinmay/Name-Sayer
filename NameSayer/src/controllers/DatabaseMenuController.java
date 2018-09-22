@@ -8,6 +8,7 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import main.Audio;
 import main.Main;
 import main.Names;
 import main.Names.NameVersions;
@@ -167,9 +168,7 @@ public class DatabaseMenuController implements Initializable {
     public void playButtonPressed() {
 
         NameVersions selectedName = practiceNamesListView.getSelectionModel().getSelectedItem();
-
         //Play the selected creation on a separate thread
-
         if (selectedName != null) {
             playButton.setText("Playing");
             playButton.setDisable(true);
@@ -230,7 +229,6 @@ public class DatabaseMenuController implements Initializable {
             });
             new Thread(task).start();
         }
-
     }
 
 }

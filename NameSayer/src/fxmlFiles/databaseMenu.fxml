@@ -54,7 +54,7 @@
             <children>
                 <Button fx:id="playButton" mnemonicParsing="false" onAction="#playButtonPressed" prefHeight="74.0" prefWidth="165.0" styleClass="defaultButton" text="Play Practice Recording" textAlignment="CENTER" wrapText="true">
                     <font>
-                        <Font size="20.0" />
+                        <Font size="17.0" />
                     </font>
                     <VBox.margin>
                         <Insets right="10.0" top="20.0" />
@@ -62,12 +62,12 @@
                 </Button>
                 <Button fx:id="playDatabaseNameButton" maxHeight="74.0" maxWidth="165.0" mnemonicParsing="false" onAction="#playDatabaseVersionButtonPressed" prefHeight="74.0" styleClass="defaultButton" text="Play Database Name" textAlignment="CENTER" wrapText="true">
                     <font>
-                        <Font size="20.0" />
+                        <Font size="17.0" />
                     </font>
                 </Button>
                 <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#deleteButtonPressed" prefHeight="74.0" prefWidth="165.0" styleClass="defaultButton" text="Delete Recording" textAlignment="CENTER" wrapText="true">
                     <font>
-                        <Font size="20.0" />
+                        <Font size="17.0" />
                     </font>
                     <VBox.margin>
                         <Insets right="10.0" />
@@ -78,7 +78,7 @@
                         <Insets bottom="20.0" />
                     </VBox.margin>
                     <font>
-                        <Font size="20.0" />
+                        <Font size="17.0" />
                     </font>
                 </Button>
             </children>

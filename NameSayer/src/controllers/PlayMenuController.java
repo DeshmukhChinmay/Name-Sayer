@@ -7,6 +7,7 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import main.Audio;
 import main.BadAudioText;
 import main.Main;
 import main.Names.NameVersions;
@@ -119,10 +120,6 @@ public class PlayMenuController implements Initializable {
         }
     }
 
-    public void setListMenuController(ListMenuController listMenuController) {
-        this.listMenuController = listMenuController;
-    }
-
     //Changes scene to where the list view of all creations are shown
     public void backButtonPressed() {
         prevButton.setDisable(true);//Makes it so that prevButton is always disabled
@@ -138,22 +135,7 @@ public class PlayMenuController implements Initializable {
     public void playButtonPressed() {
         playButton.setText("Playing");
         playButton.setDisable(true);
-        Task<Void> task = new Task<Void>() {
-            @Override
-            public Void call() throws Exception {
-                    ProcessBuilder playProcess = new ProcessBuilder("ffplay","-autoexit","-nodisp",currentSelection.getAudioPath());
-                    Process process =  playProcess.start();
-                    while(process.isAlive()){
-                        playButton.setDisable(true);
-                    }
-                return null;
-            }
-        };
-        task.setOnSucceeded(e -> {
-            playButton.setDisable(false);
-            playButton.setText("Play");
-        });
-        new Thread(task).start();
+        Audio.getInstance().playAudio(playButton,currentSelection);
     }
 
     public void shuffleButtonPressed() {

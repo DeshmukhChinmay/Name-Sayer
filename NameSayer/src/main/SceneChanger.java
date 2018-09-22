@@ -131,7 +131,7 @@ public class SceneChanger {
         _primaryStage.setResizable(false);
         _primaryStage.show();
     }
-    public static void set_secondaryStage(Stage stage){
+    public static void set_secondaryStage(){
         _secondaryStage.setTitle("Name Sayer");
         _secondaryStage.setResizable(false);
         _secondaryStage.initStyle(StageStyle.UNDECORATED);
