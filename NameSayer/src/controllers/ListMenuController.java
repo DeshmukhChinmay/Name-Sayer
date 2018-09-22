@@ -68,9 +68,9 @@ public class ListMenuController implements Initializable {
             }
         }));
 
-        namesListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Names>() {
+        namesListView.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
             @Override
-            public void changed(ObservableValue<? extends Names> observable, Names oldValue, Names newValue) {
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 
                 for (Names n : nameObjects) {
                     if (n.getName().equals(namesListView.getSelectionModel().getSelectedItem())) {
@@ -97,9 +97,9 @@ public class ListMenuController implements Initializable {
                         }
                     }));
                 }
-
             }
         });
+
         selectedNames.setItems(selectedVersionsViewList);
         try {
             checkQualityStatus();
