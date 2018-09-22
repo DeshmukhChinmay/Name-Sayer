@@ -25,6 +25,7 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class ListMenuController implements Initializable {
@@ -67,9 +68,9 @@ public class ListMenuController implements Initializable {
             }
         }));
 
-        namesListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+        namesListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Names>() {
             @Override
-            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+            public void changed(ObservableValue<? extends Names> observable, Names oldValue, Names newValue) {
 
                 for (Names n : nameObjects) {
                     if (n.getName().equals(namesListView.getSelectionModel().getSelectedItem())) {
@@ -207,6 +208,10 @@ public class ListMenuController implements Initializable {
 
     public ObservableList<NameVersions> getSelectedVersionObjects() {
         return selectedVersionObjects;
+    }
+
+    public HashMap<String, Names> getNamesMap() {
+        return namesMap;
     }
 
     //Returns to the main menu

@@ -16,6 +16,7 @@ import main.SceneChanger;
 import javax.swing.text.html.Option;
 import java.io.File;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -53,13 +54,34 @@ public class DatabaseMenuController implements Initializable {
 
         });
 
-        practiceNamesListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+        practiceNamesListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<NameVersions>() {
             @Override
-            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+            public void changed(ObservableValue<? extends NameVersions> observable, NameVersions oldValue, NameVersions newValue) {
 
+                Names tempNameObjects = SceneChanger.getListMenuController().getNamesMap().get(practiceNamesListView.getSelectionModel().getSelectedItem().getParentName());
 
+                if (tempNameObjects != null) {
+                    databaseNamesListView.setItems(tempNameObjects.getVersions());
+                }
+
+                databaseNamesListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
             }
+        });
+
+        databaseNamesListView.setCellFactory(param -> new ListCell<NameVersions>() {
+
+            @Override
+            protected void updateItem(NameVersions version, boolean empty) {
+                super.updateItem(version, empty);
+
+                if (empty || version == null || version.getVersion() == null) {
+                    setText(null);
+                } else {
+                    setText(version.getVersion());
+                }
+            }
+
         });
 
         practiceNamesListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
