@@ -1,5 +1,7 @@
 package controllers;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -24,6 +26,8 @@ public class DatabaseMenuController implements Initializable {
 
     @FXML
     public ListView<NameVersions> practiceNamesListView;
+    @FXML
+    public ListView<NameVersions> databaseNamesListView;
 
     private ObservableList<NameVersions> practiceNamesList = FXCollections.observableArrayList();
 
@@ -47,6 +51,15 @@ public class DatabaseMenuController implements Initializable {
                 }
             }
 
+        });
+
+        practiceNamesListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+
+
+
+            }
         });
 
         practiceNamesListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
@@ -109,7 +122,7 @@ public class DatabaseMenuController implements Initializable {
             Optional<ButtonType> option = confirmationAlert.showAndWait();
             if (option.get() == ButtonType.OK) {
                 practiceNamesList.remove(selectedName);
-                updateList();
+//                updateList();
             }
         }
 
