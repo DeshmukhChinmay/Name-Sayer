@@ -8,9 +8,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="406.0" prefWidth="635.0" spacing="20.0" style="-fx-background-color: #778ca3;" stylesheets="@../css/list.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.DatabaseMenuController">
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="416.0" prefWidth="809.0" spacing="20.0" style="-fx-background-color: #778ca3;" stylesheets="@../css/list.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.DatabaseMenuController">
     <children>
-        <VBox alignment="CENTER" prefHeight="389.0" prefWidth="229.0" spacing="10.0">
+        <VBox alignment="CENTER" prefHeight="411.0" prefWidth="285.0" spacing="10.0">
             <children>
                 <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="177.0" prefWidth="177.0" text="Saved Attempts">
                     <VBox.margin>
@@ -20,7 +20,7 @@
                         <Font size="16.0" />
                     </font>
                 </Label>
-                <ListView fx:id="practiceNamesListView" prefHeight="325.0" prefWidth="185.0" style="-fx-background-color: #5d728a;">
+                <ListView fx:id="practiceNamesListView" maxWidth="250.0" minWidth="200.0" prefHeight="329.0" prefWidth="250.0" style="-fx-background-color: #5d728a;">
                     <VBox.margin>
                         <Insets left="30.0" />
                     </VBox.margin>
@@ -30,27 +30,58 @@
                 <Insets />
             </HBox.margin>
         </VBox>
-        <VBox alignment="CENTER" prefHeight="382.0" prefWidth="415.0" spacing="10.0">
+        <VBox alignment="CENTER" prefHeight="441.0" prefWidth="284.0" spacing="10.0">
             <children>
-                <Pane prefHeight="470.0" prefWidth="415.0">
-                    <children>
-                        <Button layoutX="328.0" layoutY="23.0" mnemonicParsing="false" onAction="#backButtonPressed" prefHeight="27.0" prefWidth="65.0" styleClass="defaultButton" text="Back" />
-                        <Button fx:id="playButton" layoutX="138.0" layoutY="136.0" mnemonicParsing="false" onAction="#playButtonPressed" prefHeight="61.0" prefWidth="140.0" styleClass="defaultButton" text="Play">
-                            <font>
-                                <Font size="20.0" />
-                            </font>
-                        </Button>
-                        <Button layoutX="138.0" layoutY="225.0" mnemonicParsing="false" onAction="#deleteButtonPressed" prefHeight="61.0" prefWidth="140.0" styleClass="defaultButton" text="Delete">
-                            <font>
-                                <Font size="20.0" />
-                            </font>
-                        </Button>
-                    </children>
-                </Pane>
+                <Label alignment="CENTER" contentDisplay="CENTER" text="Database Names">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                    <VBox.margin>
+                        <Insets />
+                    </VBox.margin>
+                </Label>
+                <ListView maxWidth="250.0" minWidth="200.0" prefHeight="329.0" prefWidth="250.0" style="-fx-background-color: #5d728a;">
+                    <VBox.margin>
+                        <Insets />
+                    </VBox.margin>
+                </ListView>
             </children>
             <HBox.margin>
-                <Insets top="-12.0" />
+                <Insets />
             </HBox.margin>
+        </VBox>
+        <VBox prefHeight="411.0" prefWidth="200.0" spacing="30.0">
+            <children>
+                <Button fx:id="playButton" mnemonicParsing="false" onAction="#playButtonPressed" prefHeight="74.0" prefWidth="165.0" styleClass="defaultButton" text="Play Practiced Recording" textAlignment="CENTER" wrapText="true">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                    <VBox.margin>
+                        <Insets right="10.0" top="20.0" />
+                    </VBox.margin>
+                </Button>
+                <Button maxHeight="74.0" maxWidth="165.0" mnemonicParsing="false" prefHeight="74.0" styleClass="defaultButton" text="Play Database Name" textAlignment="CENTER" wrapText="true">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Button>
+                <Button mnemonicParsing="false" onAction="#deleteButtonPressed" prefHeight="74.0" prefWidth="165.0" styleClass="defaultButton" text="Delete Recording" textAlignment="CENTER" wrapText="true">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                    <VBox.margin>
+                        <Insets right="10.0" />
+                    </VBox.margin>
+                </Button>
+                <Button mnemonicParsing="false" onAction="#backButtonPressed" prefHeight="74.0" prefWidth="165.0" styleClass="defaultButton" text="Back">
+                    <VBox.margin>
+                        <Insets bottom="20.0" />
+                    </VBox.margin>
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Button>
+            </children>
         </VBox>
     </children>
 </HBox>
