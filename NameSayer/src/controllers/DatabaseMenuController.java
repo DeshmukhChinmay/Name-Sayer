@@ -1,5 +1,7 @@
 package controllers;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -15,6 +17,7 @@ import main.SceneChanger;
 import javax.swing.text.html.Option;
 import java.io.File;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -25,6 +28,8 @@ public class DatabaseMenuController implements Initializable {
 
     @FXML
     public ListView<NameVersions> practiceNamesListView;
+    @FXML
+    public ListView<NameVersions> databaseNamesListView;
 
     private ObservableList<NameVersions> practiceNamesList = FXCollections.observableArrayList();
 
@@ -36,6 +41,36 @@ public class DatabaseMenuController implements Initializable {
         updateList();
 
         practiceNamesListView.setCellFactory(param -> new ListCell<NameVersions>() {
+
+            @Override
+            protected void updateItem(NameVersions version, boolean empty) {
+                super.updateItem(version, empty);
+
+                if (empty || version == null || version.getVersion() == null) {
+                    setText(null);
+                } else {
+                    setText(version.getVersion());
+                }
+            }
+
+        });
+
+        practiceNamesListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<NameVersions>() {
+            @Override
+            public void changed(ObservableValue<? extends NameVersions> observable, NameVersions oldValue, NameVersions newValue) {
+
+                Names tempNameObjects = SceneChanger.getListMenuController().getNamesMap().get(practiceNamesListView.getSelectionModel().getSelectedItem().getParentName());
+
+                if (tempNameObjects != null) {
+                    databaseNamesListView.setItems(tempNameObjects.getVersions());
+                }
+
+                databaseNamesListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+
+            }
+        });
+
+        databaseNamesListView.setCellFactory(param -> new ListCell<NameVersions>() {
 
             @Override
             protected void updateItem(NameVersions version, boolean empty) {
@@ -110,7 +145,7 @@ public class DatabaseMenuController implements Initializable {
             Optional<ButtonType> option = confirmationAlert.showAndWait();
             if (option.get() == ButtonType.OK) {
                 practiceNamesList.remove(selectedName);
-                updateList();
+//                updateList();
             }
         }
 

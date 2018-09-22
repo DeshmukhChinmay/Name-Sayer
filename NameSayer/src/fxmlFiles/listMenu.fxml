@@ -20,7 +20,7 @@
                         <Font size="16.0" />
                     </font>
                 </Label>
-                <ListView fx:id="namesList" prefHeight="300.0" prefWidth="200.0" style="-fx-background-color: #5d728a;">
+                <ListView fx:id="namesListView" prefHeight="300.0" prefWidth="200.0" style="-fx-background-color: #5d728a;">
                     <VBox.margin>
                         <Insets left="10.0" />
                     </VBox.margin>
@@ -37,7 +37,7 @@
                         <Font size="16.0" />
                     </font>
                 </Label>
-                <ListView fx:id="namesVersion" prefHeight="300.0" prefWidth="200.0" style="-fx-background-color: #5d728a;">
+                <ListView fx:id="namesVersionListView" prefHeight="300.0" prefWidth="200.0" style="-fx-background-color: #5d728a;">
                     <VBox.margin>
                         <Insets />
                     </VBox.margin>

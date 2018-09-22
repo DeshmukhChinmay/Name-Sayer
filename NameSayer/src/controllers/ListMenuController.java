@@ -23,9 +23,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class ListMenuController implements Initializable {
@@ -33,8 +33,8 @@ public class ListMenuController implements Initializable {
     private String currentWorkingDir = System.getProperty("user.dir");
     private File databaseFolder;
 
-    public ListView namesList;
-    public ListView<NameVersions> namesVersion;
+    public ListView namesListView;
+    public ListView<NameVersions> namesVersionListView;
     public ListView selectedNames;
 
     private LinkedList<Names> nameObjects = new LinkedList<>();
@@ -56,7 +56,7 @@ public class ListMenuController implements Initializable {
             e.printStackTrace();
         }
         initialiseNameMap();
-        namesVersion.setCellFactory(CheckBoxListCell.forListView(NameVersions::versionSelected, new StringConverter<NameVersions>() {
+        namesVersionListView.setCellFactory(CheckBoxListCell.forListView(NameVersions::versionSelected, new StringConverter<NameVersions>() {
             @Override
             public String toString(NameVersions object) {
                 return object.getVersion();
@@ -68,18 +68,18 @@ public class ListMenuController implements Initializable {
             }
         }));
 
-        namesList.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+        namesListView.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 
                 for (Names n : nameObjects) {
-                    if (n.getName().equals(namesList.getSelectionModel().getSelectedItem())) {
+                    if (n.getName().equals(namesListView.getSelectionModel().getSelectedItem())) {
                         tempName = n;
                     }
                 }
 
                 if (tempName != null) {
-                    namesVersion.setItems(tempName.getVersions());
+                    namesVersionListView.setItems(tempName.getVersions());
 
                     tempName.getVersions().forEach(NameVersions -> NameVersions.versionSelected().addListener((obs, oldVal, newVal) -> {
                         for (NameVersions n : tempName.getVersions()) {
@@ -99,6 +99,7 @@ public class ListMenuController implements Initializable {
                 }
             }
         });
+
         selectedNames.setItems(selectedVersionsViewList);
         try {
             checkQualityStatus();
@@ -197,8 +198,8 @@ public class ListMenuController implements Initializable {
             namesViewList.add(n.getName());
         }
 
-        namesList.setItems(namesViewList.sorted());
-        namesList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        namesListView.setItems(namesViewList.sorted());
+        namesListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
     }
 
     public ObservableList<String> getSelectedVersionsViewList() {
@@ -207,6 +208,10 @@ public class ListMenuController implements Initializable {
 
     public ObservableList<NameVersions> getSelectedVersionObjects() {
         return selectedVersionObjects;
+    }
+
+    public HashMap<String, Names> getNamesMap() {
+        return namesMap;
     }
 
     //Returns to the main menu
@@ -218,6 +223,8 @@ public class ListMenuController implements Initializable {
             }
         }
         //Clears lists for selected versions
+        namesListView.getSelectionModel().clearSelection();
+        namesVersionListView.setItems(null);
         selectedVersionObjects.clear();
         selectedVersionsViewList.clear();
         SceneChanger.loadMainPage();
