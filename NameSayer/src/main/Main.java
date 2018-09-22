@@ -41,10 +41,6 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-//        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
-//        LocalDateTime now = LocalDateTime.now();
-//        System.out.println(dtf.format(now));
-
         _databaseFolder = new File(currentWorkingDir + "/names");
         initialiseFolders();
 

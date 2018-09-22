@@ -61,6 +61,10 @@ public class Names {
             return selected.get();
         }
 
+        public String getParentName() {
+            return parentName;
+        }
+
         public BooleanProperty getBadQuality() {
             return badQuality;
         }

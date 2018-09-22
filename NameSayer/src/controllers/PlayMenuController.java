@@ -22,6 +22,8 @@ public class PlayMenuController implements Initializable {
     @FXML
     public Button playButton;
     @FXML
+    public Button practiceButton;
+    @FXML
     public Button nextButton;
     @FXML
     public Button prevButton;
@@ -57,15 +59,21 @@ public class PlayMenuController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends NameVersions> observable, NameVersions oldValue, NameVersions newValue) {
                 currentSelection = newValue;
-                checkLogicOfCycleButton();
+                if(currentSelection != null) {
+                    getQualityRating(currentSelection);
+                    playButton.setDisable(false);
+                    practiceButton.setDisable(false);
+                    checkLogicOfCycleButton();
+                }
             }
         });
     }
-    //Method to enable play button if a name is selected
+    //Method to enable play button and practice button if a name is selected
     public void listClicked() {
         if (currentSelection != null) {
             getQualityRating(currentSelection);
             playButton.setDisable(false);
+            practiceButton.setDisable(false);
         }
     }
     //Sets the quality rating on the UI screen whenever a name is selected
@@ -114,15 +122,11 @@ public class PlayMenuController implements Initializable {
         this.listMenuController = listMenuController;
     }
 
-    public void assignCurrentSelection() {
-        currentSelection = selectedVersionList.get(0);
-        selectedListView.getSelectionModel().selectFirst();
-    }
-
     //Changes scene to where the list view of all creations are shown
     public void backButtonPressed() {
         prevButton.setDisable(true);//Makes it so that prevButton is always disabled
         nextButton.setDisable(false);
+        selectedListView.getSelectionModel().clearSelection();
         Main.loadListPage();
     }
 

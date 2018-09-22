@@ -35,7 +35,7 @@
                 <Pane prefHeight="470.0" prefWidth="415.0">
                     <children>
                         <Button layoutX="328.0" layoutY="23.0" mnemonicParsing="false" onAction="#backButtonPressed" prefHeight="27.0" prefWidth="65.0" styleClass="defaultButton" text="Back" />
-                        <Button layoutX="138.0" layoutY="136.0" mnemonicParsing="false" onAction="#playButtonPressed" prefHeight="61.0" prefWidth="140.0" styleClass="defaultButton" text="Play">
+                        <Button fx:id="playButton" layoutX="138.0" layoutY="136.0" mnemonicParsing="false" onAction="#playButtonPressed" prefHeight="61.0" prefWidth="140.0" styleClass="defaultButton" text="Play">
                             <font>
                                 <Font size="20.0" />
                             </font>

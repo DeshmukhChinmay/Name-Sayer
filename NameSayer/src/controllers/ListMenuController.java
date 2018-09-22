@@ -238,12 +238,12 @@ public class ListMenuController implements Initializable {
                 playMenuController.nextButton.setDisable(true);
             }
             playMenuController.playButton.setDisable(true);
-            Main.getPlayMenuController().assignCurrentSelection();
+            playMenuController.practiceButton.setDisable(true);
             Main.loadPlayPage();
         }
     }
 
-    public void setPlayMenuController(){
+    public void setPlayMenuController() {
         this.playMenuController = Main.getPlayMenuController();
     }
 

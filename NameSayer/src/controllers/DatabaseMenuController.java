@@ -2,6 +2,7 @@ package controllers;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -18,6 +19,9 @@ import java.util.ResourceBundle;
 public class DatabaseMenuController implements Initializable {
 
     @FXML
+    public Button playButton;
+
+    @FXML
     public ListView<NameVersions> practiceNamesListView;
 
     private ObservableList<NameVersions> practiceNamesList = FXCollections.observableArrayList();
@@ -28,7 +32,6 @@ public class DatabaseMenuController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         updateList();
-//        practiceNamesList.add(new NameVersions("Somename", ""));
 
         practiceNamesListView.setCellFactory(param -> new ListCell<NameVersions>() {
 
@@ -52,21 +55,36 @@ public class DatabaseMenuController implements Initializable {
 
     public void updateList() {
 
-        File practiceFolder = new File(currentWorkingDir + "/NameSayer/PracticeNames");
+        File practiceFolder = new File(currentWorkingDir + "/NameSayer/PracticeNames/");
         File[] practiceFolderFiles = practiceFolder.listFiles();
+        String tempName;
+        String tempAudioPath;
 
-//        for (File f: practiceFolderFiles) {
-//            for (NameVersions version: practiceNamesList) {
-//                if (!(version.getVersion().equals(f.getName()))) {
-//                    practiceNamesList.add(new NameVersions(f.getName(), f.getAbsolutePath()));
-//                }
-//            }
-//        }
+        for (File f: practiceFolderFiles) {
+            if (f.isHidden()){
+                continue;
+            } else {
+                String[] tempFileName = f.getName().split("_");
+                String tempDate = "(Date: " + tempFileName[1].replaceAll("-", "/") + ")";
+                String tempTime = "(Time: " + tempFileName[2].split("\\.")[0].replaceAll("-", ":") + ")";
+                tempName = tempFileName[0] + " " + tempDate + " " + tempTime;
+                tempAudioPath = f.getAbsolutePath();
 
-    }
+                if (practiceNamesList.size() > 0) {
+                    for (NameVersions version: practiceNamesList) {
+                        if (!(version.getVersion().equals(tempName))) {
+                            Names tempNameObject = new Names(tempFileName[0], tempAudioPath);
+                            practiceNamesList.add(new NameVersions(tempNameObject, tempName, tempAudioPath));
+                            break;
+                        }
+                    }
+                } else {
+                    Names tempNameObject = new Names(tempFileName[0], tempAudioPath);
+                    practiceNamesList.add(new NameVersions(tempNameObject, tempName, tempAudioPath));
+                }
+            }
+        }
 
-    public void addPracticeVersion(NameVersions practiceNameVersion) {
-        practiceNamesList.add(practiceNameVersion);
     }
 
     public void backButtonPressed() {
@@ -101,6 +119,29 @@ public class DatabaseMenuController implements Initializable {
         NameVersions selectedName = practiceNamesListView.getSelectionModel().getSelectedItem();
 
         //Play the selected creation on a separate thread
+
+        if (selectedName != null) {
+            playButton.setText("Playing");
+            playButton.setDisable(true);
+            Task<Void> task = new Task<Void>() {
+                @Override
+                public Void call() throws Exception {
+                    ProcessBuilder playProcess = new ProcessBuilder("ffplay","-autoexit","-nodisp",selectedName.getAudioPath());
+                    Process process =  playProcess.start();
+                    while(process.isAlive()){
+                        playButton.setDisable(true);
+                    }
+                    return null;
+                }
+            };
+            task.setOnSucceeded(e -> {
+                playButton.setDisable(false);
+                playButton.setText("Play");
+            });
+            new Thread(task).start();
+        } else {
+
+        }
 
     }
 }

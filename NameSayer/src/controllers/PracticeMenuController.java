@@ -4,7 +4,13 @@ package controllers;
 import javafx.application.Platform;
 
 import javafx.concurrent.Task;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -26,7 +32,7 @@ public class PracticeMenuController {
     private ProgressBar progressBar;
 
     private String currentWorkingDir = System.getProperty("user.dir");
-    private String tempName;
+    private File fileName;
     private NameVersions nameVersion;
 
     public void compareToAudio() {
@@ -35,27 +41,29 @@ public class PracticeMenuController {
 
     }
 
-    public void SaveAudio() {
+    public void SaveAudio() throws IOException{
+
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
+        LocalDateTime dateAndTime = LocalDateTime.now();
+        fileName = new File(currentWorkingDir + "/NameSayer/PracticeNames/" + nameVersion.getParentName() + "_" + dateTimeFormatter.format(dateAndTime) + ".wav");
+        Files.copy(new File(currentWorkingDir + "/NameSayer/Temp/tempAudio.wav").toPath(), fileName.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        Main.getDatabaseMenuController().updateList();
         saveButton.setDisable(true);
         saveButton.setText("Saved!");
     }
 
     public void startRecording() {
         //Multi threading the recording
-//        Task<Void> task = new Task<Void>() {
-//            @Override
-//            public Void call() throws Exception {
-//
-//                DateTimeFormatter dateAndTime = new DateTimeFormatter.ofPattern("dd-MM-yyyy_HH-mm-ss");
-//                LocalDateTime currentDateAndTime = LocalDateTime.now();
-//                tempName = nameVersion.getParentName();
-//
-//                ProcessBuilder voiceRec = new ProcessBuilder("ffmpeg","-f","alsa","-ac","1","-ar","44100","-i","default","-t","5",+(tempName + "_" + dateAndTime.format(Date) + "_" + ".wav"));
-//                voiceRec.directory(new File(currentWorkingDir + "/NameSayer/Temp/"));
-//                voiceRec.start();
-//                return null;
-//            }
-//        };
+        Task<Void> task = new Task<Void>() {
+            @Override
+            public Void call() throws Exception {
+
+                ProcessBuilder voiceRec = new ProcessBuilder("ffmpeg","-f","alsa","-ac","1","-ar","44100","-i","default","-t","5","tempAudio.wav");
+                voiceRec.directory(new File(currentWorkingDir + "/NameSayer/Temp/"));
+                voiceRec.start();
+                return null;
+            }
+        };
         //Multi threaded the buttons to disable/enable each one accordingly after 5 seconds
         Task<Void> timer = new Task<Void>() {
             @Override
