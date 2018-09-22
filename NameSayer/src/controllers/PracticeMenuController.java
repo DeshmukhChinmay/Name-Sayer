@@ -36,6 +36,8 @@ public class PracticeMenuController {
     private File fileName;
     private NameVersions nameVersion;
 
+    private boolean fileSaved = false;
+
     public void compareToAudio() {
         Task task = Audio.getInstance().comparePracticeThenDatabase(nameVersion);
         listenButton.setDisable(true);
@@ -46,6 +48,9 @@ public class PracticeMenuController {
             listenButton.setDisable(false);
             backButton.setDisable(false);
             compareButton.setDisable(false);
+            if (!fileSaved) {
+                saveButton.setDisable(false);
+            }
             compareButton.setText("Compare");
         });
         new Thread(task).start();
@@ -60,6 +65,7 @@ public class PracticeMenuController {
         SceneChanger.getDatabaseMenuController().updateList();
         saveButton.setDisable(true);
         saveButton.setText("Saved!");
+        fileSaved = true;
     }
 
     public void startRecording() {
@@ -129,6 +135,9 @@ public class PracticeMenuController {
             listenButton.setDisable(false);
             compareButton.setDisable(false);
             backButton.setDisable(false);
+            if (!fileSaved) {
+                saveButton.setDisable(false);
+            }
             System.out.println("Audio Playback Finished");
         });
         new Thread(task).start();
@@ -143,6 +152,7 @@ public class PracticeMenuController {
         listenButton.setDisable(selector);
         compareButton.setDisable(selector);
     }
+
     public void goBackButton() {
         File tempAudioFile = new File(currentWorkingDir + "/NameSayer/Temp/tempAudio.wav");
         if (tempAudioFile.exists()){
