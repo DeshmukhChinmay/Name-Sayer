@@ -59,16 +59,20 @@ public class DatabaseMenuController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends NameVersions> observable, NameVersions oldValue, NameVersions newValue) {
 
-                Names tempNameObjects = SceneChanger.getListMenuController().getNamesMap().get(practiceNamesListView.getSelectionModel().getSelectedItem().getParentName());
+                if (practiceNamesListView.getSelectionModel().getSelectedItem() != null) {
 
-                if (tempNameObjects != null) {
-                    databaseNamesListView.setItems(tempNameObjects.getVersions());
+                    Names tempNameObjects = SceneChanger.getListMenuController().getNamesMap().get(practiceNamesListView.getSelectionModel().getSelectedItem().getParentName());
+
+                    if (tempNameObjects != null) {
+                        databaseNamesListView.setItems(tempNameObjects.getVersions());
+                    }
+
                 }
-
-                databaseNamesListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
             }
         });
+
+        databaseNamesListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         databaseNamesListView.setCellFactory(param -> new ListCell<NameVersions>() {
 
@@ -144,6 +148,10 @@ public class DatabaseMenuController implements Initializable {
             confirmationAlert.setHeaderText("Are you sure you want to delete " + selectedName.getVersion());
             Optional<ButtonType> option = confirmationAlert.showAndWait();
             if (option.get() == ButtonType.OK) {
+                File tempAudioFile = new File(selectedName.getAudioPath());
+                if (tempAudioFile.exists()) {
+                    tempAudioFile.delete();
+                }
                 practiceNamesList.remove(selectedName);
                 databaseNamesListView.setItems(null);
             }
