@@ -116,15 +116,21 @@ public class DatabaseMenuController implements Initializable {
                 String tempTime = "(Time: " + tempFileName[2].split("\\.")[0].replaceAll("-", ":") + ")";
                 tempName = tempFileName[0] + " " + tempDate + " " + tempTime;
                 tempAudioPath = f.getAbsolutePath();
+                boolean nameFound = false;
 
-                if (practiceNamesList.size() > 0) {
+                if (practiceNamesList.size() != 0) {
                     for (NameVersions version: practiceNamesList) {
-                        if (!(version.getVersion().equals(tempName))) {
-                            Names tempNameObject = new Names(tempFileName[0], tempAudioPath);
-                            practiceNamesList.add(new NameVersions(tempNameObject, tempName, tempAudioPath));
+                        if (version.getVersion().equals(tempName)) {
+                            nameFound = true;
                             break;
                         }
                     }
+
+                    if (!nameFound) {
+                        Names tempNameObject = new Names(tempFileName[0], tempAudioPath);
+                        practiceNamesList.add(new NameVersions(tempNameObject, tempName, tempAudioPath));
+                    }
+
                 } else {
                     Names tempNameObject = new Names(tempFileName[0], tempAudioPath);
                     practiceNamesList.add(new NameVersions(tempNameObject, tempName, tempAudioPath));
@@ -160,6 +166,7 @@ public class DatabaseMenuController implements Initializable {
                 }
                 practiceNamesList.remove(selectedName);
                 databaseNamesListView.setItems(null);
+                practiceNamesListView.getSelectionModel().clearSelection();
             }
         }
 
