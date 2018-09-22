@@ -15,6 +15,7 @@ import java.time.format.DateTimeFormatter;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
+import main.Audio;
 import main.Main;
 import main.Names;
 import main.Names.NameVersions;
@@ -31,22 +32,24 @@ public class PracticeMenuController {
     private Button saveButton;
     @FXML
     private ProgressBar progressBar;
+    @FXML
+    private Button backButton;
 
     private String currentWorkingDir = System.getProperty("user.dir");
     private File fileName;
     private NameVersions nameVersion;
 
     public void compareToAudio() {
-        Task<Void> task = new Task<Void>() {
-            @Override
-            public Void call() throws Exception {
-
-                ProcessBuilder voiceRec = new ProcessBuilder("ffplay","tempAudio.wav");
-                voiceRec.directory(new File(currentWorkingDir + "/NameSayer/Temp/"));
-                voiceRec.start();
-                return null;
-            }
-        };
+        Task task = Audio.getInstance().comparePracticeThenDatabase(nameVersion);
+        listenButton.setDisable(true);
+        backButton.setDisable(true);
+        compareButton.setText("Playing");
+        task.setOnSucceeded(e -> {
+            listenButton.setDisable(true);
+            backButton.setDisable(true);
+            compareButton.setText("Playing");
+        });
+        new Thread(task).start();
     }
 
     public void SaveAudio() throws IOException{
