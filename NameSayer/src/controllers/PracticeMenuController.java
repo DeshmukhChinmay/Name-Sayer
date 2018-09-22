@@ -4,10 +4,14 @@ package controllers;
 import javafx.application.Platform;
 
 import javafx.concurrent.Task;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
 import main.Main;
+import main.Names;
+import main.Names.NameVersions;
 
 public class PracticeMenuController {
     @FXML
@@ -22,8 +26,13 @@ public class PracticeMenuController {
     private ProgressBar progressBar;
 
     private String currentWorkingDir = System.getProperty("user.dir");
+    private String tempName;
+    private NameVersions nameVersion;
 
     public void compareToAudio() {
+
+
+
     }
 
     public void SaveAudio() {
@@ -36,8 +45,13 @@ public class PracticeMenuController {
 //        Task<Void> task = new Task<Void>() {
 //            @Override
 //            public Void call() throws Exception {
-//                ProcessBuilder voiceRec = new ProcessBuilder("ffmpeg","-f","alsa","-ac","1","-ar","44100","-i","default","-t","5",namePass.getName()+"-voice.wav");
-//                voiceRec.directory(new File("/"+System.getProperty("user.dir")+"/Creations"));
+//
+//                DateTimeFormatter dateAndTime = new DateTimeFormatter.ofPattern("dd-MM-yyyy_HH-mm-ss");
+//                LocalDateTime currentDateAndTime = LocalDateTime.now();
+//                tempName = nameVersion.getParentName();
+//
+//                ProcessBuilder voiceRec = new ProcessBuilder("ffmpeg","-f","alsa","-ac","1","-ar","44100","-i","default","-t","5",+(tempName + "_" + dateAndTime.format(Date) + "_" + ".wav"));
+//                voiceRec.directory(new File(currentWorkingDir + "/NameSayer/Temp/"));
 //                voiceRec.start();
 //                return null;
 //            }
@@ -93,6 +107,10 @@ public class PracticeMenuController {
             System.out.println("Audio Playback Finished");
         });
 
+    }
+
+    public void setNameVersion(NameVersions version) {
+        this.nameVersion = version;
     }
 
     public void disableButtons(boolean selector){

@@ -128,6 +128,7 @@ public class PlayMenuController implements Initializable {
     }
 
     public void practiceButtonPressed() {
+        Main.getPracticeMenuController().setNameVersion(selectedListView.getSelectionModel().getSelectedItem());
         Main.loadPracticePage();
     }
 

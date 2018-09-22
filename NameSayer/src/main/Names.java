@@ -17,7 +17,7 @@ public class Names {
         this.name = name;
         count++;
         String tempVersionName = name + " (" + Integer.toString(count) + ")";
-        versions.add(new NameVersions(tempVersionName, audioPath));
+        versions.add(new NameVersions(this, tempVersionName, audioPath));
     }
 
     public String getName() {
@@ -26,7 +26,7 @@ public class Names {
 
     public void addVersion(String name, String audioPath) {
         String tempVersionName = name + " (" + (versions.size() + 1) + ")";
-        versions.add(new NameVersions(tempVersionName, audioPath));
+        versions.add(new NameVersions(this, tempVersionName, audioPath));
     }
 
     public ObservableList<NameVersions> getVersions() {
@@ -35,12 +35,14 @@ public class Names {
 
     public static class NameVersions {
 
+        String parentName;
         String version;
         String audioPath;
         BooleanProperty selected = new SimpleBooleanProperty(false);
         BooleanProperty badQuality = new SimpleBooleanProperty(false);
 
-        public NameVersions(String version, String audioPath) {
+        public NameVersions(Names parentName, String version, String audioPath) {
+            this.parentName = parentName.getName();
             this.version = version;
             this.audioPath = audioPath;
             selected.setValue(false);
