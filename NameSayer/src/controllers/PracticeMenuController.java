@@ -40,10 +40,12 @@ public class PracticeMenuController {
         Task task = Audio.getInstance().comparePracticeThenDatabase(nameVersion);
         listenButton.setDisable(true);
         backButton.setDisable(true);
+        compareButton.setDisable(true);
         compareButton.setText("Playing");
         task.setOnSucceeded(e -> {
             listenButton.setDisable(false);
             backButton.setDisable(false);
+            compareButton.setDisable(false);
             compareButton.setText("Compare");
         });
         new Thread(task).start();
@@ -111,8 +113,6 @@ public class PracticeMenuController {
         listenButton.setText("Playing");
         listenButton.setDisable(true);
         compareButton.setDisable(true);
-        backButton.setDisable(true);
-        saveButton.setDisable(true);
         Task<Void> task = new Task<Void>() {
             @Override
             public Void call() throws Exception {
@@ -127,7 +127,6 @@ public class PracticeMenuController {
             listenButton.setDisable(false);
             compareButton.setDisable(false);
             backButton.setDisable(false);
-            saveButton.setDisable(false);
             System.out.println("Audio Playback Finished");
         });
         new Thread(task).start();
