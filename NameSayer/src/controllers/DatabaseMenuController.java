@@ -24,6 +24,12 @@ public class DatabaseMenuController implements Initializable {
 
     @FXML
     public Button playButton;
+    @FXML
+    public Button playDatabaseNameButton;
+    @FXML
+    public Button deleteButton;
+    @FXML
+    public Button backButton;
 
     @FXML
     public ListView<NameVersions> practiceNamesListView;
@@ -167,6 +173,10 @@ public class DatabaseMenuController implements Initializable {
         if (selectedName != null) {
             playButton.setText("Playing");
             playButton.setDisable(true);
+            playDatabaseNameButton.setDisable(true);
+            deleteButton.setDisable(true);
+            backButton.setDisable(true);
+
             Task<Void> task = new Task<Void>() {
                 @Override
                 public Void call() throws Exception {
@@ -180,12 +190,47 @@ public class DatabaseMenuController implements Initializable {
             };
             task.setOnSucceeded(e -> {
                 playButton.setDisable(false);
-                playButton.setText("Play");
+                playDatabaseNameButton.setDisable(false);
+                deleteButton.setDisable(false);
+                backButton.setDisable(false);
+                playButton.setText("Play Practice Recording");
             });
             new Thread(task).start();
-        } else {
-
         }
 
     }
+
+    public void playDatabaseVersionButtonPressed() {
+
+        NameVersions selectedDatabaseName = databaseNamesListView.getSelectionModel().getSelectedItem();
+
+        if (selectedDatabaseName != null) {
+            playDatabaseNameButton.setText("Playing");
+            playDatabaseNameButton.setDisable(true);
+            playButton.setDisable(true);
+            deleteButton.setDisable(true);
+            backButton.setDisable(true);
+            Task<Void> task = new Task<Void>() {
+                @Override
+                public Void call() throws Exception {
+                    ProcessBuilder playProcess = new ProcessBuilder("ffplay","-autoexit","-nodisp",selectedDatabaseName.getAudioPath());
+                    Process process =  playProcess.start();
+                    while(process.isAlive()){
+                        playDatabaseNameButton.setDisable(true);
+                    }
+                    return null;
+                }
+            };
+            task.setOnSucceeded(e -> {
+                playButton.setDisable(false);
+                playDatabaseNameButton.setDisable(false);
+                deleteButton.setDisable(false);
+                backButton.setDisable(false);
+                playButton.setText("Play Database Recording");
+            });
+            new Thread(task).start();
+        }
+
+    }
+
 }
