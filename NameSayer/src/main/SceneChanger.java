@@ -63,7 +63,7 @@ public class SceneChanger {
 
         FXMLLoader databaseLoader = new FXMLLoader(getClass().getResource("../fxmlFiles/databaseMenu.fxml"));
         Parent databasePane = databaseLoader.load();
-        databaseScene = new Scene(databasePane, 809, 416);
+        databaseScene = new Scene(databasePane, 779, 423);
         databaseMenuController = databaseLoader.getController();
     }
     //Loads Main page in the primary stage

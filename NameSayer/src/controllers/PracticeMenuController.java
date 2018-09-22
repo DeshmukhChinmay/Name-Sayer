@@ -37,9 +37,16 @@ public class PracticeMenuController {
     private NameVersions nameVersion;
 
     public void compareToAudio() {
+        Task<Void> task = new Task<Void>() {
+            @Override
+            public Void call() throws Exception {
 
-
-
+                ProcessBuilder voiceRec = new ProcessBuilder("ffplay","tempAudio.wav");
+                voiceRec.directory(new File(currentWorkingDir + "/NameSayer/Temp/"));
+                voiceRec.start();
+                return null;
+            }
+        };
     }
 
     public void SaveAudio() throws IOException{
