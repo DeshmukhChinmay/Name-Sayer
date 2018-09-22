@@ -28,7 +28,7 @@ public class DatabaseMenuController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         updateList();
-        practiceNamesList.add(new NameVersions("Somename", ""));
+//        practiceNamesList.add(new NameVersions("Somename", ""));
 
         practiceNamesListView.setCellFactory(param -> new ListCell<NameVersions>() {
 
@@ -55,13 +55,13 @@ public class DatabaseMenuController implements Initializable {
         File practiceFolder = new File(currentWorkingDir + "/NameSayer/PracticeNames");
         File[] practiceFolderFiles = practiceFolder.listFiles();
 
-        for (File f: practiceFolderFiles) {
-            for (NameVersions version: practiceNamesList) {
-                if (!(version.getVersion().equals(f.getName()))) {
-                    practiceNamesList.add(new NameVersions(f.getName(), f.getAbsolutePath()));
-                }
-            }
-        }
+//        for (File f: practiceFolderFiles) {
+//            for (NameVersions version: practiceNamesList) {
+//                if (!(version.getVersion().equals(f.getName()))) {
+//                    practiceNamesList.add(new NameVersions(f.getName(), f.getAbsolutePath()));
+//                }
+//            }
+//        }
 
     }
 

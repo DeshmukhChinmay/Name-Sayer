@@ -9,6 +9,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
+
 import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
@@ -37,6 +40,10 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
+//        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
+//        LocalDateTime now = LocalDateTime.now();
+//        System.out.println(dtf.format(now));
 
         _databaseFolder = new File(currentWorkingDir + "/names");
         initialiseFolders();
@@ -154,7 +161,7 @@ public class Main extends Application {
     public static void initialiseFolders() {
 
         File recordingsFolder = new File(currentWorkingDir + "/NameSayer/Recordings");
-        File tempFolder = new File(currentWorkingDir + "/NameSayer/temp");
+        File tempFolder = new File(currentWorkingDir + "/NameSayer/Temp");
         File practiceFolder = new File(currentWorkingDir + "/NameSayer/PracticeNames");
 
         if (!(recordingsFolder.exists())) {
