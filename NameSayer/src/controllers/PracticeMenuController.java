@@ -64,6 +64,7 @@ public class PracticeMenuController {
 
     public void startRecording() {
         //Multi threading the recording
+        backButton.setDisable(true);
         Task<Void> task = new Task<Void>() {
             @Override
             public Void call() throws Exception {
@@ -103,7 +104,7 @@ public class PracticeMenuController {
         new Thread(task).start();
         new Thread(update).start();
         new Thread(timer).start();
-
+        backButton.setDisable(false);
         recordButton.setDisable(true);
         recordButton.setText("Recording...");
     }
@@ -113,6 +114,7 @@ public class PracticeMenuController {
         listenButton.setText("Playing");
         listenButton.setDisable(true);
         compareButton.setDisable(true);
+        backButton.setDisable(true);
         Task<Void> task = new Task<Void>() {
             @Override
             public Void call() throws Exception {

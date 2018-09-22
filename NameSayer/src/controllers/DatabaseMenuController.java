@@ -214,9 +214,7 @@ public class DatabaseMenuController implements Initializable {
                 public Void call() throws Exception {
                     ProcessBuilder playProcess = new ProcessBuilder("ffplay","-autoexit","-nodisp",selectedDatabaseName.getAudioPath());
                     Process process =  playProcess.start();
-                    while(process.isAlive()){
-                        playDatabaseNameButton.setDisable(true);
-                    }
+                    process.waitFor();
                     return null;
                 }
             };
@@ -225,7 +223,7 @@ public class DatabaseMenuController implements Initializable {
                 playDatabaseNameButton.setDisable(false);
                 deleteButton.setDisable(false);
                 backButton.setDisable(false);
-                playButton.setText("Play Database Recording");
+                playDatabaseNameButton.setText("Play Database Recording");
             });
             new Thread(task).start();
         }
