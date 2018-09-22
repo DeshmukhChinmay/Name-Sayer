@@ -144,7 +144,7 @@ public class DatabaseMenuController implements Initializable {
             Optional<ButtonType> option = confirmationAlert.showAndWait();
             if (option.get() == ButtonType.OK) {
                 practiceNamesList.remove(selectedName);
-//                updateList();
+                databaseNamesListView.setItems(null);
             }
         }
 
