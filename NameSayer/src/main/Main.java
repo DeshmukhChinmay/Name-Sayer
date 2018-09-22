@@ -46,6 +46,7 @@ public class Main extends Application {
         SceneChanger sceneChanger = SceneChanger.getInstance();
         sceneChanger.loadFXMLFiles();
         SceneChanger.set_primaryStage(primaryStage);
+        SceneChanger.set_secondaryStage();
         SceneChanger.loadMainPage();
     }
 

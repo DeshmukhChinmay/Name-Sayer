@@ -120,10 +120,6 @@ public class PlayMenuController implements Initializable {
         }
     }
 
-    public void setListMenuController(ListMenuController listMenuController) {
-        this.listMenuController = listMenuController;
-    }
-
     //Changes scene to where the list view of all creations are shown
     public void backButtonPressed() {
         prevButton.setDisable(true);//Makes it so that prevButton is always disabled

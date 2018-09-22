@@ -41,7 +41,7 @@ public class Audio {
                 Process process =  playPracticeProcess.start();
                 process.waitFor();
                 ProcessBuilder playDatabaseName = new ProcessBuilder("ffplay","-autoexit","-nodisp",databaseName.getAudioPath());
-                Process secondProcess =  playPracticeProcess.start();
+                Process secondProcess =  playDatabaseName.start();
                 secondProcess.waitFor();
                 return null;
             }

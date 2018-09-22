@@ -9,15 +9,12 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
 import main.Audio;
-import main.Main;
-import main.Names;
 import main.Names.NameVersions;
 import main.SceneChanger;
 
@@ -45,9 +42,9 @@ public class PracticeMenuController {
         backButton.setDisable(true);
         compareButton.setText("Playing");
         task.setOnSucceeded(e -> {
-            listenButton.setDisable(true);
-            backButton.setDisable(true);
-            compareButton.setText("Playing");
+            listenButton.setDisable(false);
+            backButton.setDisable(false);
+            compareButton.setText("Compare");
         });
         new Thread(task).start();
     }
@@ -82,7 +79,7 @@ public class PracticeMenuController {
                 Thread.sleep(5000);
                 Platform.runLater(new Runnable() {
                     public void run() {
-                        disableButtons(false);
+                        buttonLogicRecord(false);
                         recordButton.setText("Recorded!");
                         recordButton.setDisable(true);
                     }
@@ -102,6 +99,7 @@ public class PracticeMenuController {
             }
         };
         progressBar.progressProperty().bind(update.progressProperty());
+        new Thread(task).start();
         new Thread(update).start();
         new Thread(timer).start();
 
@@ -111,7 +109,11 @@ public class PracticeMenuController {
 
 
     public void listenToAudio() {
-
+        listenButton.setText("Playing");
+        listenButton.setDisable(true);
+        compareButton.setDisable(true);
+        backButton.setDisable(true);
+        saveButton.setDisable(true);
         Task<Void> task = new Task<Void>() {
             @Override
             public Void call() throws Exception {
@@ -123,6 +125,11 @@ public class PracticeMenuController {
         new Thread(task).start();
 
         task.setOnSucceeded(Event -> {
+            listenButton.setText("Listen");
+            listenButton.setDisable(false);
+            compareButton.setDisable(false);
+            backButton.setDisable(false);
+            saveButton.setDisable(false);
             System.out.println("Audio Playback Finished");
         });
 
@@ -132,17 +139,21 @@ public class PracticeMenuController {
         this.nameVersion = version;
     }
 
-    public void disableButtons(boolean selector){
+    public void buttonLogicRecord(boolean selector){
         saveButton.setDisable(selector);
         listenButton.setDisable(selector);
         compareButton.setDisable(selector);
     }
     public void goBackButton() {
+        File tempAudioFile = new File(currentWorkingDir + "/NameSayer/Temp/tempAudio.wav");
+        if (tempAudioFile.exists()){
+            tempAudioFile.delete();
+        }
         SceneChanger.loadPlayPage();
         recordButton.setText("Record");
         saveButton.setText("Save");
         recordButton.setDisable(false);
-        disableButtons(true);
+        buttonLogicRecord(true);
         progressBar.progressProperty().unbind();
         progressBar.setProgress(0);
     }
