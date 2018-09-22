@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import main.Main;
 import main.Names;
 import main.Names.NameVersions;
+import main.SceneChanger;
 
 import javax.swing.text.html.Option;
 import java.io.File;
@@ -88,7 +89,7 @@ public class DatabaseMenuController implements Initializable {
     }
 
     public void backButtonPressed() {
-        Main.loadMainPage();
+        SceneChanger.loadMainPage();
     }
 
     public void deleteButtonPressed() {

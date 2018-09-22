@@ -7,6 +7,7 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import main.BadAudioText;
 import main.Main;
+import main.SceneChanger;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,24 +22,21 @@ public class MainMenuController implements Initializable {
         try {
             BadAudioText.getInstance();
         }catch(IOException e){}
-
     }
 
     //Changes scene to where the list view of all creations are shown
     public void listButtonPressed() {
-        Main.loadListPage();
+        SceneChanger.loadListPage();
     }
 
     public void micTestButtonPressed() {
-        Main.loadMicTestPage();
+        controller = SceneChanger.getTestMicrophoneController();
+        SceneChanger.loadMicTestPage();
         controller.testMic();
     }
 
     public void showAttemptsButtonPressed() {
-        Main.loadDatabaseMenu();
+        SceneChanger.loadDatabaseMenu();
     }
 
-    public void setTestMicController(TestMicrophoneController controller){
-        this.controller = controller;
-    }
 }

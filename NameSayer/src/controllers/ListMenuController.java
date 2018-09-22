@@ -14,6 +14,7 @@ import javafx.util.StringConverter;
 import main.Main;
 import main.Names;
 import main.Names.NameVersions;
+import main.SceneChanger;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -29,7 +30,6 @@ import java.util.ResourceBundle;
 
 public class ListMenuController implements Initializable {
 
-    private PlayMenuController playMenuController;
     private String currentWorkingDir = System.getProperty("user.dir");
     private File databaseFolder;
 
@@ -220,7 +220,7 @@ public class ListMenuController implements Initializable {
         //Clears lists for selected versions
         selectedVersionObjects.clear();
         selectedVersionsViewList.clear();
-        Main.loadMainPage();
+        SceneChanger.loadMainPage();
     }
 
     //Goes to the play menu
@@ -234,17 +234,12 @@ public class ListMenuController implements Initializable {
         } else {
             //If only one creation selected should not be able to press next or prev
             if(selectedNames.getItems().size() == 1){
-                playMenuController.single = true;
-                playMenuController.nextButton.setDisable(true);
+                SceneChanger.getPlayMenuController().single = true;
+                SceneChanger.getPlayMenuController().nextButton.setDisable(true);
             }
-            playMenuController.playButton.setDisable(true);
-            playMenuController.practiceButton.setDisable(true);
-            Main.loadPlayPage();
+            SceneChanger.getPlayMenuController().playButton.setDisable(true);
+            SceneChanger.getPlayMenuController().practiceButton.setDisable(true);
+            SceneChanger.loadPlayPage();
         }
     }
-
-    public void setPlayMenuController() {
-        this.playMenuController = Main.getPlayMenuController();
-    }
-
 }

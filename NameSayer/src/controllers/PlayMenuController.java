@@ -10,6 +10,7 @@ import javafx.scene.control.*;
 import main.BadAudioText;
 import main.Main;
 import main.Names.NameVersions;
+import main.SceneChanger;
 
 import java.io.*;
 import java.net.URL;
@@ -37,7 +38,7 @@ public class PlayMenuController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         prevButton.setDisable(true);//Makes it so that prevButton is always disabled
-        setListMenuController(Main.getListMenuController());
+        listMenuController = SceneChanger.getListMenuController();
         selectedVersionList = listMenuController.getSelectedVersionObjects();
         selectedListView.setCellFactory(param -> new ListCell<NameVersions>() {
 
@@ -127,13 +128,12 @@ public class PlayMenuController implements Initializable {
         prevButton.setDisable(true);//Makes it so that prevButton is always disabled
         nextButton.setDisable(false);
         selectedListView.getSelectionModel().clearSelection();
-        Main.loadListPage();
+        SceneChanger.loadListPage();
     }
 
     public void practiceButtonPressed() {
-        Main.getPracticeMenuController().setNameVersion(selectedListView.getSelectionModel().getSelectedItem());
-        Main.loadPracticePage();
-    }
+       SceneChanger.getPracticeMenuController().setNameVersion(selectedListView.getSelectionModel().getSelectedItem());
+       SceneChanger.loadPracticePage();}
 
     public void playButtonPressed() {
         playButton.setText("Playing");

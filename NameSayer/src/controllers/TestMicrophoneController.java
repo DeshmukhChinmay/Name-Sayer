@@ -4,6 +4,7 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.ProgressBar;
 import main.Main;
+import main.SceneChanger;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
@@ -80,6 +81,6 @@ public class TestMicrophoneController {
     public void backButtonPressed() {
         startTest = false;
         micVolume.progressProperty().unbind();
-        Main.loadMainPage();
+        SceneChanger.loadMainPage();
     }
 }

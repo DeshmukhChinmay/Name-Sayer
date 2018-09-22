@@ -18,6 +18,7 @@ import javafx.scene.control.ProgressBar;
 import main.Main;
 import main.Names;
 import main.Names.NameVersions;
+import main.SceneChanger;
 
 public class PracticeMenuController {
     @FXML
@@ -47,7 +48,7 @@ public class PracticeMenuController {
         LocalDateTime dateAndTime = LocalDateTime.now();
         fileName = new File(currentWorkingDir + "/NameSayer/PracticeNames/" + nameVersion.getParentName() + "_" + dateTimeFormatter.format(dateAndTime) + ".wav");
         Files.copy(new File(currentWorkingDir + "/NameSayer/Temp/tempAudio.wav").toPath(), fileName.toPath(), StandardCopyOption.REPLACE_EXISTING);
-        Main.getDatabaseMenuController().updateList();
+        SceneChanger.getDatabaseMenuController().updateList();
         saveButton.setDisable(true);
         saveButton.setText("Saved!");
     }
@@ -127,7 +128,7 @@ public class PracticeMenuController {
         compareButton.setDisable(selector);
     }
     public void goBackButton() {
-        Main.loadPlayPage();
+        SceneChanger.loadPlayPage();
         recordButton.setText("Record");
         saveButton.setText("Save");
         recordButton.setDisable(false);
