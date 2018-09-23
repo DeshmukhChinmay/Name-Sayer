@@ -25,7 +25,6 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Map;
 import java.util.ResourceBundle;
 
 public class ListMenuController implements Initializable {
@@ -142,57 +141,65 @@ public class ListMenuController implements Initializable {
     public void initialiseNameObjects() throws IOException {
 
         databaseFolder = Main.getDatabaseFolder();
+        if(databaseFolder.exists()) {
+            File[] namesInDatabase = databaseFolder.listFiles();
+            String tempFilename;
+            String tempName;
 
-        File[] namesInDatabase = databaseFolder.listFiles();
-        String tempFilename;
-        String tempName;
-
-        for (File f : namesInDatabase) {
-            if (f.isHidden()) {
-                continue;
-            } else {
-                tempFilename = f.getName();
-                String[] tempFilenameParts = tempFilename.split("_");
-                String[] tempNameParts = tempFilenameParts[3].split("\\.");
-                tempName = tempNameParts[0].substring(0, 1).toUpperCase() + tempNameParts[0].substring(1);
-                File tempFolder = new File(currentWorkingDir + "/NameSayer/Recordings/" + tempName + "/");
-                File destination = new File(tempFolder + "/" + f.getName());
-
-                if (destination.exists()) {
-                    boolean namePresent = false;
-                    Names nameFound = null;
-                    for (Names n : nameObjects) {
-                        if (n.getName().equals(tempName)) {
-                            namePresent = true;
-                            nameFound = n;
-                            break;
-                        }
-                    }
-
-                    if (namePresent) {
-                        nameFound.addVersion(tempName, destination.getAbsolutePath());
-                    } else {
-                        nameObjects.add(new Names(tempName, destination.getAbsolutePath()));
-                    }
-
+            for (File f : namesInDatabase) {
+                if (f.isHidden()) {
+                    continue;
                 } else {
-                    if (tempFolder.exists()) {
-                        Files.copy(f.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    tempFilename = f.getName();
+                    String[] tempFilenameParts = tempFilename.split("_");
+                    String[] tempNameParts = tempFilenameParts[3].split("\\.");
+                    tempName = tempNameParts[0].substring(0, 1).toUpperCase() + tempNameParts[0].substring(1);
+                    File tempFolder = new File(currentWorkingDir + "/NameSayer/Recordings/" + tempName + "/");
+                    File destination = new File(tempFolder + "/" + f.getName());
+
+                    if (destination.exists()) {
+                        boolean namePresent = false;
+                        Names nameFound = null;
                         for (Names n : nameObjects) {
                             if (n.getName().equals(tempName)) {
-                                n.addVersion(tempName, destination.getAbsolutePath());
-
+                                namePresent = true;
+                                nameFound = n;
+                                break;
                             }
                         }
+
+                        if (namePresent) {
+                            nameFound.addVersion(tempName, destination.getAbsolutePath());
+                        } else {
+                            nameObjects.add(new Names(tempName, destination.getAbsolutePath()));
+                        }
+
                     } else {
-                        tempFolder.mkdirs();
-                        Files.copy(f.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                        nameObjects.add(new Names(tempName, destination.getAbsolutePath()));
+                        if (tempFolder.exists()) {
+                            Files.copy(f.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                            for (Names n : nameObjects) {
+                                if (n.getName().equals(tempName)) {
+                                    n.addVersion(tempName, destination.getAbsolutePath());
 
+                                }
+                            }
+                        } else {
+                            tempFolder.mkdirs();
+                            Files.copy(f.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                            nameObjects.add(new Names(tempName, destination.getAbsolutePath()));
+
+                        }
                     }
-                }
 
+                }
             }
+        }
+        else{
+            Alert errorAlert = new Alert(Alert.AlertType.WARNING);
+            errorAlert.setTitle("No Names Folder");
+            errorAlert.setHeaderText(null);
+            errorAlert.setHeaderText("Please Select Names");
+            errorAlert.showAndWait();
         }
     }
 

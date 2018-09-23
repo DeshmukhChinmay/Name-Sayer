@@ -148,7 +148,6 @@ public class PracticeMenuController {
             if (!fileSaved) {
                 saveButton.setDisable(false);
             }
-            System.out.println("Audio Playback Finished");
         });
         new Thread(task).start();
     }
