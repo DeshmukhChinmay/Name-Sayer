@@ -7,9 +7,9 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+
 import main.Audio;
 import main.BadAudioText;
-import main.Main;
 import main.Names.NameVersions;
 import main.SceneChanger;
 

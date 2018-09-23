@@ -8,16 +8,14 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+
 import main.Audio;
-import main.Main;
 import main.Names;
 import main.Names.NameVersions;
 import main.SceneChanger;
 
-import javax.swing.text.html.Option;
 import java.io.File;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
