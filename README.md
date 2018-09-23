@@ -1,5 +1,4 @@
 # NameSayer
----
 SOFTENG206 Assignment 3 and Project
 
 NameSayer is an application that helps users with the pronunciation of names.
@@ -28,6 +27,7 @@ Open the terminal and cd to directory with the jar file. Make sure that there is
 7. To test if your mic is working click "Test Microphone" button on main menu.
 
 <sub><sup>*compare plays recorded attempt first and then database name</sup></sub>
+
 ---
 ### Note:
 ---
