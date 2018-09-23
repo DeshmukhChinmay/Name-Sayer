@@ -4,13 +4,14 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.cell.CheckBoxListCell;
-
 import javafx.util.StringConverter;
+
 import main.Main;
 import main.Names;
 import main.Names.NameVersions;
@@ -32,8 +33,11 @@ public class ListMenuController implements Initializable {
     private String currentWorkingDir = System.getProperty("user.dir");
     private File databaseFolder;
 
+    @FXML
     public ListView namesListView;
+    @FXML
     public ListView<NameVersions> namesVersionListView;
+    @FXML
     public ListView selectedNames;
 
     private LinkedList<Names> nameObjects = new LinkedList<>();
@@ -54,7 +58,10 @@ public class ListMenuController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         initialiseNameMap();
+
+        // Setting the cell of the namesVersionListView to a custom cell so that a checkbox is shown
         namesVersionListView.setCellFactory(CheckBoxListCell.forListView(NameVersions::versionSelected, new StringConverter<NameVersions>() {
             @Override
             public String toString(NameVersions object) {
@@ -67,6 +74,8 @@ public class ListMenuController implements Initializable {
             }
         }));
 
+        // Adding a listener to the selection from namesListView. Once the user selects a name, the namesVersionsListView
+        // populates with the ObservableList present for the selected name instance
         namesListView.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
@@ -100,6 +109,7 @@ public class ListMenuController implements Initializable {
         });
 
         selectedNames.setItems(selectedVersionsViewList);
+
         try {
             checkQualityStatus();
         } catch (IOException e) {
@@ -138,6 +148,10 @@ public class ListMenuController implements Initializable {
         }
     }
 
+    // Checks whether there are any audio files present in the database and copies them
+    // into the appropriate folders. 'Names' objects are also created and added to the appropriate
+    // ObservableLists. The name for the 'Names' objects are extracted from the file names and the
+    // path of the file assigned to the field of a version for that name
     public void initialiseNameObjects() throws IOException {
 
         databaseFolder = Main.getDatabaseFolder();
@@ -203,6 +217,7 @@ public class ListMenuController implements Initializable {
         }
     }
 
+    // Updating the namesListView so that it displays the names available from the database alphabetically
     public void updateMainList() {
         for (Names n : nameObjects) {
             namesViewList.add(n.getName());
@@ -210,10 +225,6 @@ public class ListMenuController implements Initializable {
 
         namesListView.setItems(namesViewList.sorted());
         namesListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-    }
-
-    public ObservableList<String> getSelectedVersionsViewList() {
-        return selectedVersionsViewList;
     }
 
     public ObservableList<NameVersions> getSelectedVersionObjects() {

@@ -5,12 +5,11 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.io.File;
-
 public class Names {
 
     private String name;
     private int count;
+    // Storing all of the versions for a name in an ObservableList
     final private ObservableList<NameVersions> versions = FXCollections.observableArrayList();
 
     public Names(String name, String audioPath) {
@@ -35,6 +34,7 @@ public class Names {
 
     public static class NameVersions {
 
+        // Fields for the versions include the versions quality and the path of the audio file
         String parentName;
         String version;
         String audioPath;

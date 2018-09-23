@@ -1,8 +1,9 @@
 package controllers;
 
-
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.ProgressBar;
 import javafx.application.Platform;
-
 import javafx.concurrent.Task;
 
 import java.io.File;
@@ -12,9 +13,6 @@ import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ProgressBar;
 import main.Audio;
 import main.Names.NameVersions;
 import main.SceneChanger;

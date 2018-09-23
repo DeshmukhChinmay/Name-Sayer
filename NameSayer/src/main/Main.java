@@ -24,7 +24,7 @@ public class Main extends Application {
     public static File getDatabaseFolder() {
         return _databaseFolder;
     }
-    //Initialises all files during startup
+    //Initialises all the necessary folders during startup
     public static void initialiseFolders() {
 
         File recordingsFolder = new File(currentWorkingDir + "/NameSayer/Recordings");
