@@ -12,36 +12,34 @@ public class Audio {
         return ourInstance;
     }
 
-    public void playAudio(Button button, Names.NameVersions nameVersions) {
+    //Method that returns a task that plays the selected audio format using Linux command ffplay by using a Processbuilder
+    public Task playAudio(Names.NameVersions nameVersions) {
         Task<Void> task = new Task<Void>() {
             @Override
             public Void call() throws Exception {
-                ProcessBuilder playProcess = new ProcessBuilder("ffplay","-autoexit","-nodisp",nameVersions.getAudioPath());
-                Process process =  playProcess.start();
-                while(process.isAlive()){
-                    button.setDisable(true);
-                }
+                ProcessBuilder playProcess = new ProcessBuilder("ffplay", "-autoexit", "-nodisp", nameVersions.getAudioPath());
+                Process process = playProcess.start();
+                process.waitFor();
                 return null;
             }
         };
-        task.setOnSucceeded(e -> {
-            button.setDisable(false);
-            button.setText("Play");
-        });
-        new Thread(task).start();
+        return task;
+
 
     }
 
-    public Task comparePracticeThenDatabase(Names.NameVersions databaseName){
+    //Method that returns a task that plays the user recorded audio first and then the database name after to comapre
+    //the 2 audio by using processbuilder and linux ffplay command
+    public Task comparePracticeThenDatabase(Names.NameVersions databaseName) {
         Task<Void> task = new Task<Void>() {
             @Override
             public Void call() throws Exception {
-                ProcessBuilder playPracticeProcess = new ProcessBuilder("ffplay","-autoexit","-nodisp","tempAudio.wav");
+                ProcessBuilder playPracticeProcess = new ProcessBuilder("ffplay", "-autoexit", "-nodisp", "tempAudio.wav");
                 playPracticeProcess.directory(new File("./NameSayer/Temp/"));
-                Process process =  playPracticeProcess.start();
+                Process process = playPracticeProcess.start();
                 process.waitFor();
-                ProcessBuilder playDatabaseName = new ProcessBuilder("ffplay","-autoexit","-nodisp",databaseName.getAudioPath());
-                Process secondProcess =  playDatabaseName.start();
+                ProcessBuilder playDatabaseName = new ProcessBuilder("ffplay", "-autoexit", "-nodisp", databaseName.getAudioPath());
+                Process secondProcess = playDatabaseName.start();
                 secondProcess.waitFor();
                 return null;
             }

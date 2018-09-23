@@ -20,7 +20,7 @@
                                 <Font size="16.0" />
                             </font>
                         </Label>
-                        <ListView fx:id="selectedListView" onMouseClicked="#listClicked" prefHeight="336.0" prefWidth="200.0" style="-fx-background-color: #5d728a;" />
+                        <ListView fx:id="selectedListView" prefHeight="336.0" prefWidth="200.0" style="-fx-background-color: #5d728a;" />
                     </children>
                 </VBox>
                 <VBox alignment="TOP_CENTER" prefHeight="366.0" prefWidth="380.0">

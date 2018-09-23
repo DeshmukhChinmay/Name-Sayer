@@ -41,7 +41,7 @@ public class ListMenuController implements Initializable {
     final private ObservableList<String> namesViewList = FXCollections.observableArrayList();
     private ObservableList<NameVersions> selectedVersionObjects = FXCollections.observableArrayList();
     final private ObservableList<String> selectedVersionsViewList = FXCollections.observableArrayList();
-    private HashMap<String,Names> namesMap = new HashMap<>();
+    private HashMap<String, Names> namesMap = new HashMap<>();
 
     Names tempName = null;
 
@@ -103,24 +103,26 @@ public class ListMenuController implements Initializable {
         selectedNames.setItems(selectedVersionsViewList);
         try {
             checkQualityStatus();
-        }catch(IOException e){}
+        } catch (IOException e) {
+        }
     }
+
     //Initalises the quality rating by checking the Bad_Recordings.txt file
-    public void checkQualityStatus() throws IOException{
+    public void checkQualityStatus() throws IOException {
         File file = new File("Bad_Recordings.txt");
         //Checks if such file already exists
-        if(file.exists()){
+        if (file.exists()) {
             BufferedReader reader = new BufferedReader(new FileReader(file));
             String line = null;
-            while((line = reader.readLine())!=null){
+            while ((line = reader.readLine()) != null) {
                 //Gets the key by only using the string up to the white space
-                String key = line.substring(0,line.indexOf(" "));
+                String key = line.substring(0, line.indexOf(" "));
                 //Returns the name object associated with the key
                 Names name = namesMap.get(key);
-                if(name != null){
+                if (name != null) {
                     //Loops through all the versions of that name until the string is the same
-                    for(NameVersions nVer : name.getVersions()){
-                        if (nVer.getVersion().equals(line)){
+                    for (NameVersions nVer : name.getVersions()) {
+                        if (nVer.getVersion().equals(line)) {
                             //Sets bad quality to true
                             nVer.getBadQuality().setValue(true);
                         }
@@ -130,7 +132,8 @@ public class ListMenuController implements Initializable {
         }
     }
 
-    public void initialiseNameMap(){
+    //Creates the map of Names using the corresponding string as the key
+    public void initialiseNameMap() {
         for (Names n : nameObjects) {
             namesMap.put(n.getName(), n);
         }
@@ -240,10 +243,11 @@ public class ListMenuController implements Initializable {
             errorAlert.showAndWait();
         } else {
             //If only one creation selected should not be able to press next or prev
-            if(selectedNames.getItems().size() == 1){
+            if (selectedNames.getItems().size() == 1) {
                 SceneChanger.getPlayMenuController().single = true;
                 SceneChanger.getPlayMenuController().nextButton.setDisable(true);
             }
+            //This will set the buttons in the next scene to be disabled as no creation will be currently selected
             SceneChanger.getPlayMenuController().playButton.setDisable(true);
             SceneChanger.getPlayMenuController().practiceButton.setDisable(true);
             SceneChanger.loadPlayPage();

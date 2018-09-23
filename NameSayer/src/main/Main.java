@@ -2,6 +2,7 @@ package main;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+
 import java.io.File;
 
 public class Main extends Application {
@@ -11,7 +12,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
         _databaseFolder = new File(currentWorkingDir + "/names");
         initialiseFolders();
         SceneChanger sceneChanger = SceneChanger.getInstance();
@@ -24,7 +24,7 @@ public class Main extends Application {
     public static File getDatabaseFolder() {
         return _databaseFolder;
     }
-
+    //Initialises all files during startup
     public static void initialiseFolders() {
 
         File recordingsFolder = new File(currentWorkingDir + "/NameSayer/Recordings");

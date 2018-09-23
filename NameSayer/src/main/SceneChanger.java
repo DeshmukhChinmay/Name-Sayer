@@ -35,33 +35,34 @@ public class SceneChanger {
     private SceneChanger(){
 
     }
+    //Loads all Fxml files and gets the instance of each controller as well
     public void loadFXMLFiles() throws Exception{
-        FXMLLoader mainMenuLoader = new FXMLLoader(getClass().getResource("../fxmlFiles/mainMenu.fxml"));
+        FXMLLoader mainMenuLoader = new FXMLLoader(getClass().getResource("/fxmlFiles/mainMenu.fxml"));
         Parent mainMenuPane = mainMenuLoader.load();
         mainMenuScene = new Scene(mainMenuPane, 604, 408);
         mainMenuController = mainMenuLoader.getController();
 
-        FXMLLoader listLoader = new FXMLLoader(getClass().getResource("../fxmlFiles/listMenu.fxml"));
+        FXMLLoader listLoader = new FXMLLoader(getClass().getResource("/fxmlFiles/listMenu.fxml"));
         Parent listMenuPane = listLoader.load();
         listMenuScene = new Scene(listMenuPane, 635, 406);
         listMenuController = listLoader.getController();
 
-        FXMLLoader playLoader = new FXMLLoader(getClass().getResource("../fxmlFiles/playMenu.fxml"));
+        FXMLLoader playLoader = new FXMLLoader(getClass().getResource("/fxmlFiles/playMenu.fxml"));
         Parent playMenuPane = playLoader.load();
         playMenuScene = new Scene(playMenuPane, 635, 406);
         playMenuController = playLoader.getController();
 
-        FXMLLoader practiceLoader = new FXMLLoader(getClass().getResource("../fxmlFiles/practiceMenu.fxml"));
+        FXMLLoader practiceLoader = new FXMLLoader(getClass().getResource("/fxmlFiles/practiceMenu.fxml"));
         Parent practiceMenuPane = practiceLoader.load();
         practiceMenuScene = new Scene(practiceMenuPane, 534, 206);
         practiceMenuController = practiceLoader.getController();
 
-        FXMLLoader micTestLoader = new FXMLLoader(getClass().getResource("../fxmlFiles/testMicrophone.fxml"));
+        FXMLLoader micTestLoader = new FXMLLoader(getClass().getResource("/fxmlFiles/testMicrophone.fxml"));
         Parent micTestPane = micTestLoader.load();
         micTestScene = new Scene(micTestPane, 534, 206);
         testMicrophoneController = micTestLoader.getController();
 
-        FXMLLoader databaseLoader = new FXMLLoader(getClass().getResource("../fxmlFiles/databaseMenu.fxml"));
+        FXMLLoader databaseLoader = new FXMLLoader(getClass().getResource("/fxmlFiles/databaseMenu.fxml"));
         Parent databasePane = databaseLoader.load();
         databaseScene = new Scene(databasePane, 779, 423);
         databaseMenuController = databaseLoader.getController();
@@ -100,6 +101,7 @@ public class SceneChanger {
         _primaryStage.setScene(databaseScene);
     }
 
+    //The following methods all return a instance of the respective controller
     public static ListMenuController getListMenuController() {
         return listMenuController;
     }
@@ -123,7 +125,7 @@ public class SceneChanger {
     public static TestMicrophoneController getTestMicrophoneController() {
         return testMicrophoneController;
     }
-
+    //Sets up first and primary stage
     public static void set_primaryStage(Stage stage){
         _primaryStage = stage;
         _primaryStage.setTitle("NameSayer");
@@ -131,6 +133,7 @@ public class SceneChanger {
         _primaryStage.setResizable(false);
         _primaryStage.show();
     }
+    //Sets up secondary stage
     public static void set_secondaryStage(){
         _secondaryStage.setTitle("Name Sayer");
         _secondaryStage.setResizable(false);

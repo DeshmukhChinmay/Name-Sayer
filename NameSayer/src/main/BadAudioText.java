@@ -6,7 +6,7 @@ public class BadAudioText {
 
     private static BadAudioText ourInstance;
 
-    public static BadAudioText getInstance() throws  IOException{
+    public static BadAudioText getInstance() throws IOException {
         if (ourInstance == null) {
             ourInstance = new BadAudioText();
         }
@@ -16,12 +16,16 @@ public class BadAudioText {
     private BadAudioText() {
     }
 
-    public void writeText(String textToAdd) throws IOException{
-        FileWriter bad_names = new FileWriter("Bad_Recordings.txt",true);
+    //Writes the given string into the text file
+    public void writeText(String textToAdd) throws IOException {
+        FileWriter bad_names = new FileWriter("Bad_Recordings.txt", true);
         PrintWriter writer = new PrintWriter(bad_names);
-        writer.printf("%s" +"%n",textToAdd);
+        writer.printf("%s" + "%n", textToAdd);
         writer.close();
     }
+
+    //Removes the given string in a text field by creating a temp folder and moving all but that line into the new file
+    //and renaming it
     public void removeTextFromFile(String versionName) throws IOException {
         //Gets the files for a Temp file and Recordings
         File temp = new File("TextFile.txt");

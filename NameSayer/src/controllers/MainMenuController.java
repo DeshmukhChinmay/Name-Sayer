@@ -18,10 +18,11 @@ public class MainMenuController implements Initializable {
     private TestMicrophoneController controller;
 
     //Initialize method to create the text file if not made
-    public void initialize(URL location, ResourceBundle resources){
+    public void initialize(URL location, ResourceBundle resources) {
         try {
             BadAudioText.getInstance();
-        }catch(IOException e){}
+        } catch (IOException e) {
+        }
     }
 
     //Changes scene to where the list view of all creations are shown
@@ -29,12 +30,14 @@ public class MainMenuController implements Initializable {
         SceneChanger.loadListPage();
     }
 
+    //Changes the scene to the micTest scene and also opens the mic line
     public void micTestButtonPressed() {
         controller = SceneChanger.getTestMicrophoneController();
         SceneChanger.loadMicTestPage();
         controller.testMic();
     }
 
+    // Changes scene to the database and practiced namess
     public void showAttemptsButtonPressed() {
         SceneChanger.loadDatabaseMenu();
     }

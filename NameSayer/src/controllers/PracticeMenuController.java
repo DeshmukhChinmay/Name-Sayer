@@ -11,6 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
@@ -38,13 +39,15 @@ public class PracticeMenuController {
 
     private boolean fileSaved = false;
 
+    //Compares user recorded audio with that of the database audio
+    //User recorded audio first and then database audio plays
     public void compareToAudio() {
-        Task task = Audio.getInstance().comparePracticeThenDatabase(nameVersion);
+        Task task = Audio.getInstance().comparePracticeThenDatabase(nameVersion);//Gets the task from Audio class
         listenButton.setDisable(true);
         backButton.setDisable(true);
         compareButton.setDisable(true);
         compareButton.setText("Playing");
-        task.setOnSucceeded(e -> {
+        task.setOnSucceeded(e -> { //Once tasks finished then it should re enable buttons
             listenButton.setDisable(false);
             backButton.setDisable(false);
             compareButton.setDisable(false);
@@ -56,7 +59,8 @@ public class PracticeMenuController {
         new Thread(task).start();
     }
 
-    public void SaveAudio() throws IOException{
+    //Saves the audio file into the practices folder
+    public void SaveAudio() throws IOException {
 
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
         LocalDateTime dateAndTime = LocalDateTime.now();
@@ -68,13 +72,14 @@ public class PracticeMenuController {
         fileSaved = true;
     }
 
+    //Creates a tempAudio.wav file that contains the user recording and also creates the progress bar for 5 seconds of recording
     public void startRecording() {
         //Multi threading the recording
         backButton.setDisable(true);
         Task<Void> task = new Task<Void>() {
             @Override
             public Void call() throws Exception {
-                ProcessBuilder voiceRec = new ProcessBuilder("ffmpeg","-f","alsa","-ac","1","-ar","44100","-i","default","-t","5","tempAudio.wav");
+                ProcessBuilder voiceRec = new ProcessBuilder("ffmpeg", "-f", "alsa", "-ac", "1", "-ar", "44100", "-i", "default", "-t", "5", "tempAudio.wav");
                 voiceRec.directory(new File(currentWorkingDir + "/NameSayer/Temp/"));
                 voiceRec.start();
                 return null;
@@ -106,7 +111,9 @@ public class PracticeMenuController {
                 return null;
             }
         };
+        //Binds progressbar to the update thread
         progressBar.progressProperty().bind(update.progressProperty());
+        //Starts all 3 tasks on new threads
         new Thread(task).start();
         new Thread(update).start();
         new Thread(timer).start();
@@ -115,8 +122,9 @@ public class PracticeMenuController {
         recordButton.setText("Recording...");
     }
 
-
+    //Method that listens to the users recorded attempt
     public void listenToAudio() {
+        //Disables the required buttons on playing
         listenButton.setText("Playing");
         listenButton.setDisable(true);
         compareButton.setDisable(true);
@@ -124,13 +132,15 @@ public class PracticeMenuController {
         Task<Void> task = new Task<Void>() {
             @Override
             public Void call() throws Exception {
-                ProcessBuilder playProcess = new ProcessBuilder("ffplay","-autoexit","-nodisp",(currentWorkingDir + "/NameSayer/Temp/tempAudio.wav"));
+                //Linux command ffplay to play the audio
+                ProcessBuilder playProcess = new ProcessBuilder("ffplay", "-autoexit", "-nodisp", (currentWorkingDir + "/NameSayer/Temp/tempAudio.wav"));
                 Process process = playProcess.start();
                 process.waitFor();
                 return null;
             }
         };
         task.setOnSucceeded(Event -> {
+            //Re enabled required button after task finishes running
             listenButton.setText("Listen");
             listenButton.setDisable(false);
             compareButton.setDisable(false);
@@ -147,15 +157,18 @@ public class PracticeMenuController {
         this.nameVersion = version;
     }
 
-    public void buttonLogicRecord(boolean selector){
+    //When the record button is pressed it follows this logic
+    public void buttonLogicRecord(boolean selector) {
         saveButton.setDisable(selector);
         listenButton.setDisable(selector);
         compareButton.setDisable(selector);
     }
 
+    //Method for when the back button is pressed. It should delete the tempAudio.wav file and then load tha play Page
+    //and set all buttons into its default state.
     public void goBackButton() {
         File tempAudioFile = new File(currentWorkingDir + "/NameSayer/Temp/tempAudio.wav");
-        if (tempAudioFile.exists()){
+        if (tempAudioFile.exists()) {
             tempAudioFile.delete();
         }
         SceneChanger.loadPlayPage();

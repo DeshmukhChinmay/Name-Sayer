@@ -71,13 +71,7 @@ public class PlayMenuController implements Initializable {
         });
     }
     //Method to enable play button and practice button if a name is selected
-    public void listClicked() {
-        if (currentSelection != null) {
-            getQualityRating(currentSelection);
-            playButton.setDisable(false);
-            practiceButton.setDisable(false);
-        }
-    }
+
     //Sets the quality rating on the UI screen whenever a name is selected
     public void getQualityRating(NameVersions version) {
         if (version.getBadQuality().get()) {
@@ -135,9 +129,14 @@ public class PlayMenuController implements Initializable {
     public void playButtonPressed() {
         playButton.setText("Playing");
         playButton.setDisable(true);
-        Audio.getInstance().playAudio(playButton,currentSelection);
+        Task task =  Audio.getInstance().playAudio(currentSelection);
+        task.setOnSucceeded(e -> {
+            playButton.setDisable(false);
+            playButton.setText("Play");
+        });
+        new Thread(task).start();
     }
-
+    //Shuffles the order of the names to be played
     public void shuffleButtonPressed() {
         Collections.shuffle(selectedVersionList);
     }
@@ -155,8 +154,9 @@ public class PlayMenuController implements Initializable {
 
     public void prevButtonPressed() {
         nextButton.setDisable(false);//If prev button is pressable that means that next button will be enabled
-        selectedListView.getSelectionModel().selectPrevious();
+        selectedListView.getSelectionModel().selectPrevious(); //Selects the prev name in the list
         System.out.println(currentSelection.getVersion());
+        //If new selection is the first creation then it should disable prev button
         if (currentSelection == selectedListView.getItems().get(0)) {
             prevButton.setDisable(true);
         } else {

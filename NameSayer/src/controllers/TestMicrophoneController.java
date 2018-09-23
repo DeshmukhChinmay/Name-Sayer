@@ -26,6 +26,7 @@ public class TestMicrophoneController {
     private byte[] audioData;
     TargetDataLine line;
 
+    //Opens a mic line to enable the line to be read
     private void openMicLine() {
         AudioFormat fmt = new AudioFormat(44100f, 16, 1, true, false);
         final int bufferByteSize = 2048;
@@ -58,6 +59,8 @@ public class TestMicrophoneController {
         return (int) (Math.pow(averageMeanSquare, 0.5d) + 0.5);
     }
 
+    //Opens the mic line and then continuously reads the input until the window is exited and then also displays it in a
+    //progressbar
     public void testMic() {
         openMicLine();
         startTest = true;
@@ -78,6 +81,7 @@ public class TestMicrophoneController {
         new Thread(updateMicBar).start();
     }
 
+    //When back button is pressed disables the while loop to read the mic input and changes scene back to Main menu
     public void backButtonPressed() {
         startTest = false;
         micVolume.progressProperty().unbind();
