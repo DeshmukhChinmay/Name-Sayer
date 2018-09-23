@@ -1,15 +1,10 @@
 package controllers;
 
-import com.sun.org.apache.xml.internal.security.Init;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.stage.DirectoryChooser;
-import javafx.stage.Stage;
+
 import main.BadAudioText;
-import main.Main;
 import main.SceneChanger;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -37,7 +32,7 @@ public class MainMenuController implements Initializable {
         controller.testMic();
     }
 
-    // Changes scene to the database and practiced namess
+    // Changes scene to the database and practiced names
     public void showAttemptsButtonPressed() {
         SceneChanger.loadDatabaseMenu();
     }

@@ -1,7 +1,6 @@
 package main;
 
 import javafx.concurrent.Task;
-import javafx.scene.control.Button;
 
 import java.io.File;
 

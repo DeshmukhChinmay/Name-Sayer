@@ -7,9 +7,9 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+
 import main.Audio;
 import main.BadAudioText;
-import main.Main;
 import main.Names.NameVersions;
 import main.SceneChanger;
 
@@ -41,6 +41,8 @@ public class PlayMenuController implements Initializable {
         prevButton.setDisable(true);//Makes it so that prevButton is always disabled
         listMenuController = SceneChanger.getListMenuController();
         selectedVersionList = listMenuController.getSelectedVersionObjects();
+
+        // Setting the cell of the selectedListView to a custom cell so custom text is displayed
         selectedListView.setCellFactory(param -> new ListCell<NameVersions>() {
 
             @Override
@@ -57,6 +59,9 @@ public class PlayMenuController implements Initializable {
         });
 
         selectedListView.setItems(selectedVersionList);
+
+        // Adding a listener to the selections from selectedListView. Other buttons are disable/enabled appropriately
+        // depending on the selection
         selectedListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<NameVersions>() {
             @Override
             public void changed(ObservableValue<? extends NameVersions> observable, NameVersions oldValue, NameVersions newValue) {
@@ -70,7 +75,6 @@ public class PlayMenuController implements Initializable {
             }
         });
     }
-    //Method to enable play button and practice button if a name is selected
 
     //Sets the quality rating on the UI screen whenever a name is selected
     public void getQualityRating(NameVersions version) {
@@ -114,7 +118,7 @@ public class PlayMenuController implements Initializable {
         }
     }
 
-    //Changes scene to where the list view of all creations are shown
+    //Changes scene to where the list view of all recordings are shown
     public void backButtonPressed() {
         prevButton.setDisable(true);//Makes it so that prevButton is always disabled
         nextButton.setDisable(false);
@@ -122,10 +126,13 @@ public class PlayMenuController implements Initializable {
         SceneChanger.loadListPage();
     }
 
+    //Changes to a different stage where a practice name can be recorded
     public void practiceButtonPressed() {
        SceneChanger.getPracticeMenuController().setNameVersion(selectedListView.getSelectionModel().getSelectedItem());
-       SceneChanger.loadPracticePage();}
+       SceneChanger.loadPracticePage();
+    }
 
+    // Plays the selected name from the list
     public void playButtonPressed() {
         playButton.setText("Playing");
         playButton.setDisable(true);
@@ -144,7 +151,7 @@ public class PlayMenuController implements Initializable {
     public void nextButtonPressed() {
         prevButton.setDisable(false);//If next button is pressed that means prev Button will be enabled
         selectedListView.getSelectionModel().selectNext();
-        System.out.println(currentSelection.getVersion());
+
         if (currentSelection == selectedListView.getItems().get(selectedListView.getItems().size() - 1)) {
             nextButton.setDisable(true);
         } else {
@@ -155,7 +162,7 @@ public class PlayMenuController implements Initializable {
     public void prevButtonPressed() {
         nextButton.setDisable(false);//If prev button is pressable that means that next button will be enabled
         selectedListView.getSelectionModel().selectPrevious(); //Selects the prev name in the list
-        System.out.println(currentSelection.getVersion());
+
         //If new selection is the first creation then it should disable prev button
         if (currentSelection == selectedListView.getItems().get(0)) {
             prevButton.setDisable(true);

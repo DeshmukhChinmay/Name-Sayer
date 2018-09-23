@@ -8,16 +8,14 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+
 import main.Audio;
-import main.Main;
 import main.Names;
 import main.Names.NameVersions;
 import main.SceneChanger;
 
-import javax.swing.text.html.Option;
 import java.io.File;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -46,6 +44,7 @@ public class DatabaseMenuController implements Initializable {
 
         updateList();
 
+        // Setting the cell of the selectedListView to a custom cell so custom text is displayed
         practiceNamesListView.setCellFactory(param -> new ListCell<NameVersions>() {
 
             @Override
@@ -61,6 +60,8 @@ public class DatabaseMenuController implements Initializable {
 
         });
 
+        // Adding listeners to the objects in practiceNamesListView. Once a practice name is selected, the corresponding
+        // versions of that name present in the database are shown in another list
         practiceNamesListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<NameVersions>() {
             @Override
             public void changed(ObservableValue<? extends NameVersions> observable, NameVersions oldValue, NameVersions newValue) {
@@ -80,6 +81,7 @@ public class DatabaseMenuController implements Initializable {
 
         databaseNamesListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
+        // Setting the cell of the databaseNamesListView to a custom cell so custom text is displayed
         databaseNamesListView.setCellFactory(param -> new ListCell<NameVersions>() {
 
             @Override
@@ -100,6 +102,8 @@ public class DatabaseMenuController implements Initializable {
 
     }
 
+    // Updating the practiceNamesLists with the files that are already present in the PracticeNames folder.
+    // All of the required objects are created appropriately
     public void updateList() {
 
         File practiceFolder = new File(currentWorkingDir + "/NameSayer/PracticeNames/");
@@ -173,7 +177,7 @@ public class DatabaseMenuController implements Initializable {
 
     }
 
-    //
+    // Playing the selected practice name
     public void playButtonPressed() {
 
         NameVersions selectedName = practiceNamesListView.getSelectionModel().getSelectedItem();
@@ -204,11 +208,12 @@ public class DatabaseMenuController implements Initializable {
 
     }
 
+    // Playing the selected version of a name from the database
     public void playDatabaseVersionButtonPressed() {
 
         NameVersions selectedDatabaseName = databaseNamesListView.getSelectionModel().getSelectedItem();
-        //If there is a selected name then disable the required buttons during playing and then it
-        //re enables them after it finished playing
+        //If there is a selected name then disable the required buttons during playing and then
+        //re enable them after it has finished playing
         if (selectedDatabaseName != null) {
             playDatabaseNameButton.setText("Playing");
             playDatabaseNameButton.setDisable(true);
