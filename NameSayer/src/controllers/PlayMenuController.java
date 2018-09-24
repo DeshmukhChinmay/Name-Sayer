@@ -146,7 +146,9 @@ public class PlayMenuController implements Initializable {
     //Shuffles the order of the names to be played
     public void shuffleButtonPressed() {
         Collections.shuffle(selectedVersionList);
-        checkLogicOfCycleButton();
+        if(currentSelection != null) {
+            checkLogicOfCycleButton();
+        }
     }
 
     public void nextButtonPressed() {
