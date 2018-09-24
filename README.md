@@ -9,7 +9,7 @@ Open the terminal and cd to directory with the jar file. Make sure that there is
 
 ---
 ### Instructions to Use:
-1. Click on "Listen to Name(s)" to view all names in the database and then select the versions of the names you want to practice and click next.
+1. Click on "Listen to Name(s)" to view all names in the database and then select the versions of the names you want to practice and click next. 'Clear' button can be clicked to clear the list of selected names.
 2. Select the name and press "Play" to listen to the database recording. Press shuffle to randomise the play order. To select the next name in the list either click or press "Previous" or "Next".
 3. If Recording is bad quality toggle the quality button and it will mark it as bad quality in "Bad_Recordings.txt" file.
 4. To practice a name click on "Practice Name" and it will show a pop up window that will contain the following
