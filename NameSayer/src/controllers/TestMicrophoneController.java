@@ -69,7 +69,7 @@ public class TestMicrophoneController {
                 while (startTest) {
                     if (line.read(audioData, 0, audioData.length) > 0) {
                         sound = calculateRMSLevel(audioData);
-                        updateProgress(sound, 80);
+                        updateProgress(sound, 110);
                     }
                 }
                 line.close();
