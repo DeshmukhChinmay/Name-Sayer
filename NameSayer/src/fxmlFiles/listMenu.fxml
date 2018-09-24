@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
@@ -9,7 +10,7 @@
     <children>
         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0" spacing="10.0">
             <children>
-                <Label maxWidth="177.0" prefWidth="177.0" text="Select Name(s) to play">
+                <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="177.0" prefWidth="177.0" text="Select Name(s)">
                     <VBox.margin>
                         <Insets left="10.0" />
                     </VBox.margin>
@@ -29,7 +30,7 @@
         </VBox>
         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0" spacing="10.0">
             <children>
-                <Label text="Select Version(s) of Name">
+                <Label alignment="CENTER" contentDisplay="CENTER" text="Select Version(s)">
                     <font>
                         <Font size="16.0" />
                     </font>
@@ -46,7 +47,7 @@
         </VBox>
         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0" spacing="10.0">
             <children>
-                <Label contentDisplay="CENTER" prefHeight="20.0" prefWidth="177.0" text="Name(s) Selected">
+                <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="20.0" prefWidth="177.0" text="Name(s) Selected">
                     <VBox.margin>
                         <Insets right="10.0" top="50.0" />
                     </VBox.margin>

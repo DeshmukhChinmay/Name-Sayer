@@ -23,6 +23,7 @@ public class Names {
         return name;
     }
 
+    // Adds a version for a given name
     public void addVersion(String name, String audioPath) {
         String tempVersionName = name + " (" + (versions.size() + 1) + ")";
         versions.add(new NameVersions(this, tempVersionName, audioPath));
