@@ -235,8 +235,7 @@ public class ListMenuController implements Initializable {
         return namesMap;
     }
 
-    //Returns to the main menu
-    public void backButtonPressed() {
+    private void clearSelection() {
         //Resets all items from selected lists except first one
         for (Names n : nameObjects) {
             for (NameVersions v : n.getVersions()) {
@@ -248,6 +247,18 @@ public class ListMenuController implements Initializable {
         namesVersionListView.setItems(null);
         selectedVersionObjects.clear();
         selectedVersionsViewList.clear();
+    }
+
+
+    public void clearButtonPressed() {
+
+        clearSelection();
+
+    }
+
+    //Returns to the main menu
+    public void backButtonPressed() {
+        clearSelection();
         SceneChanger.loadMainPage();
     }
 

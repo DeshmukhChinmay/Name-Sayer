@@ -60,18 +60,27 @@
                         <Insets bottom="10.0" right="10.0" />
                     </VBox.margin>
                 </ListView>
-                <HBox alignment="TOP_CENTER" prefHeight="60.0" prefWidth="200.0" spacing="10.0">
-                    <children>
-                  <Button mnemonicParsing="false" onAction="#nextButtonPressed" prefHeight="27.0" prefWidth="101.0" styleClass="defaultButton" text="Next" />
-               </children>
-            </HBox>
-            <Button mnemonicParsing="false" onAction="#backButtonPressed" prefHeight="18.0" prefWidth="87.0" styleClass="defaultButton" text="Back">
+            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#clearButtonPressed" prefHeight="27.0" prefWidth="87.0" styleClass="defaultButton" text="Clear">
                <VBox.margin>
-                  <Insets bottom="45.0" top="-20.0" />
-               </VBox.margin></Button>
+                  <Insets bottom="10.0" right="10.0" />
+               </VBox.margin>
+            </Button>
+                <HBox alignment="TOP_CENTER" prefHeight="30.0" prefWidth="199.0" spacing="10.0">
+               <children>
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#backButtonPressed" prefHeight="27.0" prefWidth="87.0" styleClass="defaultButton" text="Back" />
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#nextButtonPressed" prefHeight="27.0" prefWidth="87.0" styleClass="defaultButton" text="Next">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Button>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="30.0" right="10.0" />
+               </VBox.margin>
+            </HBox>
          </children>
          <HBox.margin>
-            <Insets top="-12.0" />
+            <Insets top="-24.0" />
          </HBox.margin>
       </VBox>
    </children>
