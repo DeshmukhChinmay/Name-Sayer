@@ -131,7 +131,7 @@ public class ListMenuController implements Initializable {
                 if (name != null) {
                     //Loops through all the versions of that name until the string is the same
                     for (NameVersions nVer : name.getVersions()) {
-                        if (nVer.getVersion().equals(line)) {
+                        if (nVer.getVersion().equals(line.substring(0, line.indexOf(')')+1))) {
                             //Sets bad quality to true
                             nVer.getBadQuality().setValue(true);
                         }

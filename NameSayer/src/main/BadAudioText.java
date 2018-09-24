@@ -20,7 +20,7 @@ public class BadAudioText {
     public void writeText(String textToAdd) throws IOException {
         FileWriter bad_names = new FileWriter("Bad_Recordings.txt", true);
         PrintWriter writer = new PrintWriter(bad_names);
-        writer.printf("%s" + "%n", textToAdd);
+        writer.printf("%s" + "%n", textToAdd + " Bad");
         writer.close();
     }
 
@@ -37,7 +37,7 @@ public class BadAudioText {
         while ((current = reader.readLine()) != null) {
             // trim newline when comparing with lineToRemove
             String trimmedLine = current.trim();
-            if (trimmedLine.equals(versionName)) {
+            if (trimmedLine.equals(versionName + " Bad")) {
                 continue;
             } else {
                 writer.write(current + System.getProperty("line.separator"));
