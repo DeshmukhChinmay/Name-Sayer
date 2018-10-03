@@ -20,6 +20,7 @@ public class SceneChanger {
     private static Scene practiceMenuScene;
     private static Scene micTestScene;
     private static Scene databaseScene;
+    private static Scene uploadSearchScene;
 
     private static ListMenuController listMenuController;
     private static DatabaseMenuController databaseMenuController;
@@ -27,6 +28,7 @@ public class SceneChanger {
     private static PlayMenuController playMenuController;
     private static PracticeMenuController practiceMenuController;
     private static TestMicrophoneController testMicrophoneController;
+    private static UploadSearchMenuController uploadSearchMenuController;
 
     public static SceneChanger getInstance() {
         return ourInstance;
@@ -39,13 +41,18 @@ public class SceneChanger {
     public void loadFXMLFiles() throws Exception{
         FXMLLoader mainMenuLoader = new FXMLLoader(getClass().getResource("/fxmlFiles/mainMenu.fxml"));
         Parent mainMenuPane = mainMenuLoader.load();
-        mainMenuScene = new Scene(mainMenuPane, 604, 408);
+        mainMenuScene = new Scene(mainMenuPane, 1366, 768);
         mainMenuController = mainMenuLoader.getController();
 
         FXMLLoader listLoader = new FXMLLoader(getClass().getResource("/fxmlFiles/listMenu.fxml"));
         Parent listMenuPane = listLoader.load();
-        listMenuScene = new Scene(listMenuPane, 635, 406);
+        listMenuScene = new Scene(listMenuPane, 1366, 768);
         listMenuController = listLoader.getController();
+
+        FXMLLoader uploadSearchLoader = new FXMLLoader(getClass().getResource("/fxmlFiles/uploadSearchMenu.fxml"));
+        Parent uploadSearchPane = uploadSearchLoader.load();
+        uploadSearchScene = new Scene(uploadSearchPane, 1366, 768);
+        uploadSearchMenuController = uploadSearchLoader.getController();
 
         FXMLLoader playLoader = new FXMLLoader(getClass().getResource("/fxmlFiles/playMenu.fxml"));
         Parent playMenuPane = playLoader.load();
@@ -64,7 +71,7 @@ public class SceneChanger {
 
         FXMLLoader databaseLoader = new FXMLLoader(getClass().getResource("/fxmlFiles/databaseMenu.fxml"));
         Parent databasePane = databaseLoader.load();
-        databaseScene = new Scene(databasePane, 779, 423);
+        databaseScene = new Scene(databasePane, 1366, 768);
         databaseMenuController = databaseLoader.getController();
     }
     //Loads Main page in the primary stage
@@ -77,6 +84,10 @@ public class SceneChanger {
     public static void loadListPage() {
         _secondaryStage.close();
         _primaryStage.setScene(listMenuScene);
+    }
+
+    public static void loadUploadSearchPage(){
+        _primaryStage.setScene(uploadSearchScene);
     }
 
     //Loads play page in primary stage

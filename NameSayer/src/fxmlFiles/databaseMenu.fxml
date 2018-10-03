@@ -1,84 +1,89 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="416.0" prefWidth="809.0" spacing="20.0" style="-fx-background-color: #778ca3;" stylesheets="@../css/list.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.DatabaseMenuController">
-    <children>
-        <VBox alignment="CENTER" prefHeight="411.0" prefWidth="285.0" spacing="10.0">
-            <children>
-                <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="177.0" prefWidth="177.0" text="Saved Attempts">
-                    <VBox.margin>
-                        <Insets left="25.0" />
-                    </VBox.margin>
-                    <font>
-                        <Font size="16.0" />
-                    </font>
-                </Label>
-                <ListView fx:id="practiceNamesListView" maxWidth="250.0" minWidth="200.0" prefHeight="329.0" prefWidth="250.0" style="-fx-background-color: #5d728a;">
-                    <VBox.margin>
-                        <Insets left="30.0" />
-                    </VBox.margin>
-                </ListView>
-            </children>
-            <HBox.margin>
-                <Insets />
-            </HBox.margin>
-        </VBox>
-        <VBox alignment="CENTER" prefHeight="441.0" prefWidth="284.0" spacing="10.0">
-            <children>
-                <Label alignment="CENTER" contentDisplay="CENTER" text="Database Names">
-                    <font>
-                        <Font size="16.0" />
-                    </font>
-                    <VBox.margin>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1366.0" style="-fx-background-color: #53667B;" stylesheets="@../css/list.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.DatabaseMenuController">
+   <center>
+      <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #778ca3;" BorderPane.alignment="CENTER">
+         <children>
+            <VBox alignment="CENTER" prefHeight="441.0" prefWidth="455.0" spacing="10.0">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" text="Database Names">
+                     <font>
+                        <Font size="30.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Label>
+                  <ListView fx:id="databaseNamesListView" maxHeight="1000.0" maxWidth="1090.0" minWidth="200.0" prefHeight="768.0" prefWidth="445.0" style="-fx-background-color: #5d728a;">
+                     <VBox.margin>
+                        <Insets bottom="20.0" left="20.0" right="20.0" />
+                     </VBox.margin>
+                  </ListView>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="411.0" prefWidth="455.0" spacing="10.0">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="231.0" prefHeight="41.0" prefWidth="231.0" text="Saved Attempts">
+                     <font>
+                        <Font size="30.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets left="25.0" top="10.0" />
+                     </VBox.margin>
+                  </Label>
+                  <ListView fx:id="practiceNamesListView" maxWidth="445.0" minWidth="200.0" prefHeight="768.0" prefWidth="445.0" style="-fx-background-color: #5d728a;">
+                     <VBox.margin>
+                        <Insets bottom="20.0" left="30.0" />
+                     </VBox.margin>
+                  </ListView>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="411.0" prefWidth="455.0" spacing="30.0" stylesheets="@../css/database.css">
+               <children>
+                  <Button fx:id="playButton" mnemonicParsing="false" onAction="#playButtonPressed" prefHeight="150.0" prefWidth="300.0" styleClass="defaultButton" stylesheets="@../css/database.css" text="Play Practice Recording" textAlignment="CENTER" wrapText="true">
+                     <font>
+                        <Font size="30.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="20.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="playDatabaseNameButton" mnemonicParsing="false" onAction="#playDatabaseVersionButtonPressed" prefHeight="150.0" prefWidth="300.0" styleClass="defaultButton" text="Play Database Name" textAlignment="CENTER" wrapText="true" VBox.vgrow="ALWAYS">
+                     <font>
+                        <Font size="30.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#deleteButtonPressed" prefHeight="150.0" prefWidth="300.0" styleClass="defaultButton" text="Delete Recording" textAlignment="CENTER" wrapText="true" VBox.vgrow="ALWAYS">
+                     <font>
+                        <Font size="30.0" />
+                     </font>
+                     <VBox.margin>
                         <Insets />
-                    </VBox.margin>
-                </Label>
-                <ListView fx:id="databaseNamesListView" maxWidth="250.0" minWidth="200.0" prefHeight="329.0" prefWidth="250.0" style="-fx-background-color: #5d728a;">
-                    <VBox.margin>
-                        <Insets />
-                    </VBox.margin>
-                </ListView>
-            </children>
-            <HBox.margin>
-                <Insets />
-            </HBox.margin>
-        </VBox>
-        <VBox prefHeight="411.0" prefWidth="200.0" spacing="30.0">
-            <children>
-                <Button fx:id="playButton" mnemonicParsing="false" onAction="#playButtonPressed" prefHeight="74.0" prefWidth="165.0" styleClass="defaultButton" text="Play Practice Recording" textAlignment="CENTER" wrapText="true">
-                    <font>
-                        <Font size="17.0" />
-                    </font>
-                    <VBox.margin>
-                        <Insets right="10.0" top="20.0" />
-                    </VBox.margin>
-                </Button>
-                <Button fx:id="playDatabaseNameButton" maxHeight="74.0" maxWidth="165.0" mnemonicParsing="false" onAction="#playDatabaseVersionButtonPressed" prefHeight="74.0" styleClass="defaultButton" text="Play Database Name" textAlignment="CENTER" wrapText="true">
-                    <font>
-                        <Font size="17.0" />
-                    </font>
-                </Button>
-                <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#deleteButtonPressed" prefHeight="74.0" prefWidth="165.0" styleClass="defaultButton" text="Delete Recording" textAlignment="CENTER" wrapText="true">
-                    <font>
-                        <Font size="17.0" />
-                    </font>
-                    <VBox.margin>
-                        <Insets right="10.0" />
-                    </VBox.margin>
-                </Button>
-                <Button fx:id="backButton" mnemonicParsing="false" onAction="#backButtonPressed" prefHeight="74.0" prefWidth="165.0" styleClass="defaultButton" text="Back">
-                    <VBox.margin>
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="backButton" mnemonicParsing="false" onAction="#backButtonPressed" prefHeight="150.0" prefWidth="300.0" styleClass="defaultButton" text="Back" VBox.vgrow="ALWAYS">
+                     <font>
+                        <Font size="30.0" />
+                     </font>
+                     <VBox.margin>
                         <Insets bottom="20.0" />
-                    </VBox.margin>
-                    <font>
-                        <Font size="17.0" />
-                    </font>
-                </Button>
-            </children>
-        </VBox>
-    </children>
-</HBox>
+                     </VBox.margin>
+                  </Button>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </center>
+   <top>
+      <Label text="User Recordings" BorderPane.alignment="CENTER">
+         <font>
+            <Font size="75.0" />
+         </font></Label>
+   </top>
+</BorderPane>

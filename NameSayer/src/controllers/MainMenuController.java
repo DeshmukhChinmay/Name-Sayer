@@ -37,4 +37,7 @@ public class MainMenuController implements Initializable {
         SceneChanger.loadDatabaseMenu();
     }
 
+    public void uploadFilePressed(){
+        SceneChanger.loadUploadSearchPage();
+    }
 }

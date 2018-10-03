@@ -1,38 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="408.0" prefWidth="604.0" style="-fx-background-color: #778ca3;" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainMenuController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1366.0" style="-fx-background-color: #53667b;" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainMenuController">
     <center>
-        <VBox alignment="CENTER" prefHeight="435.0" prefWidth="553.0" spacing="30.0" BorderPane.alignment="CENTER">
+        <VBox alignment="CENTER" prefHeight="435.0" prefWidth="553.0" style="-fx-background-color: #778ca3;" BorderPane.alignment="CENTER">
             <children>
-                <Label alignment="CENTER" contentDisplay="CENTER" text="NameSayer" textFill="WHITE">
+                <Label alignment="CENTER" contentDisplay="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="232.0" prefWidth="521.0" text="NameSayer" textFill="WHITE">
                     <font>
-                        <Font size="42.0" />
+                        <Font size="96.0" />
                     </font>
                     <effect>
                         <DropShadow offsetX="4.0" offsetY="1.0" spread="0.4" />
                     </effect>
+               <VBox.margin>
+                  <Insets top="40.0" />
+               </VBox.margin>
                 </Label>
-                <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#listButtonPressed" prefHeight="60.0" prefWidth="160.0" styleClass="mainButton" text="Listen to Name(s)">
-                    <font>
-                        <Font size="15.0" />
-                    </font>
-                </Button>
-                <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#showAttemptsButtonPressed" prefHeight="60.0" prefWidth="160.0" styleClass="mainButton" text="Show Previous Practices" textAlignment="CENTER" wrapText="true">
-                    <font>
-                        <Font size="15.0" />
-                    </font>
-                </Button>
-                <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#micTestButtonPressed" prefHeight="60.0" prefWidth="160.0" styleClass="mainButton" text="Test Microphone">
-                    <font>
-                        <Font size="15.0" />
-                    </font>
-                </Button>
+            <HBox alignment="CENTER" maxHeight="600.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="430.0" prefWidth="1366.0" spacing="30.0" style="-fx-background-color: #778ca3;" VBox.vgrow="ALWAYS">
+               <children>
+                      <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#listButtonPressed" prefHeight="180.0" prefWidth="350.0" styleClass="mainButton" text="Listen to Name(s)" textAlignment="CENTER" wrapText="true" HBox.hgrow="ALWAYS">
+                          <font>
+                              <Font size="34.0" />
+                          </font>
+                      </Button>
+                      <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#showAttemptsButtonPressed" prefHeight="180.0" prefWidth="350.0" styleClass="mainButton" text="Show Previous Practices" textAlignment="CENTER" wrapText="true" HBox.hgrow="ALWAYS">
+                          <font>
+                              <Font size="34.0" />
+                          </font>
+                      </Button>
+                      <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#micTestButtonPressed" prefHeight="180.0" prefWidth="350.0" styleClass="mainButton" text="Test Microphone" textAlignment="CENTER" wrapText="true" HBox.hgrow="ALWAYS">
+                          <font>
+                              <Font size="34.0" />
+                          </font>
+                      </Button>
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#uploadFilePressed" prefHeight="180.0" prefWidth="350.0" styleClass="mainButton" text="Upload/Search" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font size="34.0" />
+                     </font>
+                  </Button>
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <padding>
+                  <Insets left="40.0" right="40.0" />
+               </padding>
+            </HBox>
             </children>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
         </VBox>
     </center>
 </BorderPane>

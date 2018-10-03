@@ -277,6 +277,7 @@ public class ListMenuController implements Initializable {
                 SceneChanger.getPlayMenuController().nextButton.setDisable(true);
             }
             //This will set the buttons in the next scene to be disabled as no creation will be currently selected
+            SceneChanger.getPlayMenuController().setFromUpload(false);
             SceneChanger.getPlayMenuController().playButton.setDisable(true);
             SceneChanger.getPlayMenuController().practiceButton.setDisable(true);
             SceneChanger.loadPlayPage();

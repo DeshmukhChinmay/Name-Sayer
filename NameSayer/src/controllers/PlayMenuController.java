@@ -36,6 +36,7 @@ public class PlayMenuController implements Initializable {
     private ObservableList<NameVersions> selectedVersionList;
     private NameVersions currentSelection;
     public boolean single;
+    public boolean fromUpload;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         prevButton.setDisable(true);//Makes it so that prevButton is always disabled
@@ -122,8 +123,15 @@ public class PlayMenuController implements Initializable {
     public void backButtonPressed() {
         prevButton.setDisable(true);//Makes it so that prevButton is always disabled
         nextButton.setDisable(false);
+        single = false;
         selectedListView.getSelectionModel().clearSelection();
-        SceneChanger.loadListPage();
+        if(fromUpload){
+            SceneChanger.loadUploadSearchPage();
+        }
+        else{
+            SceneChanger.loadListPage();
+
+        }
     }
 
     //Changes to a different stage where a practice name can be recorded
@@ -191,6 +199,11 @@ public class PlayMenuController implements Initializable {
             nextButton.setDisable(false);
             prevButton.setDisable(false);
         }
+    }
+
+    public void setFromUpload(boolean condition){
+        fromUpload  = condition;
+
     }
 
 }
