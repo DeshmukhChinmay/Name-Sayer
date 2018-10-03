@@ -39,6 +39,7 @@ public class Names {
         String parentName;
         String version;
         String audioPath;
+        String tag;
         BooleanProperty selected = new SimpleBooleanProperty(false);
         BooleanProperty badQuality = new SimpleBooleanProperty(false);
 
@@ -72,6 +73,13 @@ public class Names {
 
         public String getAudioPath() {
             return audioPath;
+        }
+
+        public void setTag(String tag){
+            this.tag = tag;
+        }
+        public String getTag(){
+            return tag;
         }
 
     }

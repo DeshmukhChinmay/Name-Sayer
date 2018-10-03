@@ -8,10 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0"
-            prefWidth="1366.0" style="-fx-background-color: #53667B;"
-            stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-fx:controller="controllers.UploadSearchMenuController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1366.0" style="-fx-background-color: #53667B;" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.UploadSearchMenuController">
    <top>
       <Label alignment="CENTER" contentDisplay="CENTER" text="Practice Name(s)" BorderPane.alignment="CENTER">
          <font>
@@ -29,7 +26,7 @@ fx:controller="controllers.UploadSearchMenuController">
                <children>
                   <HBox alignment="CENTER" prefHeight="86.0" prefWidth="668.0" spacing="40.0">
                      <children>
-                        <TextField prefHeight="53.0" prefWidth="431.0" promptText="Enter Name" style="-fx-background-color: #5d728a;">
+                        <TextField fx:id="enteredName" prefHeight="53.0" prefWidth="431.0" promptText="Enter Name" style="-fx-background-color: #5d728a;">
                            <font>
                               <Font size="20.0" />
                            </font>

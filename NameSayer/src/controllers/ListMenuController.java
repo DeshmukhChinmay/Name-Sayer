@@ -6,9 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ListView;
-import javafx.scene.control.SelectionMode;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxListCell;
 import javafx.util.StringConverter;
 
@@ -17,6 +15,7 @@ import main.Names;
 import main.Names.NameVersions;
 import main.SceneChanger;
 
+import javax.naming.Name;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -39,11 +38,17 @@ public class ListMenuController implements Initializable {
     public ListView<NameVersions> namesVersionListView;
     @FXML
     public ListView selectedNames;
+    @FXML
+    public TextField nameTagField;
+    @FXML
+    public ToggleButton filterButton;
 
     private LinkedList<Names> nameObjects = new LinkedList<>();
     final private ObservableList<String> namesViewList = FXCollections.observableArrayList();
     private ObservableList<NameVersions> selectedVersionObjects = FXCollections.observableArrayList();
     final private ObservableList<String> selectedVersionsViewList = FXCollections.observableArrayList();
+    private ObservableList<String> namesSearchViewList = FXCollections.observableArrayList();
+
     private HashMap<String, Names> namesMap = new HashMap<>();
 
     Names tempName = null;
@@ -131,7 +136,7 @@ public class ListMenuController implements Initializable {
                 if (name != null) {
                     //Loops through all the versions of that name until the string is the same
                     for (NameVersions nVer : name.getVersions()) {
-                        if (nVer.getVersion().equals(line.substring(0, line.indexOf(')')+1))) {
+                        if (nVer.getVersion().equals(line.substring(0, line.indexOf(')') + 1))) {
                             //Sets bad quality to true
                             nVer.getBadQuality().setValue(true);
                         }
@@ -155,7 +160,7 @@ public class ListMenuController implements Initializable {
     public void initialiseNameObjects() throws IOException {
 
         databaseFolder = Main.getDatabaseFolder();
-        if(databaseFolder.exists()) {
+        if (databaseFolder.exists()) {
             File[] namesInDatabase = databaseFolder.listFiles();
             String tempFilename;
             String tempName;
@@ -207,8 +212,7 @@ public class ListMenuController implements Initializable {
 
                 }
             }
-        }
-        else{
+        } else {
             Alert errorAlert = new Alert(Alert.AlertType.WARNING);
             errorAlert.setTitle("No Names Folder");
             errorAlert.setHeaderText(null);
@@ -222,7 +226,6 @@ public class ListMenuController implements Initializable {
         for (Names n : nameObjects) {
             namesViewList.add(n.getName());
         }
-
         namesListView.setItems(namesViewList.sorted());
         namesListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
     }
@@ -281,6 +284,44 @@ public class ListMenuController implements Initializable {
             SceneChanger.getPlayMenuController().playButton.setDisable(true);
             SceneChanger.getPlayMenuController().practiceButton.setDisable(true);
             SceneChanger.loadPlayPage();
+        }
+    }
+
+    public void searchFunction() {
+        namesSearchViewList.clear();
+        if(filterButton.isSelected()) {
+            if (nameTagField.getText().length() == 0 || nameTagField.getText() == null) {
+                namesListView.setItems(namesViewList.sorted());
+            } else {
+                for (Names n : nameObjects) {
+                    if ((n.getName().length() >= nameTagField.getText().length()) &&
+                            (n.getName().substring(0, nameTagField.getText().length()).toLowerCase().equals(nameTagField.getText().toLowerCase()))) {
+                        namesSearchViewList.add(n.getName());
+                    }
+                }
+            }
+        }
+        else {
+            for (Names n : nameObjects) {
+                for (NameVersions nameVersions : n.getVersions()) {
+                    if (nameVersions.getTag().equals(nameTagField.getText())) {
+                        namesSearchViewList.add(nameVersions.getParentName());
+                        break;
+                    }
+                }
+            }
+        }
+        namesListView.setItems(namesSearchViewList);
+    }
+
+    public void onFilterButtonPressed() {
+        if (filterButton.isSelected()) {
+            filterButton.setSelected(true);
+            filterButton.setText("Tag");
+
+        } else {
+            filterButton.setSelected(false);
+            filterButton.setText("Name");
         }
     }
 }
