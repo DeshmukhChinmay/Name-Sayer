@@ -28,8 +28,8 @@ public class TagText {
     //and renaming it
     public void removeTextFromFile(String versionName, String tag) throws IOException {
         //Gets the files for a Temp file and Recordings
-        File temp = new File("TextFile.txt");
-        File main = new File("Bad_Recordings.txt");
+        File temp = new File("temp_Tags.txt");
+        File main = new File("Tags_File.txt");
 
         BufferedReader reader = new BufferedReader(new FileReader(main));
         BufferedWriter writer = new BufferedWriter(new FileWriter(temp));

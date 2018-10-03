@@ -28,7 +28,7 @@ public class BadAudioText {
     //and renaming it
     public void removeTextFromFile(String versionName) throws IOException {
         //Gets the files for a Temp file and Recordings
-        File temp = new File("TextFile.txt");
+        File temp = new File("Temp_Bad.txt");
         File main = new File("Bad_Recordings.txt");
 
         BufferedReader reader = new BufferedReader(new FileReader(main));

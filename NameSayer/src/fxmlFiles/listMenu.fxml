@@ -52,7 +52,7 @@
                                 <Insets top="20.0" />
                             </VBox.margin>
                         </Label>
-                        <ListView fx:id="namesVersionListView" maxWidth="442.0" prefHeight="530.0" prefWidth="432.0" style="-fx-background-color: #5d728a;">
+                        <ListView fx:id="namesVersionListView" maxWidth="442.0" onMouseClicked="#onSelectVersion" prefHeight="530.0" prefWidth="432.0" style="-fx-background-color: #5d728a;">
                             <VBox.margin>
                                 <Insets right="10.0" />
                             </VBox.margin>
@@ -83,7 +83,7 @@
                                                 <Font size="20.0" />
                                             </font>
                                         </Label>
-                                        <Label fx:id="durationField" alignment="CENTER" contentDisplay="CENTER" text="N/A">
+                                        <Label fx:id="durationField" alignment="CENTER" contentDisplay="CENTER">
                                             <font>
                                                 <Font size="20.0" />
                                             </font>
@@ -97,7 +97,7 @@
                                                 <Font size="20.0" />
                                             </font>
                                         </Label>
-                                        <Label fx:id="qualityField" text="Good">
+                                        <Label fx:id="qualityField">
                                             <font>
                                                 <Font size="20.0" />
                                             </font>

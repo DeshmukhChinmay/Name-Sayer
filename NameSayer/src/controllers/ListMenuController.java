@@ -106,7 +106,6 @@ public class ListMenuController implements Initializable {
         namesListView.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-
                 for (Names n : nameObjects) {
                     if (n.getName().equals(namesListView.getSelectionModel().getSelectedItem())) {
                         tempName = n;
@@ -301,14 +300,15 @@ public class ListMenuController implements Initializable {
 
 
     public void clearButtonPressed() {
-
         clearSelection();
+
 
     }
 
     //Returns to the main menu
     public void backButtonPressed() {
         clearSelection();
+        clearInfoPanel();
         SceneChanger.loadMainPage();
     }
 
@@ -331,6 +331,7 @@ public class ListMenuController implements Initializable {
             SceneChanger.getPlayMenuController().playButton.setDisable(true);
             SceneChanger.getPlayMenuController().practiceButton.setDisable(true);
             SceneChanger.loadPlayPage();
+            clearInfoPanel();
         }
     }
 
@@ -387,26 +388,47 @@ public class ListMenuController implements Initializable {
             errorAlert.setContentText("Please Select Name and try again");
             errorAlert.showAndWait();
         } else {
-            if (currentlySelected.getTag() != null) {
+            if (currentlySelected.getTag() != null) { //Removes current tag from text file and adds new tag
                 TagText.getInstance().removeTextFromFile(currentlySelected.getVersion(), currentlySelected.getTag());
             }
             TagText.getInstance().writeText(currentlySelected.getVersion(), tagField.getText());
-            currentlySelected.setTag(tagField.getText());
-            tagName.setText(currentlySelected.getTag());
+            currentlySelected.setTag(tagField.getText()); //Sets the field in the object
+            tagName.setText(currentlySelected.getTag()); //Sets the text on the label in the UI
         }
-    }
+        currentlySelected = null;
+        selectedNames.getSelectionModel().clearSelection();
+        namesVersionListView.getSelectionModel().clearSelection();
 
+    }
+    //sets the info when the items in the selected list are clicked
     public void selectedListClicked() throws Exception {
-        if (selectedNames != null) {
-            currentlySelected = selectedNames.getSelectionModel().getSelectedItem();
+        setInfoTab(selectedNames);
+    }
+    //sets the info when the items in the version selection are clicked
+    public void onSelectVersion() throws Exception {
+        setInfoTab(namesVersionListView);
+    }
+    //Sets the info to using whichever list was clicked where listView is whichever list was clicked
+    public void setInfoTab(ListView<NameVersions> listView) throws Exception {
+        if (listView.getSelectionModel().getSelectedItem() != null) {
+            currentlySelected = listView.getSelectionModel().getSelectedItem();
             tagName.setText(currentlySelected.getTag());
-            durationField.setText(Double.toString(Audio.getInstance().getWavFileLength(new File(currentlySelected.getAudioPath())))+" Seconds");
-            if(currentlySelected.getBadQuality().getValue()){
+            durationField.setText(Double.toString(Audio.getInstance().getWavFileLength(new File(currentlySelected.getAudioPath()))) + " Seconds");
+            if (currentlySelected.getBadQuality().getValue()) { //gets the quality button
                 qualityField.setText("Bad");
-            }
-            else{
+            } else {
                 qualityField.setText("Good");
             }
         }
     }
+    //Clears the info panel
+    private void clearInfoPanel(){
+        nameTagField.clear();
+        tagField.clear();
+        tagName.setText(null);
+        durationField.setText(null);
+        qualityField.setText(null);
+
+    }
+
 }
