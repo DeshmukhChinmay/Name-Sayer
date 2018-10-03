@@ -56,7 +56,7 @@ public class SceneChanger {
 
         FXMLLoader playLoader = new FXMLLoader(getClass().getResource("/fxmlFiles/playMenu.fxml"));
         Parent playMenuPane = playLoader.load();
-        playMenuScene = new Scene(playMenuPane, 635, 406);
+        playMenuScene = new Scene(playMenuPane, 1366, 768);
         playMenuController = playLoader.getController();
 
         FXMLLoader practiceLoader = new FXMLLoader(getClass().getResource("/fxmlFiles/practiceMenu.fxml"));

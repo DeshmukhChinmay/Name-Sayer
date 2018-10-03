@@ -2,7 +2,11 @@ package main;
 
 import javafx.concurrent.Task;
 
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
 import java.io.File;
+import java.io.IOException;
 
 public class Audio {
     private static Audio ourInstance = new Audio();
@@ -23,10 +27,7 @@ public class Audio {
             }
         };
         return task;
-
-
     }
-
     //Method that returns a task that plays the user recorded audio first and then the database name after to comapre
     //the 2 audio by using processbuilder and linux ffplay command
     public Task comparePracticeThenDatabase(Names.NameVersions databaseName) {
@@ -45,6 +46,13 @@ public class Audio {
         };
         return task;
     }
-
+    public double getWavFileLength(File file) throws Exception {
+        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
+        AudioFormat format = audioInputStream.getFormat();
+        long audioFileLength = file.length();
+        int frameSize = format.getFrameSize();
+        double frameRate = format.getFrameRate();
+        return Math.round((audioFileLength / (frameSize * frameRate)) * 100.0) / 100.0;
+        }
 
 }

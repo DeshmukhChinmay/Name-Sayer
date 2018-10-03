@@ -10,10 +10,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxListCell;
 import javafx.util.StringConverter;
 
-import main.Main;
-import main.Names;
+import main.*;
 import main.Names.NameVersions;
-import main.SceneChanger;
 
 import javax.naming.Name;
 import java.io.BufferedReader;
@@ -37,11 +35,20 @@ public class ListMenuController implements Initializable {
     @FXML
     public ListView<NameVersions> namesVersionListView;
     @FXML
-    public ListView selectedNames;
+    public ListView<NameVersions> selectedNames;
     @FXML
     public TextField nameTagField;
     @FXML
     public ToggleButton filterButton;
+    @FXML
+    public TextField tagField;
+    @FXML
+    public Label tagName;
+    @FXML
+    public Label qualityField;
+    @FXML
+    public Label durationField;
+
 
     private LinkedList<Names> nameObjects = new LinkedList<>();
     final private ObservableList<String> namesViewList = FXCollections.observableArrayList();
@@ -50,7 +57,7 @@ public class ListMenuController implements Initializable {
     private ObservableList<String> namesSearchViewList = FXCollections.observableArrayList();
 
     private HashMap<String, Names> namesMap = new HashMap<>();
-
+    NameVersions currentlySelected;
     Names tempName = null;
 
     @Override
@@ -65,6 +72,21 @@ public class ListMenuController implements Initializable {
         }
 
         initialiseNameMap();
+        //initalises the lsit view of selected names to store NameVersion objects
+        selectedNames.setCellFactory(param -> new ListCell<NameVersions>() {
+
+            @Override
+            protected void updateItem(NameVersions version, boolean empty) {
+                super.updateItem(version, empty);
+
+                if (empty || version == null || version.getVersion() == null) {
+                    setText(null);
+                } else {
+                    setText(version.getVersion());
+                }
+            }
+
+        });
 
         // Setting the cell of the namesVersionListView to a custom cell so that a checkbox is shown
         namesVersionListView.setCellFactory(CheckBoxListCell.forListView(NameVersions::versionSelected, new StringConverter<NameVersions>() {
@@ -113,10 +135,11 @@ public class ListMenuController implements Initializable {
             }
         });
 
-        selectedNames.setItems(selectedVersionsViewList);
+        selectedNames.setItems(selectedVersionObjects);
 
         try {
             checkQualityStatus();
+            initialiseTags();
         } catch (IOException e) {
         }
     }
@@ -139,6 +162,31 @@ public class ListMenuController implements Initializable {
                         if (nVer.getVersion().equals(line.substring(0, line.indexOf(')') + 1))) {
                             //Sets bad quality to true
                             nVer.getBadQuality().setValue(true);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public void initialiseTags() throws IOException {
+        File tagFile = new File("Tags_File.txt");
+        //Checks if such file already exists
+        if (tagFile.exists()) {
+            BufferedReader reader = new BufferedReader(new FileReader(tagFile));
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                //Gets the key by only using the string up to the white space
+                String key = line.substring(0, line.indexOf(" "));
+                //Returns the name object associated with the key
+                Names name = namesMap.get(key);
+                if (name != null) {
+                    //Loops through all the versions of that name until the string is the same
+                    for (NameVersions nVer : name.getVersions()) {
+                        if (nVer.getVersion().equals(line.substring(0, line.indexOf(')') + 1))) {
+                            //Sets bad quality to true
+                            nVer.setTag(line.substring(line.indexOf('_') + 1, line.length()));
+                            System.out.println(nVer.getTag());
                         }
                     }
                 }
@@ -206,7 +254,6 @@ public class ListMenuController implements Initializable {
                             tempFolder.mkdirs();
                             Files.copy(f.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
                             nameObjects.add(new Names(tempName, destination.getAbsolutePath()));
-
                         }
                     }
 
@@ -287,41 +334,79 @@ public class ListMenuController implements Initializable {
         }
     }
 
+    //This dynamically updates the list view for the user to select single names to play
     public void searchFunction() {
         namesSearchViewList.clear();
-        if(filterButton.isSelected()) {
-            if (nameTagField.getText().length() == 0 || nameTagField.getText() == null) {
+        if (!filterButton.isSelected()) { //Searches by name
+            if (nameTagField.getText().length() == 0 || nameTagField.getText() == null) { //If notthing entered then output everything
                 namesListView.setItems(namesViewList.sorted());
             } else {
-                for (Names n : nameObjects) {
+                for (Names n : nameObjects) { //Loops through all names and checks if the first letters are matching and outputs it
                     if ((n.getName().length() >= nameTagField.getText().length()) &&
                             (n.getName().substring(0, nameTagField.getText().length()).toLowerCase().equals(nameTagField.getText().toLowerCase()))) {
                         namesSearchViewList.add(n.getName());
                     }
                 }
+                namesListView.setItems(namesSearchViewList);
             }
-        }
-        else {
-            for (Names n : nameObjects) {
-                for (NameVersions nameVersions : n.getVersions()) {
-                    if (nameVersions.getTag().equals(nameTagField.getText())) {
-                        namesSearchViewList.add(nameVersions.getParentName());
-                        break;
+        } else { //Searches by tag
+            if (nameTagField.getText().length() == 0 || nameTagField.getText() == null) {
+                namesListView.setItems(namesViewList.sorted());
+            } else {
+                for (Names n : nameObjects) { //If the versions of a name has the same tag it outputs the parent name case insensitive
+                    for (NameVersions nameVersions : n.getVersions()) {
+                        if ((nameVersions.getTag() != null) && (nameVersions.getTag().toLowerCase().equals(nameTagField.getText().toLowerCase()))) {
+                            namesSearchViewList.add(nameVersions.getParentName());
+                            break;
+                        }
                     }
                 }
+                namesListView.setItems(namesSearchViewList);
             }
         }
-        namesListView.setItems(namesSearchViewList);
     }
 
+    //Changes the text on toggle button
     public void onFilterButtonPressed() {
         if (filterButton.isSelected()) {
-            filterButton.setSelected(true);
             filterButton.setText("Tag");
 
         } else {
-            filterButton.setSelected(false);
             filterButton.setText("Name");
+        }
+        searchFunction();
+    }
+
+    //Method for tag button. WHen tag button is pressed it removes the current tag from the text file if there is one
+    //and then changes the field in the respective NameVersion object and then adds the new tag to the text file
+    public void onTagButtonPressed() throws Exception {
+        if (currentlySelected == null) {
+            Alert errorAlert = new Alert(Alert.AlertType.WARNING);
+            errorAlert.setTitle("No Name Selected");
+            errorAlert.setHeaderText(null);
+            errorAlert.setContentText("Please Select Name and try again");
+            errorAlert.showAndWait();
+        } else {
+            if (currentlySelected.getTag() != null) {
+                TagText.getInstance().removeTextFromFile(currentlySelected.getVersion(), currentlySelected.getTag());
+            }
+            TagText.getInstance().writeText(currentlySelected.getVersion(), tagField.getText());
+            currentlySelected.setTag(tagField.getText());
+            tagName.setText(currentlySelected.getTag());
+        }
+    }
+
+    public void selectedListClicked() throws Exception {
+        if (selectedNames != null) {
+            currentlySelected = selectedNames.getSelectionModel().getSelectedItem();
+            tagName.setText(currentlySelected.getTag());
+            durationField.setText(Double.toString(Audio.getInstance().getWavFileLength(new File(currentlySelected.getAudioPath())))+" Seconds");
+            if(currentlySelected.getBadQuality().getValue()){
+                qualityField.setText("Bad");
+            }
+            else{
+                qualityField.setText("Good");
+            }
         }
     }
 }
