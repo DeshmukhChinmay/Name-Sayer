@@ -53,6 +53,34 @@ public class Audio {
         int frameSize = format.getFrameSize();
         double frameRate = format.getFrameRate();
         return Math.round((audioFileLength / (frameSize * frameRate)) * 100.0) / 100.0;
-        }
+    }
+
+    public Task normaliseAudio(File audio) {
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                ProcessBuilder normaliseAudioProcess = new ProcessBuilder("ffmpeg", "-i", audio.getPath(), "-filter:a", "loudnorm", "normalisedAudio.wav");
+                normaliseAudioProcess.directory(new File("./NameSayer/Temp/"));
+                Process process = normaliseAudioProcess.start();
+                process.waitFor();
+                return null;
+            }
+        };
+        return task;
+    }
+
+    public Task removeSilence() {
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception{
+                ProcessBuilder removeSilenceProcess = new ProcessBuilder("ffmpeg", "-i", "normalisedAudio.wav", "-af", "silenceremove=1:0:-50dB", "finalAudio.wav");
+                removeSilenceProcess.directory(new File("./NameSayer/Temp/"));
+                Process process = removeSilenceProcess.start();
+                process.waitFor();
+                return null;
+            }
+        };
+        return task;
+    }
 
 }

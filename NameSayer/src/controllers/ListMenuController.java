@@ -207,6 +207,7 @@ public class ListMenuController implements Initializable {
     public void initialiseNameObjects() throws IOException {
 
         databaseFolder = Main.getDatabaseFolder();
+        File tempAudioFiles = new File(currentWorkingDir + "Temp");
         if (databaseFolder.exists()) {
             File[] namesInDatabase = databaseFolder.listFiles();
             String tempFilename;
@@ -242,22 +243,36 @@ public class ListMenuController implements Initializable {
 
                     } else {
                         if (tempFolder.exists()) {
-                            Files.copy(f.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                            new Thread(Audio.getInstance().normaliseAudio(f));
+                            new Thread(Audio.getInstance().removeSilence());
+                            Files.copy(new File(currentWorkingDir + "/NameSayer/Temp/finalAudio.wav").toPath() , destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
                             for (Names n : nameObjects) {
                                 if (n.getName().equals(tempName)) {
                                     n.addVersion(tempName, destination.getAbsolutePath());
-
                                 }
+                            }
+                            for (File tempFile: tempAudioFiles.listFiles()) {
+                                tempFile.delete();
                             }
                         } else {
                             tempFolder.mkdirs();
-                            Files.copy(f.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                            new Thread(Audio.getInstance().normaliseAudio(f)).start();
+                            new Thread(Audio.getInstance().removeSilence());
+                            Files.copy(new File(currentWorkingDir + "/NameSayer/Temp/finalAudio.wav").toPath() , destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
                             nameObjects.add(new Names(tempName, destination.getAbsolutePath()));
+                            for (File tempFile: tempAudioFiles.listFiles()) {
+                                tempFile.delete();
+                            }
                         }
                     }
 
                 }
             }
+
+            for (File f: tempAudioFiles.listFiles()) {
+                f.delete();
+            }
+
         } else {
             Alert errorAlert = new Alert(Alert.AlertType.WARNING);
             errorAlert.setTitle("No Names Folder");
@@ -298,11 +313,17 @@ public class ListMenuController implements Initializable {
         selectedVersionsViewList.clear();
     }
 
+    public boolean isPresent(String name) {
+        if (namesMap.get(name) == null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
     public void clearButtonPressed() {
         clearSelection();
-
-
+        clearInfoPanel();
     }
 
     //Returns to the main menu
@@ -404,6 +425,12 @@ public class ListMenuController implements Initializable {
     public void selectedListClicked() throws Exception {
         setInfoTab(selectedNames);
     }
+
+    //Called when a name is selected from the first list
+    public void namesListClicked() {
+        clearInfoPanel();
+    }
+
     //sets the info when the items in the version selection are clicked
     public void onSelectVersion() throws Exception {
         setInfoTab(namesVersionListView);
@@ -419,6 +446,8 @@ public class ListMenuController implements Initializable {
             } else {
                 qualityField.setText("Good");
             }
+        } else {
+            clearInfoPanel();
         }
     }
     //Clears the info panel
