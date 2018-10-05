@@ -142,6 +142,13 @@ public class ListMenuController implements Initializable {
         } catch (IOException e) {
         }
     }
+    //Reinitalises everything when new database added
+    public void reinitialiseAll() throws IOException{
+        initialiseNameObjects();
+        initialiseNameMap();
+        checkQualityStatus();
+        initialiseTags();
+    }
 
     //Initalises the quality rating by checking the Bad_Recordings.txt file
     public void checkQualityStatus() throws IOException {

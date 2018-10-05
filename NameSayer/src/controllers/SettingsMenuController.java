@@ -2,31 +2,36 @@ package controllers;
 
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
+import main.Main;
 import main.SceneChanger;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.TargetDataLine;
+import java.io.File;
+import java.io.IOException;
 
-public class TestMicrophoneController {
+public class SettingsMenuController {
 
     @FXML
     ProgressBar micVolume;
-
     @FXML
-    public void initialize() {
-        openMicLine();
-    }
+    Button testButton;
 
-    public static boolean startTest = true;
+    private static boolean startTest = true;
     private int sound = 0;
     private byte[] audioData;
-    TargetDataLine line;
+    private TargetDataLine line;
 
     //Opens a mic line to enable the line to be read
     private void openMicLine() {
+        micVolume.progressProperty().setValue(0);
         AudioFormat fmt = new AudioFormat(44100f, 16, 1, true, false);
         final int bufferByteSize = 2048;
         try {
@@ -61,6 +66,7 @@ public class TestMicrophoneController {
     //Opens the mic line and then continuously reads the input until the window is exited and then also displays it in a
     //progressbar
     public void testMic() {
+        testButton.setDisable(true);
         openMicLine();
         startTest = true;
         Task<Void> updateMicBar = new Task<Void>() {
@@ -82,8 +88,29 @@ public class TestMicrophoneController {
 
     //When back button is pressed disables the while loop to read the mic input and changes scene back to Main menu
     public void backButtonPressed() {
+        testButton.setDisable(false);
         startTest = false;
         micVolume.progressProperty().unbind();
+        //resets property
+        micVolume.progressProperty().setValue(0);
         SceneChanger.loadMainPage();
+    }
+
+    public void onAddDatabase() {
+        DirectoryChooser databaseChooser = new DirectoryChooser();
+        File databaseDirectory = databaseChooser.showDialog(new Stage());
+
+        if (databaseDirectory != null) {
+            Main.setDatabaseFolder(databaseDirectory.getAbsoluteFile());
+            try {
+                SceneChanger.getListMenuController().reinitialiseAll();
+            }catch (IOException e){
+                Alert errorAlert = new Alert(Alert.AlertType.WARNING);
+                errorAlert.setTitle("Failed to initialise new DatabaseFolder");
+                errorAlert.setHeaderText(null);
+                errorAlert.setHeaderText("Please select new Database Folder");
+                errorAlert.showAndWait();
+            }
+        }
     }
 }

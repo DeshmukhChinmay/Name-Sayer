@@ -18,7 +18,7 @@ public class SceneChanger {
     private static Scene listMenuScene;
     private static Scene playMenuScene;
     private static Scene practiceMenuScene;
-    private static Scene micTestScene;
+    private static Scene settingsScene;
     private static Scene databaseScene;
     private static Scene uploadSearchScene;
 
@@ -27,7 +27,7 @@ public class SceneChanger {
     private static MainMenuController mainMenuController;
     private static PlayMenuController playMenuController;
     private static PracticeMenuController practiceMenuController;
-    private static TestMicrophoneController testMicrophoneController;
+    private static SettingsMenuController settingsMenuController;
     private static UploadSearchMenuController uploadSearchMenuController;
 
     public static SceneChanger getInstance() {
@@ -64,10 +64,10 @@ public class SceneChanger {
         practiceMenuScene = new Scene(practiceMenuPane, 534, 206);
         practiceMenuController = practiceLoader.getController();
 
-        FXMLLoader micTestLoader = new FXMLLoader(getClass().getResource("/fxmlFiles/testMicrophone.fxml"));
-        Parent micTestPane = micTestLoader.load();
-        micTestScene = new Scene(micTestPane, 534, 206);
-        testMicrophoneController = micTestLoader.getController();
+        FXMLLoader settingsLoader = new FXMLLoader(getClass().getResource("/fxmlFiles/settingsMenu.fxml"));
+        Parent settingsPane = settingsLoader.load();
+        settingsScene = new Scene(settingsPane, 1366, 768);
+        settingsMenuController = settingsLoader.getController();
 
         FXMLLoader databaseLoader = new FXMLLoader(getClass().getResource("/fxmlFiles/databaseMenu.fxml"));
         Parent databasePane = databaseLoader.load();
@@ -103,9 +103,8 @@ public class SceneChanger {
     }
 
     //Loads mic test page
-    public static void loadMicTestPage() {
-        _secondaryStage.setScene(micTestScene);
-        _secondaryStage.show();
+    public static void loadSettingsPage() {
+        _primaryStage.setScene(settingsScene);
     }
 
     public static void loadDatabaseMenu() {
@@ -133,8 +132,8 @@ public class SceneChanger {
         return practiceMenuController;
     }
 
-    public static TestMicrophoneController getTestMicrophoneController() {
-        return testMicrophoneController;
+    public static SettingsMenuController getSettingsMenuController() {
+        return settingsMenuController;
     }
     //Sets up first and primary stage
     public static void set_primaryStage(Stage stage){

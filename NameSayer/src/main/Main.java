@@ -24,6 +24,9 @@ public class Main extends Application {
     public static File getDatabaseFolder() {
         return _databaseFolder;
     }
+    public static void setDatabaseFolder(File databaseFolder){
+        _databaseFolder = databaseFolder;
+    }
     //Initialises all the necessary folders during startup
     public static void initialiseFolders() {
 
