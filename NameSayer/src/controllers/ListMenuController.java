@@ -47,7 +47,7 @@ public class ListMenuController implements Initializable {
     @FXML
     public Label qualityField;
     @FXML
-    public Label durationField;
+    public Label sameNameField;
 
 
     private LinkedList<Names> nameObjects = new LinkedList<>();
@@ -192,7 +192,6 @@ public class ListMenuController implements Initializable {
                         if (nVer.getVersion().equals(line.substring(0, line.indexOf(')') + 1))) {
                             //Sets bad quality to true
                             nVer.setTag(line.substring(line.indexOf('_') + 1, line.length()));
-                            System.out.println(nVer.getTag());
                         }
                     }
                 }
@@ -420,8 +419,8 @@ public class ListMenuController implements Initializable {
         if (listView.getSelectionModel().getSelectedItem() != null) {
             currentlySelected = listView.getSelectionModel().getSelectedItem();
             tagName.setText(currentlySelected.getTag());
-            durationField.setText(Double.toString(Audio.getInstance().getWavFileLength(new File(currentlySelected.getAudioPath()))) + " Seconds");
-            if (currentlySelected.getBadQuality().getValue()) { //gets the quality button
+            sameNameField.setText(Integer.toString(namesMap.get(currentlySelected.getParentName()).getVersions().size()));
+                if (currentlySelected.getBadQuality().getValue()) { //gets the quality button
                 qualityField.setText("Bad");
             } else {
                 qualityField.setText("Good");
@@ -433,7 +432,7 @@ public class ListMenuController implements Initializable {
         nameTagField.clear();
         tagField.clear();
         tagName.setText(null);
-        durationField.setText(null);
+        sameNameField.setText(null);
         qualityField.setText(null);
 
     }

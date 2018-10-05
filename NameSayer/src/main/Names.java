@@ -40,6 +40,7 @@ public class Names {
         String version;
         String audioPath;
         String tag;
+        boolean fileAdjusted = false;
         BooleanProperty selected = new SimpleBooleanProperty(false);
         BooleanProperty badQuality = new SimpleBooleanProperty(false);
 
@@ -47,8 +48,17 @@ public class Names {
             this.parentName = parentName.getName();
             this.version = version;
             this.audioPath = audioPath;
+
             selected.setValue(false);
             badQuality.setValue(false);
+        }
+
+        public boolean isFileAdjusted() {
+            return fileAdjusted;
+        }
+
+        public void setFileAdjusted(boolean fileAdjusted) {
+            this.fileAdjusted = fileAdjusted;
         }
 
         public String getVersion() {
@@ -75,10 +85,11 @@ public class Names {
             return audioPath;
         }
 
-        public void setTag(String tag){
+        public void setTag(String tag) {
             this.tag = tag;
         }
-        public String getTag(){
+
+        public String getTag() {
             return tag;
         }
 

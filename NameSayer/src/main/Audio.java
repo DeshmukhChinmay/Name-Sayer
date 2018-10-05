@@ -20,6 +20,11 @@ public class Audio {
         Task<Void> task = new Task<Void>() {
             @Override
             public Void call() throws Exception {
+                //Checks if the file normalized and if the silence has been removed
+                if(!nameVersions.isFileAdjusted()) {
+                    normalizeAndCutSilence(nameVersions);
+                }
+
                 ProcessBuilder playProcess = new ProcessBuilder("ffplay", "-autoexit", "-nodisp", nameVersions.getAudioPath());
                 Process process = playProcess.start();
                 process.waitFor();
@@ -46,13 +51,19 @@ public class Audio {
         };
         return task;
     }
-    public double getWavFileLength(File file) throws Exception {
-        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
-        AudioFormat format = audioInputStream.getFormat();
-        long audioFileLength = file.length();
-        int frameSize = format.getFrameSize();
-        double frameRate = format.getFrameRate();
-        return Math.round((audioFileLength / (frameSize * frameRate)) * 100.0) / 100.0;
+
+        private void normalizeAndCutSilence(Names.NameVersions nameVersions) throws Exception{
+            String removeSilenceCommand = "ffmpeg -y -i " + nameVersions.getAudioPath() + " -af silenceremove=1:0:-48dB " + nameVersions.getAudioPath();
+            ProcessBuilder silenceBuilder = new ProcessBuilder("/bin/bash", "-c", removeSilenceCommand);
+            Process silenceProcess = silenceBuilder.start();
+            silenceProcess.waitFor();
+
+            String normaliseCommand = "ffmpeg -y -i " + nameVersions.getAudioPath() + " -filter:a loudnorm " + nameVersions.getAudioPath();
+            ProcessBuilder normaliseBuilder = new ProcessBuilder("/bin/bash", "-c", normaliseCommand);
+            Process normaliseProcess = normaliseBuilder.start();
+            normaliseProcess.waitFor();
+            nameVersions.setFileAdjusted(true);
         }
+
 
 }

@@ -71,7 +71,7 @@ public class SettingsMenuController {
         startTest = true;
         Task<Void> updateMicBar = new Task<Void>() {
             @Override
-            public Void call() throws Exception {
+            public Void call(){
                 while (startTest) {
                     if (line.read(audioData, 0, audioData.length) > 0) {
                         sound = calculateRMSLevel(audioData);
