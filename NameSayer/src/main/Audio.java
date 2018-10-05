@@ -22,6 +22,11 @@ public class Audio {
         Task<Void> task = new Task<Void>() {
             @Override
             public Void call() throws Exception {
+                //Checks if the file normalized and if the silence has been removed
+                if(!nameVersions.isFileAdjusted()) {
+                    normalizeAndCutSilence(nameVersions);
+                }
+
                 ProcessBuilder playProcess = new ProcessBuilder("ffplay", "-autoexit", "-nodisp", nameVersions.getAudioPath());
                 Process process = playProcess.start();
                 process.waitFor();
@@ -48,6 +53,7 @@ public class Audio {
         };
         return task;
     }
+
     public double getWavFileLength(File file) throws Exception {
         AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
         AudioFormat format = audioInputStream.getFormat();
@@ -57,52 +63,17 @@ public class Audio {
         return Math.round((audioFileLength / (frameSize * frameRate)) * 100.0) / 100.0;
     }
 
-//    public Task normaliseAudioAndRemoveSilence(File audio) {
-//        Task<Void> task = new Task<Void>() {
-//            @Override
-//            protected Void call() throws Exception {
-//                String normaliseCommand = "ffmpeg -i " + audio.getAbsolutePath() + " -af silenceremove=1:0:-50dB " + currentWorkingDir + "/NameSayer/Temp/silenceRemoved.wav;";
-//                ProcessBuilder normaliseBuilder = new ProcessBuilder("/bin/bash","-c",normaliseCommand);
-//                Process normaliseProcess = normaliseBuilder.start();
-//                normaliseProcess.waitFor();
-//                String removeSilenceCommand = "ffmpeg -i " + currentWorkingDir + "/NameSayer/Temp/silenceRemoved.wav -filter:a loudnorm " + currentWorkingDir + "/NameSayer/Temp/finalAudio.wav";
-//                ProcessBuilder silenceBuilder = new ProcessBuilder("/bin/bash","-c",removeSilenceCommand);
-//                Process silenceProcess = silenceBuilder.start();
-//                silenceProcess.waitFor();
-//                return null;
-//            }
-//        };
-//        return task;
-//    }
+    private void normalizeAndCutSilence(Names.NameVersions nameVersions) throws Exception{
+        String removeSilenceCommand = "ffmpeg -y -i " + nameVersions.getAudioPath() + " -af silenceremove=1:0:-48dB " + nameVersions.getAudioPath();
+        ProcessBuilder silenceBuilder = new ProcessBuilder("/bin/bash", "-c", removeSilenceCommand);
+        Process silenceProcess = silenceBuilder.start();
+        silenceProcess.waitFor();
 
-    public Task normaliseAudio(File audio) {
-        Task<Void> task = new Task<Void>() {
-            @Override
-            protected Void call() throws Exception {
-                String normaliseCommand = "ffmpeg -i " + audio.getAbsolutePath() + " -filter:a loudnorm " + currentWorkingDir + "/NameSayer/Temp/normalisedAudio.wav";
-                ProcessBuilder normaliseBuilder = new ProcessBuilder("/bin/bash","-c",normaliseCommand);
-                Process normaliseProcess = normaliseBuilder.start();
-                normaliseProcess.waitFor();
-                return null;
-            }
-        };
-        return task;
+        String normaliseCommand = "ffmpeg -y -i " + nameVersions.getAudioPath() + " -filter:a loudnorm " + nameVersions.getAudioPath();
+        ProcessBuilder normaliseBuilder = new ProcessBuilder("/bin/bash", "-c", normaliseCommand);
+        Process normaliseProcess = normaliseBuilder.start();
+        normaliseProcess.waitFor();
+        nameVersions.setFileAdjusted(true);
     }
-
-    public Task removeSilence() {
-        Task<Void> task = new Task<Void>() {
-            @Override
-            protected Void call() throws Exception {
-                String removeSilenceCommand = "ffmpeg -i " + currentWorkingDir + "/NameSayer/Temp/normalisedAudio.wav -af silenceremove=1:0:-50dB " + currentWorkingDir + "/NameSayer/Temp/finalAudio.wav";
-                ProcessBuilder silenceBuilder = new ProcessBuilder("/bin/bash","-c",removeSilenceCommand);
-                Process silenceProcess = silenceBuilder.start();
-                silenceProcess.waitFor();
-                return null;
-            }
-        };
-        return task;
-    }
-
-
 
 }

@@ -10,7 +10,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class MainMenuController implements Initializable {
-    private TestMicrophoneController controller;
+    private SettingsMenuController controller;
 
     //Initialize method to create the text file if not made
     public void initialize(URL location, ResourceBundle resources) {
@@ -25,11 +25,9 @@ public class MainMenuController implements Initializable {
         SceneChanger.loadListPage();
     }
 
-    //Changes the scene to the micTest scene and also opens the mic line
-    public void micTestButtonPressed() {
-        controller = SceneChanger.getTestMicrophoneController();
-        SceneChanger.loadMicTestPage();
-        controller.testMic();
+    //Changes the scene to the settings scene and also opens the mic line
+    public void settingsButtonPressed() {
+        SceneChanger.loadSettingsPage();
     }
 
     // Changes scene to the database and practiced names
