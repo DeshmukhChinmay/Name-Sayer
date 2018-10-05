@@ -4,6 +4,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -59,6 +60,7 @@ public class ListMenuController implements Initializable {
     private HashMap<String, Names> namesMap = new HashMap<>();
     NameVersions currentlySelected;
     Names tempName = null;
+    String tempNameString = "";
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -207,28 +209,30 @@ public class ListMenuController implements Initializable {
     public void initialiseNameObjects() throws IOException {
 
         databaseFolder = Main.getDatabaseFolder();
-        File tempAudioFiles = new File(currentWorkingDir + "Temp");
+        File tempAudioFiles = new File(currentWorkingDir + "/NameSayer/Temp/");
         if (databaseFolder.exists()) {
             File[] namesInDatabase = databaseFolder.listFiles();
             String tempFilename;
-            String tempName;
 
             for (File f : namesInDatabase) {
+                for (File tempFile : tempAudioFiles.listFiles()) {
+                    tempFile.delete();
+                }
                 if (f.isHidden()) {
                     continue;
                 } else {
                     tempFilename = f.getName();
                     String[] tempFilenameParts = tempFilename.split("_");
                     String[] tempNameParts = tempFilenameParts[3].split("\\.");
-                    tempName = tempNameParts[0].substring(0, 1).toUpperCase() + tempNameParts[0].substring(1);
-                    File tempFolder = new File(currentWorkingDir + "/NameSayer/Recordings/" + tempName + "/");
+                    tempNameString = tempNameParts[0].substring(0, 1).toUpperCase() + tempNameParts[0].substring(1);
+                    File tempFolder = new File(currentWorkingDir + "/NameSayer/Recordings/" + tempNameString + "/");
                     File destination = new File(tempFolder + "/" + f.getName());
 
                     if (destination.exists()) {
                         boolean namePresent = false;
                         Names nameFound = null;
                         for (Names n : nameObjects) {
-                            if (n.getName().equals(tempName)) {
+                            if (n.getName().equals(tempNameString)) {
                                 namePresent = true;
                                 nameFound = n;
                                 break;
@@ -236,49 +240,58 @@ public class ListMenuController implements Initializable {
                         }
 
                         if (namePresent) {
-                            nameFound.addVersion(tempName, destination.getAbsolutePath());
+                            nameFound.addVersion(tempNameString, destination.getAbsolutePath());
                         } else {
-                            nameObjects.add(new Names(tempName, destination.getAbsolutePath()));
+                            nameObjects.add(new Names(tempNameString, destination.getAbsolutePath()));
                         }
 
                     } else {
                         if (tempFolder.exists()) {
-                            new Thread(Audio.getInstance().normaliseAudio(f));
-                            new Thread(Audio.getInstance().removeSilence());
-                            Files.copy(new File(currentWorkingDir + "/NameSayer/Temp/finalAudio.wav").toPath() , destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                            for (Names n : nameObjects) {
-                                if (n.getName().equals(tempName)) {
-                                    n.addVersion(tempName, destination.getAbsolutePath());
-                                }
-                            }
-                            for (File tempFile: tempAudioFiles.listFiles()) {
-                                tempFile.delete();
-                            }
+//                            Task audioTask = Audio.getInstance().normaliseAudioAndRemoveSilence(f);
+//                            audioTask.setOnSucceeded(e -> {
+//                                copyFiles(tempAudioFiles, destination, tempNameString, false);
+//                            });
+                            new Thread(Audio.getInstance().normaliseAudio(f)).start();
+                            new Thread(Audio.getInstance().removeSilence()).start();
+                            copyFiles(tempAudioFiles, destination, tempNameString, false);
                         } else {
                             tempFolder.mkdirs();
+//                            Task audioTask = Audio.getInstance().normaliseAudioAndRemoveSilence(f);
+//                            audioTask.setOnSucceeded(e -> {
+//                                copyFiles(tempAudioFiles, destination, tempNameString, false);
+//                            });
                             new Thread(Audio.getInstance().normaliseAudio(f)).start();
-                            new Thread(Audio.getInstance().removeSilence());
-                            Files.copy(new File(currentWorkingDir + "/NameSayer/Temp/finalAudio.wav").toPath() , destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                            nameObjects.add(new Names(tempName, destination.getAbsolutePath()));
-                            for (File tempFile: tempAudioFiles.listFiles()) {
-                                tempFile.delete();
-                            }
+                            new Thread(Audio.getInstance().removeSilence()).start();
+                            copyFiles(tempAudioFiles, destination, tempNameString, false);
                         }
                     }
 
                 }
             }
-
-            for (File f: tempAudioFiles.listFiles()) {
-                f.delete();
-            }
-
         } else {
             Alert errorAlert = new Alert(Alert.AlertType.WARNING);
             errorAlert.setTitle("No Names Folder");
             errorAlert.setHeaderText(null);
             errorAlert.setHeaderText("Please Select Names");
             errorAlert.showAndWait();
+        }
+    }
+
+    private void copyFiles(File tempAudioFiles, File destination, String tempName, boolean newFile) {
+        try {
+            if (newFile) {
+                Files.copy(new File(currentWorkingDir + "/NameSayer/Temp/finalAudio.wav").toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                nameObjects.add(new Names(tempName, destination.getAbsolutePath()));
+            } else {
+                Files.copy(new File(currentWorkingDir + "/NameSayer/Temp/finalAudio.wav").toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                for (Names n : nameObjects) {
+                    if (n.getName().equals(tempName)) {
+                        n.addVersion(tempName, destination.getAbsolutePath());
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

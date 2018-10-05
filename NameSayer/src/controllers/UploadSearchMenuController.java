@@ -32,6 +32,7 @@ public class UploadSearchMenuController implements Initializable {
 
     private File fileUploaded = null;
     private ObservableList<String> playableNames = FXCollections.observableArrayList();
+    private ObservableList<Names.NameVersions> namestoPlay = FXCollections.observableArrayList();
 
     private int characterLimit = 50;
 
@@ -85,6 +86,7 @@ public class UploadSearchMenuController implements Initializable {
                 for (String s: tempNames) {
                     if (SceneChanger.getListMenuController().isPresent(s)) {
                         tempString = tempString + s + " ";
+                        namestoPlay.add(SceneChanger.getListMenuController().getNamesMap().get(s).getVersions().get(0));
                     }
                 }
                 if (!tempString.equals("")) {
@@ -103,7 +105,8 @@ public class UploadSearchMenuController implements Initializable {
             String tempString = "";
             for (String s: tempNames) {
                 if (SceneChanger.getListMenuController().isPresent(s)) {
-
+                    tempString = tempString + s + " ";
+                    namestoPlay.add(SceneChanger.getListMenuController().getNamesMap().get(s).getVersions().get(0));
                 }
             }
             if (!tempString.equals("")) {
@@ -119,6 +122,7 @@ public class UploadSearchMenuController implements Initializable {
         }
         playableNames.clear();
         playableNamesListView.setItems(null);
+        namestoPlay.clear();
         SceneChanger.loadMainPage();
     }
 
