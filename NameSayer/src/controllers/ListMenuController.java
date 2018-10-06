@@ -47,6 +47,8 @@ public class ListMenuController implements Initializable {
     public Label qualityField;
     @FXML
     public Label durationField;
+    @FXML
+    public ComboBox searchBy;
 
 
     private LinkedList<Names> nameObjects = new LinkedList<>();
@@ -61,7 +63,8 @@ public class ListMenuController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        searchBy.getItems().addAll("Name","Tag");
+        searchBy.getSelectionModel().select("Name");
         try {
             initialiseNameObjects();
             updateMainList();
@@ -344,7 +347,7 @@ public class ListMenuController implements Initializable {
     //This dynamically updates the list view for the user to select single names to play
     public void searchFunction() {
         namesSearchViewList.clear();
-        if (!filterButton.isSelected()) { //Searches by name
+        if (searchBy.getSelectionModel().getSelectedItem().equals("Name")) { //Searches by name
             if (nameTagField.getText().length() == 0 || nameTagField.getText() == null) { //If notthing entered then output everything
                 namesListView.setItems(namesViewList.sorted());
             } else {
@@ -356,7 +359,7 @@ public class ListMenuController implements Initializable {
                 }
                 namesListView.setItems(namesSearchViewList);
             }
-        } else { //Searches by tag
+        } else if(searchBy.getSelectionModel().getSelectedItem().equals("Tag")){ //Searches by tag
             if (nameTagField.getText().length() == 0 || nameTagField.getText() == null) {
                 namesListView.setItems(namesViewList.sorted());
             } else {
@@ -371,19 +374,10 @@ public class ListMenuController implements Initializable {
                 namesListView.setItems(namesSearchViewList);
             }
         }
-    }
+        else{
 
-    //Changes the text on toggle button
-    public void onFilterButtonPressed() {
-        if (filterButton.isSelected()) {
-            filterButton.setText("Tag");
-
-        } else {
-            filterButton.setText("Name");
         }
-        searchFunction();
     }
-
     //Method for tag button. WHen tag button is pressed it removes the current tag from the text file if there is one
     //and then changes the field in the respective NameVersion object and then adds the new tag to the text file
     public void onTagButtonPressed() throws Exception {
