@@ -78,12 +78,12 @@
                                 </HBox>
                                 <HBox alignment="CENTER" maxWidth="432.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0" style="-fx-background-color: #5d728a;">
                                     <children>
-                                        <Label text="Versions of Name">
+                                        <Label text="Duration">
                                             <font>
                                                 <Font size="20.0" />
                                             </font>
                                         </Label>
-                                        <Label fx:id="sameNameField" alignment="CENTER" contentDisplay="CENTER">
+                                        <Label fx:id="durationField" alignment="CENTER" contentDisplay="CENTER">
                                             <font>
                                                 <Font size="20.0" />
                                             </font>

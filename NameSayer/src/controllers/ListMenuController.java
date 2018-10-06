@@ -13,7 +13,6 @@ import javafx.util.StringConverter;
 import main.*;
 import main.Names.NameVersions;
 
-import javax.naming.Name;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -47,7 +46,7 @@ public class ListMenuController implements Initializable {
     @FXML
     public Label qualityField;
     @FXML
-    public Label sameNameField;
+    public Label durationField;
 
 
     private LinkedList<Names> nameObjects = new LinkedList<>();
@@ -423,7 +422,7 @@ public class ListMenuController implements Initializable {
         if (listView.getSelectionModel().getSelectedItem() != null) {
             currentlySelected = listView.getSelectionModel().getSelectedItem();
             tagName.setText(currentlySelected.getTag());
-            sameNameField.setText(Integer.toString(namesMap.get(currentlySelected.getParentName()).getVersions().size()));
+            durationField.setText(Double.toString(Audio.getInstance().getWavFileLength(new File(currentlySelected.getAudioPath()))));
             if (currentlySelected.getBadQuality().getValue()) { //gets the quality button
                 qualityField.setText("Bad");
             } else {
@@ -437,7 +436,7 @@ public class ListMenuController implements Initializable {
         nameTagField.clear();
         tagField.clear();
         tagName.setText(null);
-        sameNameField.setText(null);
+        durationField.setText(null);
         qualityField.setText(null);
 
     }
