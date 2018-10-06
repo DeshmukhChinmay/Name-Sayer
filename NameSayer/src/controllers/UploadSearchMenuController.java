@@ -7,10 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import main.*;
 import main.Names.NameVersions;
@@ -31,6 +28,8 @@ public class UploadSearchMenuController implements Initializable {
     private ListView<String> playableNamesListView;
     @FXML
     private TextField enteredName;
+    @FXML
+    private Button selectButton;
 
     private File fileUploaded = null;
     private ObservableList<String> playableNames = FXCollections.observableArrayList();
@@ -173,6 +172,7 @@ public class UploadSearchMenuController implements Initializable {
         playableNames.clear();
         playableNamesListView.setItems(null);
         playableNamesObjects.clear();
+        selectButton.setDisable(true);
         SceneChanger.loadMainPage();
     }
 
@@ -185,7 +185,7 @@ public class UploadSearchMenuController implements Initializable {
             errorAlert.setContentText("The selected names are not in the database");
             errorAlert.showAndWait();
         }
-
+        selectButton.setDisable(true);
         SceneChanger.getPlayMenuController().setFromUpload(true);
         SceneChanger.getPlayMenuController().toggleQualityButtonVisibility();
         SceneChanger.loadPlayPage();
@@ -194,7 +194,7 @@ public class UploadSearchMenuController implements Initializable {
     public void handleKeyReleased() {
         String text = enteredName.getText();
         boolean disableButton = text.isEmpty() || text.trim().isEmpty() || text.endsWith(" ");
-        enteredName.setDisable(disableButton);
+        selectButton.setDisable(disableButton);
     }
 
     public void clearButtonPressed() {
