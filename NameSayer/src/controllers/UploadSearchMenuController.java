@@ -83,115 +83,76 @@ public class UploadSearchMenuController implements Initializable {
             String line = null;
             String tempString;
             String tempAudioPath;
-            Service<Void> concatService;
+
 
             while ((line = reader.readLine()) != null) {
-                boolean firstName = true;
                 String[] tempNames = line.split("[ -]");
                 inputFileTextArea.appendText(line + "\n");
-                tempString = "";
-                tempAudioPath = "";
-                for (String s: tempNames) {
-                    if (SceneChanger.getListMenuController().isPresent(s.toLowerCase())) {
-                        if (firstName) {
-                            tempString = s.substring(0,1).toUpperCase() + s.substring(1).toLowerCase();
-                        } else {
-                            tempString = tempString + " " + s.substring(0,1).toUpperCase() + s.substring(1).toLowerCase();
-                        }
-                        boolean goodQualityFound = false;
-                        for (NameVersions n : SceneChanger.getListMenuController().getNamesMap().get(s).getVersions()) {
-                            if (!n.getBadQuality().get()) {
-                                if (firstName) {
-                                    tempAudioPath = n.getAudioPath();
-                                } else {
-                                    tempAudioPath = tempAudioPath + "%" + n.getAudioPath();
-                                }
-                                goodQualityFound = true;
-                                break;
-                            }
-                        }
-                        if (!goodQualityFound) {
-                            if (firstName) {
-                                tempAudioPath = SceneChanger.getListMenuController().getNamesMap().get(s).getVersions().get(0).getAudioPath();
-                            } else {
-                                tempAudioPath = tempAudioPath + "%" + SceneChanger.getListMenuController().getNamesMap().get(s).getVersions().get(0).getAudioPath();
-                            }
-
-                        }
-                        firstName = false;
-                    }
-                }
-                if (!tempString.equals("")) {
-                    File file = new File(currentWorkingDir + "/NameSayer/Temp/Concat/concatFiles.txt");
-                    if (!file.exists()) {
-                        file.createNewFile();
-                    }
-                    playableNames.add(tempString);
-                    ConcatFilesText.getInstance().writeText(tempAudioPath);
-                    final String finalName = tempString;
-                    try {
-                        concatService = Audio.getInstance().concatAudioFiles(tempString);
-                        concatService.start();
-                        concatService.setOnSucceeded(event -> {
-                            playableNamesObjects.add(new PlayableNames(finalName, currentWorkingDir + "/NameSayer/Temp/Concat/" + finalName + ".wav"));
-                        });
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
+                createPlayableNames(tempNames);
             }
 
         }
+
     }
 
     public void selectButtonPressed() {
         if (!enteredName.getText().equals("")) {
-            Service<Void> concatService;
-            playableNames.clear();
-            playableNamesListView.setItems(playableNames);
             String[] tempNames = enteredName.getText().split("[ -]");
-            String tempString = "";
-            String tempAudioPath = "";
-            boolean firstName = true;
-            for (String s: tempNames) {
-                if (SceneChanger.getListMenuController().isPresent(s)) {
-                    if (firstName) {
-                        tempString = s.substring(0,1).toUpperCase() + s.substring(1).toLowerCase();
-                    } else {
-                        tempString = tempString + " " + s.substring(0,1).toUpperCase() + s.substring(1).toLowerCase();
-                    }
-                    boolean goodQualityFound = false;
-                    for (NameVersions n : SceneChanger.getListMenuController().getNamesMap().get(s).getVersions()) {
-                        if (!n.getBadQuality().get()) {
-                            if (firstName) {
-                                tempAudioPath = n.getAudioPath();
-                            } else {
-                                tempAudioPath = tempAudioPath + "%" + n.getAudioPath();
-                            }
-                            goodQualityFound = true;
-                            break;
-                        }
-                    }
-                    if (!goodQualityFound) {
-                        if (firstName) {
-                            tempAudioPath = SceneChanger.getListMenuController().getNamesMap().get(s).getVersions().get(0).getAudioPath();
-                        } else {
-                            tempAudioPath = tempAudioPath + "%" + SceneChanger.getListMenuController().getNamesMap().get(s).getVersions().get(0).getAudioPath();
-                        }
-
-                    }
-                    firstName = false;
-                }
+            playableNamesListView.setItems(playableNames);
+            try {
+                createPlayableNames(tempNames);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            if (!tempString.equals("")) {
-                try {
-                    File file = new File(currentWorkingDir + "/NameSayer/Temp/Concat/concatFiles.txt");
-                    if (!file.exists()) {
-                        file.createNewFile();
+        }
+    }
+
+    public void createPlayableNames(String[] tempNames) throws IOException {
+        Service<Void> concatService;
+        String tempString = "";
+        String tempAudioPath = "";
+        boolean firstName = false;
+        for (String s: tempNames) {
+            String modifiedName = s.substring(0,1).toUpperCase() + s.substring(1).toLowerCase();
+            if (SceneChanger.getListMenuController().isPresent(modifiedName)) {
+                if (firstName) {
+                    tempString = modifiedName;
+                } else {
+                    tempString = tempString + " " + modifiedName;
+                }
+                boolean goodQualityFound = false;
+                for (NameVersions n : SceneChanger.getListMenuController().getNamesMap().get(modifiedName).getVersions()) {
+                    if (!n.getBadQuality().get()) {
+                        if (firstName) {
+                            tempAudioPath = n.getAudioPath();
+                        } else {
+                            tempAudioPath = tempAudioPath + "%" + n.getAudioPath();
+                        }
+                        goodQualityFound = true;
+                        break;
                     }
-                    playableNames.add(tempString);
-                    ConcatFilesText.getInstance().writeText(tempAudioPath);
-                    final String finalName = tempString;
+                }
+                if (!goodQualityFound) {
+                    if (firstName) {
+                        tempAudioPath = SceneChanger.getListMenuController().getNamesMap().get(modifiedName).getVersions().get(0).getAudioPath();
+                    } else {
+                        tempAudioPath = tempAudioPath + "%" + SceneChanger.getListMenuController().getNamesMap().get(modifiedName).getVersions().get(0).getAudioPath();
+                    }
+                }
+                firstName = false;
+            }
+        }
+
+        if (!tempString.equals("")) {
+            if (!playableNames.contains(tempString)) {
+                File file = new File(currentWorkingDir + "/NameSayer/Temp/Concat/concatFiles.txt");
+                if (!file.exists()) {
+                    file.createNewFile();
+                }
+                playableNames.add(tempString);
+                ConcatFilesText.getInstance().writeText(tempAudioPath);
+                final String finalName = tempString;
+                try {
                     concatService = Audio.getInstance().concatAudioFiles(tempString);
                     concatService.start();
                     concatService.setOnSucceeded(event -> {
