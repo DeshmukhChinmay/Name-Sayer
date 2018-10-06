@@ -31,9 +31,14 @@ public class PracticeMenuController {
     @FXML
     private Button backButton;
 
+
+    private Thread recordingThread;
+    private Thread updateThread;
     private String currentWorkingDir = System.getProperty("user.dir");
     private File fileName;
     private NameVersions nameVersion;
+    private boolean stop = false;
+    private boolean recording = false;
 
     private boolean fileSaved = false;
 
@@ -72,52 +77,64 @@ public class PracticeMenuController {
 
     //Creates a tempAudio.wav file that contains the user recording and also creates the progress bar for 5 seconds of recording
     public void startRecording() {
-        //Multi threading the recording
-        backButton.setDisable(true);
-        Task<Void> task = new Task<Void>() {
-            @Override
-            public Void call() throws Exception {
-                ProcessBuilder voiceRec = new ProcessBuilder("ffmpeg", "-f", "alsa", "-ac", "1", "-ar", "44100", "-i", "default", "-t", "5", "tempAudio.wav");
-                voiceRec.directory(new File(currentWorkingDir + "/NameSayer/Temp/"));
-                voiceRec.start();
-                return null;
-            }
-        };
-        //Multi threaded the buttons to disable/enable each one accordingly after 5 seconds
-        Task<Void> timer = new Task<Void>() {
-            @Override
-            public Void call() throws Exception {
-                Thread.sleep(5000);
-                Platform.runLater(new Runnable() {
-                    public void run() {
-                        buttonLogicRecord(false);
-                        recordButton.setText("Recorded!");
-                        recordButton.setDisable(true);
+
+        if(recording){
+            recording = false;
+            stop = true;
+            recordButton.setDisable(true);
+            progressBar.progressProperty().unbind();
+            progressBar.progressProperty().setValue(220);
+        }
+        else {
+            stop = false;
+            //Multi threading the recording
+            backButton.setDisable(true);
+            Task<Void> task = new Task<Void>() {
+                @Override
+                public Void call() throws Exception {
+                    ProcessBuilder voiceRec = new ProcessBuilder("ffmpeg", "-f", "alsa", "-ac", "1", "-ar", "44100", "-i", "default", "-t", "5", "tempAudio.wav");
+                    voiceRec.directory(new File(currentWorkingDir + "/NameSayer/Temp/"));
+                    Process process = voiceRec.start();
+                    while(process.isAlive()){
+                        if(stop){
+                            process.destroy();
+                        }
                     }
-                });
-                return null;
-            }
-        };
-        //Multi threaded the progress bar to show how long is left for recording
-        Task<Void> update = new Task<Void>() {
-            @Override
-            public Void call() throws Exception {
-                for (int i = 1; i < 220; i++) {
-                    Thread.sleep(20);
-                    updateProgress(i, 220);
+
+                    Platform.runLater(new Runnable() {
+                        public void run() {
+                            buttonLogicRecord(false);
+                            recordButton.setText("Recorded!");
+                            recordButton.setDisable(true);
+                        }
+                    });
+                    return null;
                 }
-                return null;
-            }
-        };
-        //Binds progressbar to the update thread
-        progressBar.progressProperty().bind(update.progressProperty());
-        //Starts all 3 tasks on new threads
-        new Thread(task).start();
-        new Thread(update).start();
-        new Thread(timer).start();
-        backButton.setDisable(false);
-        recordButton.setDisable(true);
-        recordButton.setText("Recording...");
+            };
+
+            //Multi threaded the progress bar to show how long is left for recording
+            Task<Void> update = new Task<Void>() {
+                @Override
+                public Void call() throws Exception {
+                    for (int i = 1; i < 220; i++) {
+                        Thread.sleep(20);
+                        updateProgress(i, 220);
+                    }
+                    return null;
+                }
+            };
+            //Binds progressbar to the update thread
+            progressBar.progressProperty().bind(update.progressProperty());
+            //Starts all 3 tasks on new threads
+             recordingThread = new Thread(task);
+             updateThread = new Thread(update);
+             recordingThread.start();
+             updateThread.start();
+            backButton.setDisable(false);
+            recordButton.setText("Stop");
+            recordButton.setDisable(false);
+            recording = true;
+        }
     }
 
     //Method that listens to the users recorded attempt
@@ -131,6 +148,7 @@ public class PracticeMenuController {
             @Override
             public Void call() throws Exception {
                 //Linux command ffplay to play the audio
+                Audio.getInstance().normalizeAndCutSilenceOfUserRecording();
                 ProcessBuilder playProcess = new ProcessBuilder("ffplay", "-autoexit", "-nodisp", (currentWorkingDir + "/NameSayer/Temp/tempAudio.wav"));
                 Process process = playProcess.start();
                 process.waitFor();
@@ -175,5 +193,6 @@ public class PracticeMenuController {
         buttonLogicRecord(true);
         progressBar.progressProperty().unbind();
         progressBar.setProgress(0);
+        recording = false;
     }
 }

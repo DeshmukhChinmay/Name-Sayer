@@ -11,7 +11,7 @@
     <center>
         <VBox alignment="CENTER" prefHeight="435.0" prefWidth="553.0" style="-fx-background-color: #778ca3;" BorderPane.alignment="CENTER">
             <children>
-                <Label alignment="CENTER" contentDisplay="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="232.0" prefWidth="521.0" text="NameSayer" textFill="WHITE">
+                <Label alignment="CENTER" contentDisplay="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="232.0" prefWidth="682.0" text="NameSayer" textFill="WHITE">
                     <font>
                         <Font size="96.0" />
                     </font>

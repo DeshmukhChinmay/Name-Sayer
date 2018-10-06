@@ -13,7 +13,6 @@ import javafx.util.StringConverter;
 import main.*;
 import main.Names.NameVersions;
 
-import javax.naming.Name;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -47,13 +46,15 @@ public class ListMenuController implements Initializable {
     @FXML
     public Label qualityField;
     @FXML
-    public Label sameNameField;
+    public Label durationField;
+    @FXML
+    public ComboBox searchBy;
 
 
     private LinkedList<Names> nameObjects = new LinkedList<>();
-    final private ObservableList<String> namesViewList = FXCollections.observableArrayList();
+    private ObservableList<String> namesViewList = FXCollections.observableArrayList();
     private ObservableList<NameVersions> selectedVersionObjects = FXCollections.observableArrayList();
-    final private ObservableList<String> selectedVersionsViewList = FXCollections.observableArrayList();
+    private ObservableList<String> selectedVersionsViewList = FXCollections.observableArrayList();
     private ObservableList<String> namesSearchViewList = FXCollections.observableArrayList();
 
     private HashMap<String, Names> namesMap = new HashMap<>();
@@ -62,7 +63,8 @@ public class ListMenuController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        searchBy.getItems().addAll("Name","Tag");
+        searchBy.getSelectionModel().select("Name");
         try {
             initialiseNameObjects();
             updateMainList();
@@ -142,9 +144,11 @@ public class ListMenuController implements Initializable {
         } catch (IOException e) {
         }
     }
+
     //Reinitalises everything when new database added
-    public void reinitialiseAll() throws IOException{
+    public void reinitialiseAll() throws IOException {
         initialiseNameObjects();
+        updateMainList();
         initialiseNameMap();
         checkQualityStatus();
         initialiseTags();
@@ -266,9 +270,9 @@ public class ListMenuController implements Initializable {
             }
         } else {
             Alert errorAlert = new Alert(Alert.AlertType.WARNING);
-            errorAlert.setTitle("No Names Folder");
+            errorAlert.setTitle("No Default Folder");
             errorAlert.setHeaderText(null);
-            errorAlert.setHeaderText("Please Select Names");
+            errorAlert.setHeaderText("No Default Names Folder");
             errorAlert.showAndWait();
         }
     }
@@ -344,7 +348,7 @@ public class ListMenuController implements Initializable {
     //This dynamically updates the list view for the user to select single names to play
     public void searchFunction() {
         namesSearchViewList.clear();
-        if (!filterButton.isSelected()) { //Searches by name
+        if (searchBy.getSelectionModel().getSelectedItem().equals("Name")) { //Searches by name
             if (nameTagField.getText().length() == 0 || nameTagField.getText() == null) { //If notthing entered then output everything
                 namesListView.setItems(namesViewList.sorted());
             } else {
@@ -356,7 +360,7 @@ public class ListMenuController implements Initializable {
                 }
                 namesListView.setItems(namesSearchViewList);
             }
-        } else { //Searches by tag
+        } else if(searchBy.getSelectionModel().getSelectedItem().equals("Tag")){ //Searches by tag
             if (nameTagField.getText().length() == 0 || nameTagField.getText() == null) {
                 namesListView.setItems(namesViewList.sorted());
             } else {
@@ -371,19 +375,10 @@ public class ListMenuController implements Initializable {
                 namesListView.setItems(namesSearchViewList);
             }
         }
-    }
+        else{
 
-    //Changes the text on toggle button
-    public void onFilterButtonPressed() {
-        if (filterButton.isSelected()) {
-            filterButton.setText("Tag");
-
-        } else {
-            filterButton.setText("Name");
         }
-        searchFunction();
     }
-
     //Method for tag button. WHen tag button is pressed it removes the current tag from the text file if there is one
     //and then changes the field in the respective NameVersion object and then adds the new tag to the text file
     public void onTagButtonPressed() throws Exception {
@@ -406,35 +401,48 @@ public class ListMenuController implements Initializable {
         namesVersionListView.getSelectionModel().clearSelection();
 
     }
+
     //sets the info when the items in the selected list are clicked
     public void selectedListClicked() throws Exception {
         setInfoTab(selectedNames);
     }
+
     //sets the info when the items in the version selection are clicked
     public void onSelectVersion() throws Exception {
         setInfoTab(namesVersionListView);
     }
+
     //Sets the info to using whichever list was clicked where listView is whichever list was clicked
     public void setInfoTab(ListView<NameVersions> listView) throws Exception {
         if (listView.getSelectionModel().getSelectedItem() != null) {
             currentlySelected = listView.getSelectionModel().getSelectedItem();
             tagName.setText(currentlySelected.getTag());
-            sameNameField.setText(Integer.toString(namesMap.get(currentlySelected.getParentName()).getVersions().size()));
-                if (currentlySelected.getBadQuality().getValue()) { //gets the quality button
+            durationField.setText(Double.toString(Audio.getInstance().getWavFileLength(new File(currentlySelected.getAudioPath()))));
+            if (currentlySelected.getBadQuality().getValue()) { //gets the quality button
                 qualityField.setText("Bad");
             } else {
                 qualityField.setText("Good");
             }
         }
     }
+
     //Clears the info panel
-    private void clearInfoPanel(){
+    private void clearInfoPanel() {
         nameTagField.clear();
         tagField.clear();
         tagName.setText(null);
-        sameNameField.setText(null);
+        durationField.setText(null);
         qualityField.setText(null);
 
     }
 
+
+    public boolean isPresent(String name) {
+        if (namesMap.get(name) == null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }
+

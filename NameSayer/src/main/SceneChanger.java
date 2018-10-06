@@ -132,6 +132,10 @@ public class SceneChanger {
         return practiceMenuController;
     }
 
+    public static UploadSearchMenuController getUploadSearchMenuController() {
+        return uploadSearchMenuController;
+    }
+
     public static SettingsMenuController getSettingsMenuController() {
         return settingsMenuController;
     }

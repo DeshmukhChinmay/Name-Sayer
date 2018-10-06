@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1366.0" style="-fx-background-color: #53667B;" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.UploadSearchMenuController">
+<?import javafx.scene.control.TextArea?>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1366.0" style="-fx-background-color: #53667B;" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.UploadSearchMenuController">
    <top>
       <Label alignment="CENTER" contentDisplay="CENTER" text="Practice Name(s)" BorderPane.alignment="CENTER">
          <font>
@@ -31,7 +34,7 @@
                               <Font size="20.0" />
                            </font>
                         </TextField>
-                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="53.0" prefWidth="178.0" styleClass="mainButton" text="Select">
+                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#selectButtonPressed" prefHeight="53.0" prefWidth="178.0" styleClass="mainButton" text="Select">
                            <font>
                               <Font size="20.0" />
                            </font>
@@ -43,18 +46,18 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0">
                      <children>
-                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="48.0" prefWidth="236.0" styleClass="mainButton" text="Upload Text File">
+                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#fileChooser" prefHeight="48.0" prefWidth="236.0" styleClass="mainButton" text="Upload Text File">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Button>
                      </children>
                   </HBox>
-                  <ListView prefHeight="350.0" prefWidth="550.0" style="-fx-background-color: #5d728a;">
+                  <TextArea fx:id="inputFileTextArea" prefHeight="350.0" prefWidth="550.0" style="-fx-background-color: #5d728a;" visible="false">
                      <VBox.margin>
                         <Insets bottom="20.0" left="20.0" right="20.0" />
                      </VBox.margin>
-                  </ListView>
+                  </TextArea>
                </children>
             </VBox>
             <VBox prefHeight="625.0" prefWidth="605.0">
@@ -67,7 +70,7 @@
                         <Insets left="20.0" />
                      </VBox.margin>
                   </Label>
-                  <ListView prefHeight="609.0" prefWidth="605.0" style="-fx-background-color: #5d728a;">
+                  <ListView fx:id="playableNamesListView" prefHeight="609.0" prefWidth="605.0" style="-fx-background-color: #5d728a;">
                      <VBox.margin>
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                      </VBox.margin>

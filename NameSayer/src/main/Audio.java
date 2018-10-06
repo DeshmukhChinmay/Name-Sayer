@@ -1,5 +1,6 @@
 package main;
 
+import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 
 import javax.sound.sampled.AudioFormat;
@@ -10,6 +11,8 @@ import java.io.IOException;
 
 public class Audio {
     private static Audio ourInstance = new Audio();
+
+    private String currentWorkingDir = System.getProperty("user.dir");
 
     public static Audio getInstance() {
         return ourInstance;
@@ -39,11 +42,13 @@ public class Audio {
         Task<Void> task = new Task<Void>() {
             @Override
             public Void call() throws Exception {
+                normalizeAndCutSilenceOfUserRecording();
                 ProcessBuilder playPracticeProcess = new ProcessBuilder("ffplay", "-autoexit", "-nodisp", "tempAudio.wav");
                 playPracticeProcess.directory(new File("./NameSayer/Temp/"));
                 Process process = playPracticeProcess.start();
                 process.waitFor();
-                ProcessBuilder playDatabaseName = new ProcessBuilder("ffplay", "-autoexit", "-nodisp", databaseName.getAudioPath());
+                ProcessBuilder playDatabaseName = new ProcessBuilder("ffplay", "-autoexit", "-nodisp", "finalWav.wav");
+                playDatabaseName.directory(new File("./NameSayer/Temp/"));
                 Process secondProcess = playDatabaseName.start();
                 secondProcess.waitFor();
                 return null;
@@ -52,18 +57,43 @@ public class Audio {
         return task;
     }
 
-        private void normalizeAndCutSilence(Names.NameVersions nameVersions) throws Exception{
-            String removeSilenceCommand = "ffmpeg -y -i " + nameVersions.getAudioPath() + " -af silenceremove=1:0:-48dB " + nameVersions.getAudioPath();
-            ProcessBuilder silenceBuilder = new ProcessBuilder("/bin/bash", "-c", removeSilenceCommand);
-            Process silenceProcess = silenceBuilder.start();
-            silenceProcess.waitFor();
+    public double getWavFileLength(File file) throws Exception {
+        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
+        AudioFormat format = audioInputStream.getFormat();
+        long audioFileLength = file.length();
+        int frameSize = format.getFrameSize();
+        double frameRate = format.getFrameRate();
+        return Math.round((audioFileLength / (frameSize * frameRate)) * 100.0) / 100.0;
+    }
 
-            String normaliseCommand = "ffmpeg -y -i " + nameVersions.getAudioPath() + " -filter:a loudnorm " + nameVersions.getAudioPath();
-            ProcessBuilder normaliseBuilder = new ProcessBuilder("/bin/bash", "-c", normaliseCommand);
-            Process normaliseProcess = normaliseBuilder.start();
-            normaliseProcess.waitFor();
-            nameVersions.setFileAdjusted(true);
-        }
+    private void normalizeAndCutSilence(Names.NameVersions nameVersions) throws Exception{
+        String removeSilenceCommand = "ffmpeg -y -i " + nameVersions.getAudioPath() + " -af silenceremove=1:0:-48dB " + currentWorkingDir + "/NameSayer/Temp/silenceRemoved.wav";
+        ProcessBuilder silenceBuilder = new ProcessBuilder("/bin/bash", "-c", removeSilenceCommand);
+        Process silenceProcess = silenceBuilder.start();
+        silenceProcess.waitFor();
 
+        String normaliseCommand = "ffmpeg -y -i silenceRemoved.wav -filter:a volume=5dB finalWav.wav";
+        ProcessBuilder normaliseBuilder = new ProcessBuilder("/bin/bash", "-c", normaliseCommand);
+        normaliseBuilder.directory(new File("./NameSayer/Temp/"));
+        Process normaliseProcess = normaliseBuilder.start();
+        normaliseProcess.waitFor();
+        new File("./NameSayer/Temp/silenceRemoved.wav").delete();
 
+    }
+
+    public void normalizeAndCutSilenceOfUserRecording() throws Exception{
+        String removeSilenceCommand = "ffmpeg -y -i tempAudio.wav -af silenceremove=1:0:-48dB tempAudio.wav";
+        ProcessBuilder silenceBuilder = new ProcessBuilder("/bin/bash", "-c", removeSilenceCommand);
+        silenceBuilder.directory(new File("./NameSayer/Temp/"));
+        Process silenceProcess = silenceBuilder.start();
+        silenceProcess.waitFor();
+
+        String normaliseCommand = "ffmpeg -y -i tempAudio.wav -filter:a volume=5dB tempAudio.wav";
+        ProcessBuilder normaliseBuilder = new ProcessBuilder("/bin/bash", "-c", normaliseCommand);
+        normaliseBuilder.directory(new File("./NameSayer/Temp/"));
+        Process normaliseProcess = normaliseBuilder.start();
+        normaliseProcess.waitFor();
+        new File("./NameSayer/Temp/silenceRemoved.wav").delete();
+
+    }
 }

@@ -30,7 +30,6 @@ public class PlayMenuController implements Initializable {
     @FXML
     public Button prevButton;
 
-    private ListMenuController listMenuController;
     public ListView<NameVersions> selectedListView;
 
     private ObservableList<NameVersions> selectedVersionList;
@@ -40,8 +39,12 @@ public class PlayMenuController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         prevButton.setDisable(true);//Makes it so that prevButton is always disabled
-        listMenuController = SceneChanger.getListMenuController();
-        selectedVersionList = listMenuController.getSelectedVersionObjects();
+
+        if (fromUpload) {
+            selectedVersionList = SceneChanger.getUploadSearchMenuController().getNamesToPlay();
+        } else {
+            selectedVersionList = SceneChanger.getListMenuController().getSelectedVersionObjects();
+        }
 
         // Setting the cell of the selectedListView to a custom cell so custom text is displayed
         selectedListView.setCellFactory(param -> new ListCell<NameVersions>() {
@@ -123,6 +126,7 @@ public class PlayMenuController implements Initializable {
     public void backButtonPressed() {
         prevButton.setDisable(true);//Makes it so that prevButton is always disabled
         nextButton.setDisable(false);
+        SceneChanger.getListMenuController().searchFunction();
         single = false;
         selectedListView.getSelectionModel().clearSelection();
         if(fromUpload){

@@ -22,11 +22,7 @@
                         <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                             <children>
                                 <TextField fx:id="nameTagField" maxHeight="309.0" onKeyReleased="#searchFunction" prefHeight="280.0" prefWidth="422.0" promptText="Search Name/Tag" style="-fx-background-color: #5d728a;" />
-                                <ToggleButton fx:id="filterButton" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onFilterButtonPressed" prefHeight="27.0" prefWidth="150.0" styleClass="defaultButton" stylesheets="@../css/list.css" text="Name">
-                                    <HBox.margin>
-                                        <Insets />
-                                    </HBox.margin>
-                                </ToggleButton>
+                        <ComboBox fx:id="searchBy" prefHeight="27.0" prefWidth="230.0" promptText="Search by" style="-fx-background-color: #95a6b8; -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.5), 10, 0, 0, 0);;" />
                             </children>
                             <VBox.margin>
                                 <Insets left="20.0" top="30.0" />
@@ -78,12 +74,12 @@
                                 </HBox>
                                 <HBox alignment="CENTER" maxWidth="432.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0" style="-fx-background-color: #5d728a;">
                                     <children>
-                                        <Label text="Versions of Name">
+                                        <Label text="Duration">
                                             <font>
                                                 <Font size="20.0" />
                                             </font>
                                         </Label>
-                                        <Label fx:id="sameNameField" alignment="CENTER" contentDisplay="CENTER">
+                                        <Label fx:id="durationField" alignment="CENTER" contentDisplay="CENTER">
                                             <font>
                                                 <Font size="20.0" />
                                             </font>
