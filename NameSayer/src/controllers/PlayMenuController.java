@@ -32,7 +32,6 @@ public class PlayMenuController implements Initializable {
     public Button prevButton;
 
     public ListView<PlayableNames> selectedListView;
-
     private ObservableList<PlayableNames> selectedVersionList;
     private PlayableNames currentSelection;
     public boolean single;

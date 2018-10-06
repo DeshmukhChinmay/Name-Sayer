@@ -46,6 +46,7 @@ public class Audio {
         Task<Void> task = new Task<Void>() {
             @Override
             public Void call() throws Exception {
+                normalizeAndCutSilenceOfUserRecording();
                 ProcessBuilder playPracticeProcess = new ProcessBuilder("ffplay", "-autoexit", "-nodisp", "tempAudio.wav");
                 playPracticeProcess.directory(new File("./NameSayer/Temp/"));
                 Process process = playPracticeProcess.start();
@@ -69,13 +70,14 @@ public class Audio {
         return Math.round((audioFileLength / (frameSize * frameRate)) * 100.0) / 100.0;
     }
 
+
     private void normalizeAndCutSilence(PlayableNames name) throws Exception {
         String removeSilenceCommand = "ffmpeg -y -i " + name.getAudioPath() + " -af silenceremove=1:0:-48dB " + name.getAudioPath();
         ProcessBuilder silenceBuilder = new ProcessBuilder("/bin/bash", "-c", removeSilenceCommand);
         Process silenceProcess = silenceBuilder.start();
         silenceProcess.waitFor();
 
-        String normaliseCommand = "ffmpeg -y -i silenceRemoved.wav -filter:a volume=50dB finalWav.wav";
+        String normaliseCommand = "ffmpeg -y -i silenceRemoved.wav -filter:a volume=5dB finalWav.wav";
         ProcessBuilder normaliseBuilder = new ProcessBuilder("/bin/bash", "-c", normaliseCommand);
         normaliseBuilder.directory(new File("./NameSayer/Temp/"));
         Process normaliseProcess = normaliseBuilder.start();
@@ -104,39 +106,21 @@ public class Audio {
         return service;
     }
 
-    //// -----------------------------------------------------
-    //// TEST THIS CODE IF POSSIBLE
+    public void normalizeAndCutSilenceOfUserRecording() throws Exception{
+        String removeSilenceCommand = "ffmpeg -y -i tempAudio.wav -af silenceremove=1:0:-48dB tempAudio.wav";
+        ProcessBuilder silenceBuilder = new ProcessBuilder("/bin/bash", "-c", removeSilenceCommand);
+        silenceBuilder.directory(new File("./NameSayer/Temp/"));
+        Process silenceProcess = silenceBuilder.start();
+        silenceProcess.waitFor();
 
-
-    public Service<Void> normaliseAndRemoveSilence(File audio) {
-        Service<Void> service = new Service<Void>() {
-            @Override
-            protected Task<Void> createTask() {
-                return new Task<Void>() {
-                    @Override
-                    protected Void call() throws Exception {
-                        String removeSilenceCommand = "ffmpeg -y -i " + audio.getAbsolutePath() + " -af silenceremove=1:0:-48dB " + currentWorkingDir + "/NameSayer/Temp/silenceRemoved.wav";
-                        ProcessBuilder silenceBuilder = new ProcessBuilder("/bin/bash", "-c", removeSilenceCommand);
-                        Process silenceProcess = silenceBuilder.start();
-                        silenceProcess.waitFor();
-
-                        String normaliseCommand = "ffmpeg -y -i " + currentWorkingDir + "/NameSayer/Temp/silenceRemoved.wav" + " -filter:a loudnorm " + currentWorkingDir + "/NameSayer/Temp/finalAudio.wav";
-                        ProcessBuilder normaliseBuilder = new ProcessBuilder("/bin/bash", "-c", normaliseCommand);
-                        Process normaliseProcess = normaliseBuilder.start();
-                        normaliseProcess.waitFor();
-
-                        return null;
-                    }
-                };
-
-            };
-
-        };
-
-        return service;
+        String normaliseCommand = "ffmpeg -y -i tempAudio.wav -filter:a volume=5dB tempAudio.wav";
+        ProcessBuilder normaliseBuilder = new ProcessBuilder("/bin/bash", "-c", normaliseCommand);
+        normaliseBuilder.directory(new File("./NameSayer/Temp/"));
+        Process normaliseProcess = normaliseBuilder.start();
+        normaliseProcess.waitFor();
+        new File("./NameSayer/Temp/silenceRemoved.wav").delete();
 
     }
-
 }
 
 

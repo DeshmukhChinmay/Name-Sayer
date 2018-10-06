@@ -1,6 +1,5 @@
 package controllers;
 
-import javafx.beans.property.BooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -43,15 +42,15 @@ public class UploadSearchMenuController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-    enteredName.textProperty().addListener(new ChangeListener<String>() {
-        @Override
-        public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-            if (enteredName.getText().length() > characterLimit) {
-                String temp = enteredName.getText().substring(0, characterLimit);
-                enteredName.setText(temp);
+        enteredName.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (enteredName.getText().length() > characterLimit) {
+                    String temp = enteredName.getText().substring(0, characterLimit);
+                    enteredName.setText(temp);
+                }
             }
-        }
-    });
+        });
 
     }
 
@@ -97,7 +96,7 @@ public class UploadSearchMenuController implements Initializable {
 
     public void selectButtonPressed() {
         if (!enteredName.getText().equals("")) {
-            String[] tempNames = enteredName.getText().split("[ -]");
+            String[] tempNames = enteredName.getText().split("[ -]");g
             playableNamesListView.setItems(playableNames);
             try {
                 createPlayableNames(tempNames);
@@ -169,7 +168,7 @@ public class UploadSearchMenuController implements Initializable {
         return playableNamesObjects;
     }
 
-    public void backButtonPressed(){
+    public void backButtonPressed() {
         if (inputFileTextArea.isVisible()) {
             inputFileTextArea.clear();
             inputFileTextArea.setVisible(false);
@@ -180,7 +179,7 @@ public class UploadSearchMenuController implements Initializable {
         SceneChanger.loadMainPage();
     }
 
-    public void nextButtonPressed(){
+    public void nextButtonPressed() {
 
         if (playableNamesObjects.size() == 0) {
             Alert errorAlert = new Alert(Alert.AlertType.WARNING);
@@ -193,5 +192,11 @@ public class UploadSearchMenuController implements Initializable {
         SceneChanger.getPlayMenuController().setFromUpload(true);
         SceneChanger.getPlayMenuController().toggleQualityButtonVisibility();
         SceneChanger.loadPlayPage();
+    }
+
+    public void handleKeyReleased() {
+        String text = enteredName.getText();
+        boolean disableButton = text.isEmpty() || text.trim().isEmpty() || text.endsWith(" ");
+        enteredName.setDisable(disableButton);
     }
 }

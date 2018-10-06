@@ -38,8 +38,6 @@ public class ListMenuController implements Initializable {
     @FXML
     public TextField nameTagField;
     @FXML
-    public ToggleButton filterButton;
-    @FXML
     public TextField tagField;
     @FXML
     public Label tagName;
@@ -64,11 +62,10 @@ public class ListMenuController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        searchBy.getItems().addAll("Name","Tag");
+        searchBy.getItems().addAll("Name", "Tag");
         searchBy.getSelectionModel().select("Name");
 
         initialiseNameObjects();
-
         try {
             updateNameObjects();
             updateMainList();
@@ -132,9 +129,9 @@ public class ListMenuController implements Initializable {
                             } else {
                                 if (selectedVersionsViewList.contains(n.getVersion())) {
                                     selectedVersionsViewList.remove(n.getVersion());
-                                    for (PlayableNames pN: playableNamesObjects) {
-                                        if (n.getVersion().equals(pN.getName())) {
-                                            playableNamesObjects.remove(pN);
+                                        for (PlayableNames pN : playableNamesObjects) {
+                                                if (n.getVersion().equals(pN.getName())) {
+                                                    playableNamesObjects.remove(pN);
                                         }
                                     }
                                 }
@@ -156,6 +153,7 @@ public class ListMenuController implements Initializable {
 
     //Reinitalises everything when new database added
     public void reinitialiseAll() throws IOException {
+
         updateNameObjects();
         initialiseNameMap();
         initialiseNameVersionsMap();
@@ -220,8 +218,8 @@ public class ListMenuController implements Initializable {
     }
 
     public void initialiseNameVersionsMap() {
-        for (Names n: nameObjects) {
-            for (NameVersions nV: n.getVersions()) {
+        for (Names n : nameObjects) {
+            for (NameVersions nV : n.getVersions()) {
                 nameVersionsMap.put(nV.getVersion(), nV);
             }
         }
@@ -231,12 +229,12 @@ public class ListMenuController implements Initializable {
 
         File recordingsFolder = new File(currentWorkingDir + "/NameSayer/Recordings/");
         File[] nameFolders = recordingsFolder.listFiles();
-        for (File nameFolder: nameFolders) {
+        for (File nameFolder : nameFolders) {
             String tempName = nameFolder.getName();
             if (!nameFolder.isHidden()) {
                 File[] nameFiles = nameFolder.listFiles();
                 boolean firstFile = true;
-                for (File name: nameFiles) {
+                for (File name : nameFiles) {
                     if (firstFile) {
                         nameObjects.add(new Names(tempName, name.getAbsolutePath()));
                         firstFile = false;
@@ -299,9 +297,9 @@ public class ListMenuController implements Initializable {
             }
         } else {
             Alert errorAlert = new Alert(Alert.AlertType.WARNING);
-            errorAlert.setTitle("No Names Folder");
+            errorAlert.setTitle("No Default Folder");
             errorAlert.setHeaderText(null);
-            errorAlert.setHeaderText("Please Select Names");
+            errorAlert.setHeaderText("No Default Names Folder");
             errorAlert.showAndWait();
         }
     }
@@ -328,10 +326,14 @@ public class ListMenuController implements Initializable {
     }
 
     private void clearSelection() {
-        //Resets all items from selected lists except first one
-        for (Names n : nameObjects) {
-            for (NameVersions v : n.getVersions()) {
-                v.versionSelected().setValue(false);
+        if (nameObjects != null) {
+            //Resets all items from selected lists except first one
+            for (Names n : nameObjects) {
+                for (NameVersions v : n.getVersions()) {
+                    if (v != null){
+                        v.versionSelected().setValue(false);
+                }
+                }
             }
         }
         //Clears lists for selected versions
@@ -350,7 +352,6 @@ public class ListMenuController implements Initializable {
 
     //Returns to the main menu
     public void backButtonPressed() {
-        clearSelection();
         clearInfoPanel();
         SceneChanger.loadMainPage();
     }
@@ -394,7 +395,7 @@ public class ListMenuController implements Initializable {
                 }
                 namesListView.setItems(namesSearchViewList);
             }
-        } else if(searchBy.getSelectionModel().getSelectedItem().equals("Tag")){ //Searches by tag
+        } else if (searchBy.getSelectionModel().getSelectedItem().equals("Tag")) { //Searches by tag
             if (nameTagField.getText().length() == 0 || nameTagField.getText() == null) {
                 namesListView.setItems(namesViewList.sorted());
             } else {
@@ -408,11 +409,11 @@ public class ListMenuController implements Initializable {
                 }
                 namesListView.setItems(namesSearchViewList);
             }
-        }
-        else{
+        } else {
 
         }
     }
+
     //Method for tag button. WHen tag button is pressed it removes the current tag from the text file if there is one
     //and then changes the field in the respective NameVersion object and then adds the new tag to the text file
     public void onTagButtonPressed() throws Exception {
