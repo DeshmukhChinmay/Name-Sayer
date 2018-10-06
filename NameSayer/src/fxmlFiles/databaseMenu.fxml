@@ -29,7 +29,7 @@
             </VBox>
             <VBox alignment="CENTER" prefHeight="411.0" prefWidth="455.0" spacing="10.0">
                <children>
-                  <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="231.0" prefHeight="41.0" prefWidth="231.0" text="Saved Attempts">
+                  <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="307.0" prefHeight="35.0" prefWidth="307.0" text="Saved Attempts">
                      <font>
                         <Font size="30.0" />
                      </font>
