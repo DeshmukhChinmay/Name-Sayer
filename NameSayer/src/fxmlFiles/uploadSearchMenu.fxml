@@ -16,62 +16,51 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.control.TextArea?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0"
-            prefWidth="1366.0" style="-fx-background-color: #53667B;" stylesheets="@../css/main.css"
-            xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="controllers.UploadSearchMenuController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1366.0" style="-fx-background-color: #53667B;" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.UploadSearchMenuController">
     <top>
-        <Label alignment="CENTER" contentDisplay="CENTER" text="Practice Name(s)" BorderPane.alignment="CENTER">
+        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="59.0" prefWidth="613.0" text="Practice Name(s)" BorderPane.alignment="CENTER">
             <font>
-                <Font size="75.0"/>
+                <Font size="75.0" />
             </font>
             <BorderPane.margin>
-                <Insets top="30.0"/>
+                <Insets />
             </BorderPane.margin>
         </Label>
     </top>
     <center>
-        <HBox prefHeight="567.0" prefWidth="1366.0" style="-fx-background-color: #778ca3;"
-              BorderPane.alignment="CENTER">
+        <HBox prefHeight="567.0" prefWidth="1366.0" style="-fx-background-color: #778ca3;" BorderPane.alignment="CENTER">
             <children>
-                <VBox alignment="CENTER" prefHeight="645.0" prefWidth="760.0">
+                <VBox alignment="CENTER" maxHeight="608.0" prefHeight="608.0" prefWidth="760.0">
                     <children>
                         <HBox alignment="CENTER" prefHeight="86.0" prefWidth="668.0" spacing="40.0">
                             <children>
-                                <TextField fx:id="enteredName" onKeyReleased="#handleKeyReleased" prefHeight="53.0"
-                                           prefWidth="431.0" promptText="Enter Name"
-                                           style="-fx-background-color: #5d728a;">
+                                <TextField fx:id="enteredName" onKeyReleased="#handleKeyReleased" prefHeight="53.0" prefWidth="431.0" promptText="Enter Name" style="-fx-background-color: #5d728a;">
                                     <font>
-                                        <Font size="20.0"/>
+                                        <Font size="20.0" />
                                     </font>
                                 </TextField>
-                                <Button fx:id="selectButton" alignment="CENTER" contentDisplay="CENTER"
-                                        mnemonicParsing="false" onAction="#selectButtonPressed" prefHeight="53.0"
-                                        prefWidth="178.0" styleClass="mainButton" text="Select">
+                                <Button fx:id="selectButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#selectButtonPressed" prefHeight="53.0" prefWidth="178.0" styleClass="mainButton" text="Select">
                                     <font>
-                                        <Font size="20.0"/>
+                                        <Font size="20.0" />
                                     </font>
                                 </Button>
                             </children>
                             <VBox.margin>
-                                <Insets left="20.0" top="20.0"/>
+                                <Insets left="20.0" top="20.0" />
                             </VBox.margin>
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0">
                             <children>
-                                <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                                        onAction="#fileChooser" prefHeight="48.0" prefWidth="236.0"
-                                        styleClass="mainButton" text="Upload Text File">
+                                <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#fileChooser" prefHeight="48.0" prefWidth="236.0" styleClass="mainButton" text="Upload Text File">
                                     <font>
-                                        <Font size="20.0"/>
+                                        <Font size="20.0" />
                                     </font>
                                 </Button>
                             </children>
                         </HBox>
-                        <TextArea fx:id="inputFileTextArea" prefHeight="350.0" prefWidth="550.0"
-                                  style="-fx-background-color: #5d728a;" visible="false">
+                        <TextArea fx:id="inputFileTextArea" prefHeight="350.0" prefWidth="550.0" style="-fx-background-color: #5d728a;" visible="false">
                             <VBox.margin>
-                                <Insets bottom="20.0" left="20.0" right="20.0"/>
+                                <Insets bottom="20.0" left="20.0" right="20.0" />
                             </VBox.margin>
                         </TextArea>
                     </children>
@@ -80,62 +69,55 @@
                     <children>
                         <Label alignment="CENTER" contentDisplay="CENTER" text="Playable Names">
                             <font>
-                                <Font size="30.0"/>
+                                <Font size="30.0" />
                             </font>
                             <VBox.margin>
-                                <Insets left="20.0"/>
+                                <Insets left="20.0" />
                             </VBox.margin>
                             <padding>
-                                <Insets right="350.0"/>
+                                <Insets right="350.0" />
                             </padding>
                         </Label>
-                        <ListView fx:id="playableNamesListView" prefHeight="397.0" prefWidth="565.0"
-                                  style="-fx-background-color: #5d728a;">
+                        <ListView fx:id="playableNamesListView" prefHeight="397.0" prefWidth="565.0" style="-fx-background-color: #5d728a;">
                             <VBox.margin>
-                                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+                                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                             </VBox.margin>
                         </ListView>
-                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                                onAction="#clearButtonPressed" prefHeight="53.0" prefWidth="178.0"
-                                styleClass="mainButton" text="Clear" textAlignment="CENTER">
+                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#clearButtonPressed" prefHeight="53.0" prefWidth="178.0" styleClass="mainButton" text="Clear" textAlignment="CENTER">
                             <font>
-                                <Font size="20.0"/>
+                                <Font size="20.0" />
                             </font>
                         </Button>
                     </children>
                     <HBox.margin>
-                        <Insets top="20.0"/>
+                        <Insets top="20.0" />
                     </HBox.margin>
                 </VBox>
             </children>
             <BorderPane.margin>
-                <Insets top="20.0"/>
+                <Insets />
             </BorderPane.margin>
         </HBox>
     </center>
     <bottom>
-        <HBox alignment="CENTER" prefHeight="67.0" prefWidth="1366.0" spacing="1100.0"
-              style="-fx-background-color: #778ca3;" BorderPane.alignment="CENTER">
+        <HBox alignment="CENTER" prefHeight="67.0" prefWidth="1366.0" spacing="1100.0" style="-fx-background-color: #778ca3;" BorderPane.alignment="CENTER">
             <children>
-                <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#backButtonPressed"
-                        prefHeight="53.0" prefWidth="138.0" styleClass="mainButton" text="Back">
+                <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#backButtonPressed" prefHeight="53.0" prefWidth="138.0" styleClass="mainButton" text="Back">
                     <font>
-                        <Font size="20.0"/>
+                        <Font size="20.0" />
                     </font>
                     <HBox.margin>
-                        <Insets/>
+                        <Insets />
                     </HBox.margin>
                 </Button>
-                <Button alignment="CENTER" contentDisplay="CENTER" layoutX="30.0" layoutY="10.0" mnemonicParsing="false"
-                        onAction="#nextButtonPressed" prefHeight="53.0" prefWidth="138.0" styleClass="mainButton"
-                        text="Next">
+                <Button alignment="CENTER" contentDisplay="CENTER" layoutX="30.0" layoutY="10.0" mnemonicParsing="false" onAction="#nextButtonPressed" prefHeight="53.0" prefWidth="138.0" styleClass="mainButton" text="Next">
                     <font>
-                        <Font size="20.0"/>
+                        <Font size="20.0" />
                     </font>
                 </Button>
             </children>
             <padding>
-                <Insets bottom="5.0" left="20.0" right="20.0"/>
+                <Insets bottom="5.0" left="20.0" right="20.0" />
             </padding>
         </HBox>
     </bottom>
