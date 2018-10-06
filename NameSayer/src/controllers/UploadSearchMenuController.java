@@ -80,9 +80,6 @@ public class UploadSearchMenuController implements Initializable {
 
             BufferedReader reader = new BufferedReader(new FileReader(fileUploaded));
             String line = null;
-            String tempString;
-            String tempAudioPath;
-
 
             while ((line = reader.readLine()) != null) {
                 String[] tempNames = line.split("[ -]");
@@ -96,7 +93,7 @@ public class UploadSearchMenuController implements Initializable {
 
     public void selectButtonPressed() {
         if (!enteredName.getText().equals("")) {
-            String[] tempNames = enteredName.getText().split("[ -]");g
+            String[] tempNames = enteredName.getText().split("[ -]");
             playableNamesListView.setItems(playableNames);
             try {
                 createPlayableNames(tempNames);
@@ -199,4 +196,10 @@ public class UploadSearchMenuController implements Initializable {
         boolean disableButton = text.isEmpty() || text.trim().isEmpty() || text.endsWith(" ");
         enteredName.setDisable(disableButton);
     }
+
+    public void clearButtonPressed() {
+        playableNames.clear();
+        enteredName.clear();
+    }
+
 }

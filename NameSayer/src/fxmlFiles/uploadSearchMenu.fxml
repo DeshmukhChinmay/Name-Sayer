@@ -83,7 +83,7 @@
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                      </VBox.margin>
                   </ListView>
-                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="53.0" prefWidth="178.0" styleClass="mainButton" text="Clear" textAlignment="CENTER">
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#clearButtonPressed" prefHeight="53.0" prefWidth="178.0" styleClass="mainButton" text="Clear" textAlignment="CENTER">
                      <font>
                         <Font size="20.0" />
                      </font>
