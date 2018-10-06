@@ -189,15 +189,15 @@ public class DatabaseMenuController implements Initializable {
             backButton.setDisable(true);
             //Play the selected creation on a separate thread
 
-//            Task task = Audio.getInstance().playAudio(selectedName);
-//            task.setOnSucceeded(e -> { //Enables all buttons after finished playing
-//                playButton.setDisable(false);
-//                playDatabaseNameButton.setDisable(false);
-//                deleteButton.setDisable(false);
-//                backButton.setDisable(false);
-//                playButton.setText("Play Practice Recording");
-//            });
-//            new Thread(task).start();
+            Task task = Audio.getInstance().playAudio(selectedName);
+            task.setOnSucceeded(e -> { //Enables all buttons after finished playing
+                playButton.setDisable(false);
+                playDatabaseNameButton.setDisable(false);
+                deleteButton.setDisable(false);
+                backButton.setDisable(false);
+                playButton.setText("Play Practice Recording");
+            });
+            new Thread(task).start();
         } else {//If no name is selected then it shows an alert to the user
             Alert errorAlert = new Alert(Alert.AlertType.WARNING);
             errorAlert.setTitle("No File Selected");
@@ -222,15 +222,15 @@ public class DatabaseMenuController implements Initializable {
             playButton.setDisable(true);
             deleteButton.setDisable(true);
             backButton.setDisable(true);
-//            Task task = Audio.getInstance().playAudio(selectedDatabaseName);
-//            task.setOnSucceeded(e -> {
-//                playButton.setDisable(false);
-//                playDatabaseNameButton.setDisable(false);
-//                deleteButton.setDisable(false);
-//                backButton.setDisable(false);
-//                playDatabaseNameButton.setText("Play Database Recording");
-//            });
-//            new Thread(task).start();
+            Task task = Audio.getInstance().playAudio(selectedDatabaseName);
+            task.setOnSucceeded(e -> {
+                playButton.setDisable(false);
+                playDatabaseNameButton.setDisable(false);
+                deleteButton.setDisable(false);
+                backButton.setDisable(false);
+                playDatabaseNameButton.setText("Play Database Recording");
+            });
+            new Thread(task).start();
         } else { //If no name is selected then it shows an alert to the user
             Alert errorAlert = new Alert(Alert.AlertType.WARNING);
             errorAlert.setTitle("No Database Name Selected");

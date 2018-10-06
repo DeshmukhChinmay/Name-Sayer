@@ -8,54 +8,76 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1366.0" style="-fx-background-color: #53667B;" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SettingsMenuController">
-   <top>
-      <Label text="Settings" BorderPane.alignment="CENTER">
-         <font>
-            <Font size="85.0" />
-         </font>
-      </Label>
-   </top>
-   <center>
-      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <children>
-            <VBox alignment="CENTER" prefHeight="597.0" prefWidth="1426.0" style="-fx-background-color: #778ca3;">
-               <children>
-                  <HBox alignment="CENTER" prefHeight="298.5" prefWidth="1366.0" spacing="50.0">
-                     <children>
-                        <Button fx:id="testButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#testMic" prefHeight="119.0" prefWidth="306.0" styleClass="mainButton" text="Test Microphone">
-                           <font>
-                              <Font size="30.0" />
-                           </font>
-                        </Button>
-                        <ProgressBar fx:id="micVolume" prefHeight="76.0" prefWidth="856.0" progress="0.0" style="-fx-background-color: #5d728a;" />
-                     </children>
-                  </HBox>
-                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onAddDatabase" prefHeight="119.0" prefWidth="306.0" styleClass="mainButton" text="Add Additional Database" textAlignment="CENTER" wrapText="true">
-                     <font>
-                        <Font size="30.0" />
-                     </font>
-                  </Button>
-               </children>
-            </VBox>
-         </children>
-      </HBox>
-   </center>
-   <bottom>
-      <HBox prefHeight="67.0" prefWidth="1366.0" style="-fx-background-color: #778ca3;" BorderPane.alignment="CENTER">
-         <children>
-            <Button mnemonicParsing="false" onAction="#backButtonPressed" prefHeight="53.0" prefWidth="113.0" styleClass="mainButton" text="Back">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Button>
-         </children>
-         <BorderPane.margin>
-            <Insets />
-         </BorderPane.margin>
-         <padding>
-            <Insets left="20.0" right="20.0" />
-         </padding>
-      </HBox>
-   </bottom>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0"
+            prefWidth="1366.0" style="-fx-background-color: #53667B;" stylesheets="@../css/main.css"
+            xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.SettingsMenuController">
+    <top>
+        <Label text="Settings" BorderPane.alignment="CENTER">
+            <font>
+                <Font size="85.0"/>
+            </font>
+        </Label>
+    </top>
+    <center>
+        <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <children>
+                <VBox alignment="CENTER" prefHeight="597.0" prefWidth="1426.0" style="-fx-background-color: #778ca3;">
+                    <children>
+                        <HBox alignment="CENTER" prefHeight="298.5" prefWidth="1366.0" spacing="50.0">
+                            <children>
+                                <Button fx:id="testButton" alignment="CENTER" contentDisplay="CENTER"
+                                        mnemonicParsing="false" onAction="#testMic" prefHeight="119.0" prefWidth="306.0"
+                                        styleClass="mainButton" text="Test Microphone">
+                                    <font>
+                                        <Font size="30.0"/>
+                                    </font>
+                                </Button>
+                                <ProgressBar fx:id="micVolume" prefHeight="76.0" prefWidth="856.0" progress="0.0"
+                                             style="-fx-background-color: #5d728a;"/>
+                            </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="200.0">
+                            <children>
+                                <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
+                                        onAction="#onAddDatabase" prefHeight="119.0" prefWidth="306.0"
+                                        styleClass="mainButton" text="Add Additional Database" textAlignment="CENTER"
+                                        wrapText="true">
+                                    <font>
+                                        <Font size="30.0"/>
+                                    </font>
+                                </Button>
+                                <Button fx:id="helpButton" alignment="CENTER" contentDisplay="CENTER"
+                                        mnemonicParsing="false" onAction="#onHelpButtonPressed" prefHeight="119.0"
+                                        prefWidth="306.0" styleClass="mainButton" text="Help" textAlignment="CENTER"
+                                        wrapText="true">
+                                    <font>
+                                        <Font size="30.0"/>
+                                    </font>
+                                </Button>
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+    </center>
+    <bottom>
+        <HBox prefHeight="67.0" prefWidth="1366.0" style="-fx-background-color: #778ca3;" BorderPane.alignment="CENTER">
+            <children>
+                <Button mnemonicParsing="false" onAction="#backButtonPressed" prefHeight="53.0" prefWidth="113.0"
+                        styleClass="mainButton" text="Back">
+                    <font>
+                        <Font size="20.0"/>
+                    </font>
+                </Button>
+            </children>
+            <BorderPane.margin>
+                <Insets/>
+            </BorderPane.margin>
+            <padding>
+                <Insets left="20.0" right="20.0"/>
+            </padding>
+        </HBox>
+    </bottom>
 </BorderPane>

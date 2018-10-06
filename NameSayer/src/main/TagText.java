@@ -20,7 +20,7 @@ public class TagText {
     public void writeText(String versionName, String tag) throws IOException {
         FileWriter tagFile = new FileWriter("Tags_File.txt", true);
         PrintWriter writer = new PrintWriter(tagFile);
-        writer.printf("%s" + "%n", versionName + "_" + tag );
+        writer.printf("%s" + "%n", versionName + "_" + tag);
         writer.close();
     }
 

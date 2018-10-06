@@ -11,7 +11,7 @@ import javafx.stage.StageStyle;
 public class SceneChanger {
     private static SceneChanger ourInstance = new SceneChanger();
 
-    private  static Stage _primaryStage;
+    private static Stage _primaryStage;
     private static Stage _secondaryStage = new Stage();
 
     private static Scene mainMenuScene;
@@ -34,11 +34,12 @@ public class SceneChanger {
         return ourInstance;
     }
 
-    private SceneChanger(){
+    private SceneChanger() {
 
     }
+
     //Loads all Fxml files and gets the instance of each controller as well
-    public void loadFXMLFiles() throws Exception{
+    public void loadFXMLFiles() throws Exception {
         FXMLLoader mainMenuLoader = new FXMLLoader(getClass().getResource("/fxmlFiles/mainMenu.fxml"));
         Parent mainMenuPane = mainMenuLoader.load();
         mainMenuScene = new Scene(mainMenuPane, 1366, 768);
@@ -74,6 +75,7 @@ public class SceneChanger {
         databaseScene = new Scene(databasePane, 1366, 768);
         databaseMenuController = databaseLoader.getController();
     }
+
     //Loads Main page in the primary stage
     public static void loadMainPage() {
         _secondaryStage.close();
@@ -86,7 +88,7 @@ public class SceneChanger {
         _primaryStage.setScene(listMenuScene);
     }
 
-    public static void loadUploadSearchPage(){
+    public static void loadUploadSearchPage() {
         _primaryStage.setScene(uploadSearchScene);
     }
 
@@ -139,16 +141,18 @@ public class SceneChanger {
     public static SettingsMenuController getSettingsMenuController() {
         return settingsMenuController;
     }
+
     //Sets up first and primary stage
-    public static void set_primaryStage(Stage stage){
+    public static void set_primaryStage(Stage stage) {
         _primaryStage = stage;
         _primaryStage.setTitle("NameSayer");
         _primaryStage.setScene(mainMenuScene);
         _primaryStage.setResizable(false);
         _primaryStage.show();
     }
+
     //Sets up secondary stage
-    public static void set_secondaryStage(){
+    public static void set_secondaryStage() {
         _secondaryStage.setTitle("Name Sayer");
         _secondaryStage.setResizable(false);
         _secondaryStage.initStyle(StageStyle.UNDECORATED);

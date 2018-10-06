@@ -4,10 +4,12 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Service;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
 import main.*;
 import main.Names.NameVersions;
@@ -37,10 +39,10 @@ public class UploadSearchMenuController implements Initializable {
     private ObservableList<PlayableNames> playableNamesObjects = FXCollections.observableArrayList();
 
     private int characterLimit = 50;
-    private String currentWorkingDir = System.getProperty("user.dir");
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        selectButton.defaultButtonProperty().bind(selectButton.focusedProperty());
 
         enteredName.textProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -51,7 +53,14 @@ public class UploadSearchMenuController implements Initializable {
                 }
             }
         });
-
+        enteredName.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if (keyEvent.getCode() == KeyCode.ENTER)  {
+                    selectButtonPressed();
+                }
+            }
+        });
     }
 
     public void fileChooser() {
@@ -95,16 +104,13 @@ public class UploadSearchMenuController implements Initializable {
         if (!enteredName.getText().equals("")) {
             String[] tempNames = enteredName.getText().split("[ -]");
             playableNamesListView.setItems(playableNames);
-            try {
+
                 createPlayableNames(tempNames);
-            } catch (IOException e) {
-                e.printStackTrace();
             }
-        }
+        enteredName.clear();
     }
 
-    public void createPlayableNames(String[] tempNames) throws IOException {
-        Service<Void> concatService;
+    public void createPlayableNames(String[] tempNames) {
         String tempString = "";
         LinkedList<String> tempAudioPath = new LinkedList<>();
         boolean firstName = false;
@@ -133,23 +139,8 @@ public class UploadSearchMenuController implements Initializable {
 
         if (!tempString.equals("")) {
             if (!playableNames.contains(tempString)) {
-                File file = new File(currentWorkingDir + "/NameSayer/Temp/Concat/concatFiles.txt");
-                if (!file.exists()) {
-                    file.createNewFile();
-                }
                 playableNames.add(tempString);
                 playableNamesObjects.add(new PlayableNames(tempString, tempAudioPath));
-//                ConcatFilesText.getInstance().writeText(tempAudioPath);
-//                final String finalName = tempString;
-//                try {
-//                    concatService = Audio.getInstance().concatAudioFiles(tempString);
-//                    concatService.start();
-//                    concatService.setOnSucceeded(event -> {
-//
-//                    });
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
             }
         }
     }
@@ -163,10 +154,9 @@ public class UploadSearchMenuController implements Initializable {
             inputFileTextArea.clear();
             inputFileTextArea.setVisible(false);
         }
-        playableNames.clear();
         playableNamesListView.setItems(null);
-        playableNamesObjects.clear();
         selectButton.setDisable(true);
+        clearButtonPressed();
         SceneChanger.loadMainPage();
     }
 
@@ -194,6 +184,7 @@ public class UploadSearchMenuController implements Initializable {
     public void clearButtonPressed() {
         playableNames.clear();
         enteredName.clear();
+        playableNamesObjects.clear();
     }
 
 }

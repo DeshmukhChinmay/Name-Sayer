@@ -64,7 +64,6 @@ public class PracticeMenuController {
 
     //Saves the audio file into the practices folder
     public void SaveAudio() throws IOException {
-
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
         LocalDateTime dateAndTime = LocalDateTime.now();
         fileName = new File(currentWorkingDir + "/NameSayer/PracticeNames/" + SceneChanger.getListMenuController().getNameVersionsMap().get(name).getParentName() + "_" + dateTimeFormatter.format(dateAndTime) + ".wav");
@@ -78,14 +77,13 @@ public class PracticeMenuController {
     //Creates a tempAudio.wav file that contains the user recording and also creates the progress bar for 5 seconds of recording
     public void startRecording() {
 
-        if(recording){
+        if (recording) {
             recording = false;
             stop = true;
             recordButton.setDisable(true);
             progressBar.progressProperty().unbind();
             progressBar.progressProperty().setValue(220);
-        }
-        else {
+        } else {
             stop = false;
             //Multi threading the recording
             backButton.setDisable(true);
@@ -95,8 +93,8 @@ public class PracticeMenuController {
                     ProcessBuilder voiceRec = new ProcessBuilder("ffmpeg", "-f", "alsa", "-ac", "1", "-ar", "44100", "-i", "default", "-t", "5", "tempAudio.wav");
                     voiceRec.directory(new File(currentWorkingDir + "/NameSayer/Temp/"));
                     Process process = voiceRec.start();
-                    while(process.isAlive()){
-                        if(stop){
+                    while (process.isAlive()) {
+                        if (stop) {
                             process.destroy();
                         }
                     }
@@ -126,10 +124,10 @@ public class PracticeMenuController {
             //Binds progressbar to the update thread
             progressBar.progressProperty().bind(update.progressProperty());
             //Starts all 3 tasks on new threads
-             recordingThread = new Thread(task);
-             updateThread = new Thread(update);
-             recordingThread.start();
-             updateThread.start();
+            recordingThread = new Thread(task);
+            updateThread = new Thread(update);
+            recordingThread.start();
+            updateThread.start();
             backButton.setDisable(false);
             recordButton.setText("Stop");
             recordButton.setDisable(false);

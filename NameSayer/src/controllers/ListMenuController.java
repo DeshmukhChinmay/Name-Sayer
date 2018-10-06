@@ -191,7 +191,7 @@ public class ListMenuController implements Initializable {
         }
     }
 
-    public void initialiseTags() throws IOException {
+    private void initialiseTags() throws IOException {
         File tagFile = new File("Tags_File.txt");
         //Checks if such file already exists
         if (tagFile.exists()) {
@@ -216,13 +216,13 @@ public class ListMenuController implements Initializable {
     }
 
     //Creates the map of Names using the corresponding string as the key
-    public void initialiseNameMap() {
+    private void initialiseNameMap() {
         for (Names n : nameObjects) {
             namesMap.put(n.getName(), n);
         }
     }
 
-    public void initialiseNameVersionsMap() {
+    private void initialiseNameVersionsMap() {
         for (Names n : nameObjects) {
             for (NameVersions nV : n.getVersions()) {
                 nameVersionsMap.put(nV.getVersion(), nV);
@@ -230,7 +230,7 @@ public class ListMenuController implements Initializable {
         }
     }
 
-    public void initialiseNameObjects() {
+    private void initialiseNameObjects() {
 
         File recordingsFolder = new File(currentWorkingDir + "/NameSayer/Recordings/");
         File[] nameFolders = recordingsFolder.listFiles();
@@ -263,7 +263,7 @@ public class ListMenuController implements Initializable {
     // into the appropriate folders. 'Names' objects are also created and added to the appropriate
     // ObservableLists. The name for the 'Names' objects are extracted from the file names and the
     // path of the file assigned to the field of a version for that name
-    public void updateNameObjects() throws IOException {
+    private void updateNameObjects() throws IOException {
 
         databaseFolder = Main.getDatabaseFolder();
         if (databaseFolder.exists()) {
@@ -310,7 +310,7 @@ public class ListMenuController implements Initializable {
     }
 
     // Updating the namesListView so that it displays the names available from the database alphabetically
-    public void updateMainList() {
+    private void updateMainList() {
         for (Names n : nameObjects) {
             namesViewList.add(n.getName());
         }
@@ -318,15 +318,15 @@ public class ListMenuController implements Initializable {
         namesListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
     }
 
-    public ObservableList<PlayableNames> getPlayableNamesObjects() {
+     ObservableList<PlayableNames> getPlayableNamesObjects() {
         return playableNamesObjects;
     }
 
-    public HashMap<String, Names> getNamesMap() {
+     HashMap<String, Names> getNamesMap() {
         return namesMap;
     }
 
-    public HashMap<String, NameVersions> getNameVersionsMap() {
+     HashMap<String, NameVersions> getNameVersionsMap() {
         return nameVersionsMap;
     }
 
@@ -335,9 +335,9 @@ public class ListMenuController implements Initializable {
             //Resets all items from selected lists except first one
             for (Names n : nameObjects) {
                 for (NameVersions v : n.getVersions()) {
-                    if (v != null){
+                    if (v != null) {
                         v.versionSelected().setValue(false);
-                }
+                    }
                 }
             }
         }
@@ -448,7 +448,7 @@ public class ListMenuController implements Initializable {
     }
 
     //Sets the info to using whichever list was clicked where listView is whichever list was clicked
-    public void setInfoTab(ListView<NameVersions> listView) throws Exception {
+    private void setInfoTab(ListView<NameVersions> listView) throws Exception {
         if (listView.getSelectionModel().getSelectedItem() != null) {
             currentlySelected = listView.getSelectionModel().getSelectedItem();
             tagName.setText(currentlySelected.getTag());
@@ -462,7 +462,7 @@ public class ListMenuController implements Initializable {
     }
 
     //Clears the info panel
-    private void clearInfoPanel() {
+    public void clearInfoPanel() {
         nameTagField.clear();
         tagField.clear();
         tagName.setText(null);

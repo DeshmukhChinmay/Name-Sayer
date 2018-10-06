@@ -10,7 +10,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class MainMenuController implements Initializable {
-    private SettingsMenuController controller;
 
     //Initialize method to create the text file if not made
     public void initialize(URL location, ResourceBundle resources) {
@@ -35,7 +34,7 @@ public class MainMenuController implements Initializable {
         SceneChanger.loadDatabaseMenu();
     }
 
-    public void uploadFilePressed(){
+    public void uploadFilePressed() {
         SceneChanger.loadUploadSearchPage();
     }
 }

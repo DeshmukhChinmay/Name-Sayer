@@ -66,13 +66,13 @@ public class PlayMenuController implements Initializable {
             public void changed(ObservableValue<? extends PlayableNames> observable, PlayableNames oldValue, PlayableNames newValue) {
                 currentSelection = newValue;
                 if (fromUpload) {
-                    if(currentSelection != null) {
+                    if (currentSelection != null) {
                         playButton.setDisable(false);
                         practiceButton.setDisable(false);
                         checkLogicOfCycleButton();
                     }
                 } else {
-                    if(currentSelection != null) {
+                    if (currentSelection != null) {
                         getQualityRating(currentSelection);
                         playButton.setDisable(false);
                         practiceButton.setDisable(false);
@@ -95,6 +95,7 @@ public class PlayMenuController implements Initializable {
             qualityButton.setText("Good Quality");
         }
     }
+
     //Sets the quality on the UI screen when the toggle button is toggled
     public void setQualityRating() throws IOException {
         if (currentSelection == null) {
@@ -135,10 +136,9 @@ public class PlayMenuController implements Initializable {
         SceneChanger.getListMenuController().searchFunction();
         single = false;
         selectedListView.getSelectionModel().clearSelection();
-        if(fromUpload){
+        if (fromUpload) {
             SceneChanger.loadUploadSearchPage();
-        }
-        else{
+        } else {
             SceneChanger.loadListPage();
 
         }
@@ -146,25 +146,29 @@ public class PlayMenuController implements Initializable {
 
     //Changes to a different stage where a practice name can be recorded
     public void practiceButtonPressed() {
-       SceneChanger.getPracticeMenuController().setPlayableName(selectedListView.getSelectionModel().getSelectedItem());
-       SceneChanger.loadPracticePage();
+        SceneChanger.getPracticeMenuController().setPlayableName(selectedListView.getSelectionModel().getSelectedItem());
+        SceneChanger.loadPracticePage();
     }
 
     // Plays the selected name from the list
     public void playButtonPressed() {
         playButton.setText("Playing");
         playButton.setDisable(true);
-//        Task task =  Audio.getInstance().playAudio(currentSelection);
-//        task.setOnSucceeded(e -> {
-//            playButton.setDisable(false);
-//            playButton.setText("Play");
-//        });
-//        new Thread(task).start();
+        prevButton.setDisable(true);
+        nextButton.setDisable(true);
+        Task task = Audio.getInstance().playAudio(currentSelection);
+        task.setOnSucceeded(e -> {
+            playButton.setDisable(false);
+            playButton.setText("Play");
+            checkLogicOfCycleButton();
+        });
+        new Thread(task).start();
     }
+
     //Shuffles the order of the names to be played
     public void shuffleButtonPressed() {
         Collections.shuffle(selectedVersionList);
-        if(currentSelection != null) {
+        if (currentSelection != null) {
             checkLogicOfCycleButton();
         }
     }
@@ -199,28 +203,26 @@ public class PlayMenuController implements Initializable {
             prevButton.setDisable(false);
         }
     }
+
     //Checks when to disable/enable next and previous buttons
-    public void checkLogicOfCycleButton(){
-        if(single){
+    public void checkLogicOfCycleButton() {
+        if (single) {
             nextButton.setDisable(true);
             prevButton.setDisable(true);
-        }
-        else if (currentSelection == selectedListView.getItems().get(selectedListView.getItems().size() - 1)) {
+        } else if (currentSelection == selectedListView.getItems().get(selectedListView.getItems().size() - 1)) {
             nextButton.setDisable(true);
             prevButton.setDisable(false);
-        }
-        else if (currentSelection == selectedListView.getItems().get(0)) {
+        } else if (currentSelection == selectedListView.getItems().get(0)) {
             nextButton.setDisable(false);
             prevButton.setDisable(true);
-        }
-        else{
+        } else {
             nextButton.setDisable(false);
             prevButton.setDisable(false);
         }
     }
 
-    public void setFromUpload(boolean condition){
-        fromUpload  = condition;
+    public void setFromUpload(boolean condition) {
+        fromUpload = condition;
         setDisplayList();
     }
 

@@ -14,8 +14,10 @@ import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.TargetDataLine;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 public class SettingsMenuController {
 
@@ -71,7 +73,7 @@ public class SettingsMenuController {
         startTest = true;
         Task<Void> updateMicBar = new Task<Void>() {
             @Override
-            public Void call(){
+            public Void call() {
                 while (startTest) {
                     if (line.read(audioData, 0, audioData.length) > 0) {
                         sound = calculateRMSLevel(audioData);
@@ -104,13 +106,21 @@ public class SettingsMenuController {
             Main.setDatabaseFolder(databaseDirectory.getAbsoluteFile());
             try {
                 SceneChanger.getListMenuController().reinitialiseAll();
-            }catch (IOException e){
+            } catch (IOException e) {
                 Alert errorAlert = new Alert(Alert.AlertType.WARNING);
                 errorAlert.setTitle("Failed to initialise new DatabaseFolder");
                 errorAlert.setHeaderText(null);
                 errorAlert.setHeaderText("Please select new Database Folder");
                 errorAlert.showAndWait();
             }
+        }
+    }
+
+    public void onHelpButtonPressed() {
+        try {
+            Desktop.getDesktop().browse(new URL("https://github.com/DeshmukhChinmay/NameSayer/wiki").toURI());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
