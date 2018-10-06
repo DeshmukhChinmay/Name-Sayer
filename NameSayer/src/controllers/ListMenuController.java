@@ -66,8 +66,11 @@ public class ListMenuController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         searchBy.getItems().addAll("Name","Tag");
         searchBy.getSelectionModel().select("Name");
+
+        initialiseNameObjects();
+
         try {
-            initialiseNameObjects();
+            updateNameObjects();
             updateMainList();
 
         } catch (IOException e) {
@@ -153,8 +156,9 @@ public class ListMenuController implements Initializable {
 
     //Reinitalises everything when new database added
     public void reinitialiseAll() throws IOException {
-        initialiseNameObjects();
+        updateNameObjects();
         initialiseNameMap();
+        initialiseNameVersionsMap();
         checkQualityStatus();
         initialiseTags();
     }
@@ -223,11 +227,40 @@ public class ListMenuController implements Initializable {
         }
     }
 
+    public void initialiseNameObjects() {
+
+        File recordingsFolder = new File(currentWorkingDir + "/NameSayer/Recordings/");
+        File[] nameFolders = recordingsFolder.listFiles();
+        for (File nameFolder: nameFolders) {
+            String tempName = nameFolder.getName();
+            if (!nameFolder.isHidden()) {
+                File[] nameFiles = nameFolder.listFiles();
+                boolean firstFile = true;
+                for (File name: nameFiles) {
+                    if (firstFile) {
+                        nameObjects.add(new Names(tempName, name.getAbsolutePath()));
+                        firstFile = false;
+                    } else {
+                        Names nameFound = null;
+                        for (Names n : nameObjects) {
+                            if (n.getName().equals(tempName)) {
+                                nameFound = n;
+                                break;
+                            }
+                        }
+                        nameFound.addVersion(tempName, name.getAbsolutePath());
+                    }
+                }
+            }
+        }
+
+    }
+
     // Checks whether there are any audio files present in the database and copies them
     // into the appropriate folders. 'Names' objects are also created and added to the appropriate
     // ObservableLists. The name for the 'Names' objects are extracted from the file names and the
     // path of the file assigned to the field of a version for that name
-    public void initialiseNameObjects() throws IOException {
+    public void updateNameObjects() throws IOException {
 
         databaseFolder = Main.getDatabaseFolder();
         if (databaseFolder.exists()) {
@@ -246,24 +279,7 @@ public class ListMenuController implements Initializable {
                     File tempFolder = new File(currentWorkingDir + "/NameSayer/Recordings/" + tempName + "/");
                     File destination = new File(tempFolder + "/" + f.getName());
 
-                    if (destination.exists()) {
-                        boolean namePresent = false;
-                        Names nameFound = null;
-                        for (Names n : nameObjects) {
-                            if (n.getName().equals(tempName)) {
-                                namePresent = true;
-                                nameFound = n;
-                                break;
-                            }
-                        }
-
-                        if (namePresent) {
-                            nameFound.addVersion(tempName, destination.getAbsolutePath());
-                        } else {
-                            nameObjects.add(new Names(tempName, destination.getAbsolutePath()));
-                        }
-
-                    } else {
+                    if (!destination.exists()) {
                         if (tempFolder.exists()) {
                             Files.copy(f.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
                             for (Names n : nameObjects) {

@@ -84,7 +84,7 @@ public class Audio {
         name.setFileAdjusted(true);
     }
 
-    public Service<Void> concatAudioFiles(String name) throws Exception {
+    public Service<Void> concatAudioFiles(String name) {
         Service<Void> service = new Service<Void>() {
             @Override
             protected Task<Void> createTask() {
