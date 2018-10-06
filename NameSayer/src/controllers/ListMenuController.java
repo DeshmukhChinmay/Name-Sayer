@@ -348,11 +348,9 @@ public class ListMenuController implements Initializable {
         selectedVersionsViewList.clear();
     }
 
-
+    //Clears the selected items
     public void clearButtonPressed() {
         clearSelection();
-
-
     }
 
     //Returns to the main menu
@@ -450,8 +448,8 @@ public class ListMenuController implements Initializable {
     //Sets the info to using whichever list was clicked where listView is whichever list was clicked
     private void setInfoTab(ListView<NameVersions> listView) throws Exception {
         if (listView.getSelectionModel().getSelectedItem() != null) {
-            currentlySelected = listView.getSelectionModel().getSelectedItem();
-            tagName.setText(currentlySelected.getTag());
+            currentlySelected = listView.getSelectionModel().getSelectedItem(); //gets currently selected item
+            tagName.setText(currentlySelected.getTag());//Sets tag label
             durationField.setText(Double.toString(Audio.getInstance().getWavFileLength(new File(currentlySelected.getAudioPath()))));
             if (currentlySelected.getBadQuality().getValue()) { //gets the quality button
                 qualityField.setText("Bad");
@@ -470,7 +468,6 @@ public class ListMenuController implements Initializable {
         qualityField.setText(null);
 
     }
-
 
     public boolean isPresent(String name) {
         if (namesMap.get(name) == null) {

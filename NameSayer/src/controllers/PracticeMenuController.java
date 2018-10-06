@@ -76,7 +76,8 @@ public class PracticeMenuController {
 
     //Creates a tempAudio.wav file that contains the user recording and also creates the progress bar for 5 seconds of recording
     public void startRecording() {
-
+        //If button is pressed again and its already recorded it changes stop variable to true which stops the process and
+        //destroys it triggering its runlater method.
         if (recording) {
             recording = false;
             stop = true;
@@ -101,6 +102,7 @@ public class PracticeMenuController {
 
                     Platform.runLater(new Runnable() {
                         public void run() {
+                            //changes the states of buttons
                             buttonLogicRecord(false);
                             recordButton.setText("Recorded!");
                             recordButton.setDisable(true);

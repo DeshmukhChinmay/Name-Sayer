@@ -97,15 +97,15 @@ public class SettingsMenuController {
         micVolume.progressProperty().setValue(0);
         SceneChanger.loadMainPage();
     }
-
+    //Allows user to choose another database to add to the current one
     public void onAddDatabase() {
-        DirectoryChooser databaseChooser = new DirectoryChooser();
+        DirectoryChooser databaseChooser = new DirectoryChooser(); //Creates a new stage and opens a directory chooser window
         File databaseDirectory = databaseChooser.showDialog(new Stage());
 
         if (databaseDirectory != null) {
             Main.setDatabaseFolder(databaseDirectory.getAbsoluteFile());
             try {
-                SceneChanger.getListMenuController().reinitialiseAll();
+                SceneChanger.getListMenuController().reinitialiseAll(); //initialises the new database folder
             } catch (IOException e) {
                 Alert errorAlert = new Alert(Alert.AlertType.WARNING);
                 errorAlert.setTitle("Failed to initialise new DatabaseFolder");
@@ -115,7 +115,7 @@ public class SettingsMenuController {
             }
         }
     }
-
+    //Opens the github wiki page when help button is pressed
     public void onHelpButtonPressed() {
         try {
             Desktop.getDesktop().browse(new URL("https://github.com/DeshmukhChinmay/NameSayer/wiki").toURI());
