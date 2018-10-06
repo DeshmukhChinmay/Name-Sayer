@@ -34,12 +34,12 @@
                <children>
                   <HBox alignment="CENTER" prefHeight="86.0" prefWidth="668.0" spacing="40.0">
                      <children>
-                        <TextField fx:id="enteredName" prefHeight="53.0" prefWidth="431.0" promptText="Enter Name" style="-fx-background-color: #5d728a;">
+                        <TextField fx:id="enteredName" onKeyReleased="#handleKeyReleased" prefHeight="53.0" prefWidth="431.0" promptText="Enter Name" style="-fx-background-color: #5d728a;">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </TextField>
-                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#selectButtonPressed" onKeyReleased="#handleKeyReleased" prefHeight="53.0" prefWidth="178.0" styleClass="mainButton" text="Select">
+                        <Button fx:id="selectButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#selectButtonPressed" prefHeight="53.0" prefWidth="178.0" styleClass="mainButton" text="Select">
                            <font>
                               <Font size="20.0" />
                            </font>
