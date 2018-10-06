@@ -4,8 +4,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Service;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -15,7 +13,6 @@ import javafx.util.StringConverter;
 import main.*;
 import main.Names.NameVersions;
 
-import javax.naming.Name;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -37,7 +34,7 @@ public class ListMenuController implements Initializable {
     @FXML
     public ListView<NameVersions> namesVersionListView;
     @FXML
-    public ListView<NameVersions> selectedNames;
+    public ListView<PlayableNames> selectedNames;
     @FXML
     public TextField nameTagField;
     @FXML
@@ -54,7 +51,7 @@ public class ListMenuController implements Initializable {
 
     private LinkedList<Names> nameObjects = new LinkedList<>();
     final private ObservableList<String> namesViewList = FXCollections.observableArrayList();
-    private ObservableList<NameVersions> selectedVersionObjects = FXCollections.observableArrayList();
+    private ObservableList<PlayableNames> playableNamesObjects = FXCollections.observableArrayList();
     final private ObservableList<String> selectedVersionsViewList = FXCollections.observableArrayList();
     private ObservableList<String> namesSearchViewList = FXCollections.observableArrayList();
 
@@ -76,17 +73,18 @@ public class ListMenuController implements Initializable {
         }
 
         initialiseNameMap();
+        initialiseNameVersionsMap();
         //initalises the list view of selected names to store NameVersion objects
-        selectedNames.setCellFactory(param -> new ListCell<NameVersions>() {
+        selectedNames.setCellFactory(param -> new ListCell<PlayableNames>() {
 
             @Override
-            protected void updateItem(NameVersions version, boolean empty) {
-                super.updateItem(version, empty);
+            protected void updateItem(PlayableNames name, boolean empty) {
+                super.updateItem(name, empty);
 
-                if (empty || version == null || version.getVersion() == null) {
+                if (empty || name == null || name.getName() == null) {
                     setText(null);
                 } else {
-                    setText(version.getVersion());
+                    setText(name.getName());
                 }
             }
 
@@ -124,12 +122,16 @@ public class ListMenuController implements Initializable {
                             if (n.versionIsSelected()) {
                                 if (!(selectedVersionsViewList.contains(n.getVersion()))) {
                                     selectedVersionsViewList.add(n.getVersion());
-                                    selectedVersionObjects.add(n);
+                                    playableNamesObjects.add(new PlayableNames(n.getVersion(), n.getAudioPath()));
                                 }
                             } else {
                                 if (selectedVersionsViewList.contains(n.getVersion())) {
                                     selectedVersionsViewList.remove(n.getVersion());
-                                    selectedVersionObjects.remove(n);
+                                    for (PlayableNames pN: playableNamesObjects) {
+                                        if (n.getVersion().equals(pN.getName())) {
+                                            playableNamesObjects.remove(pN);
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -138,7 +140,7 @@ public class ListMenuController implements Initializable {
             }
         });
 
-        selectedNames.setItems(selectedVersionObjects);
+        selectedNames.setItems(playableNamesObjects);
 
         try {
             checkQualityStatus();
@@ -355,12 +357,16 @@ public class ListMenuController implements Initializable {
         namesListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
     }
 
-    public ObservableList<NameVersions> getSelectedVersionObjects() {
-        return selectedVersionObjects;
+    public ObservableList<PlayableNames> getPlayableNamesObjects() {
+        return playableNamesObjects;
     }
 
     public HashMap<String, Names> getNamesMap() {
         return namesMap;
+    }
+
+    public HashMap<String, NameVersions> getNameVersionsMap() {
+        return nameVersionsMap;
     }
 
     private void clearSelection() {
@@ -373,7 +379,7 @@ public class ListMenuController implements Initializable {
         //Clears lists for selected versions
         namesListView.getSelectionModel().clearSelection();
         namesVersionListView.setItems(null);
-        selectedVersionObjects.clear();
+        playableNamesObjects.clear();
         selectedVersionsViewList.clear();
     }
 
@@ -413,6 +419,7 @@ public class ListMenuController implements Initializable {
             }
             //This will set the buttons in the next scene to be disabled as no creation will be currently selected
             SceneChanger.getPlayMenuController().setFromUpload(false);
+            SceneChanger.getPlayMenuController().toggleQualityButtonVisibility();
             SceneChanger.getPlayMenuController().playButton.setDisable(true);
             SceneChanger.getPlayMenuController().practiceButton.setDisable(true);
             SceneChanger.loadPlayPage();
@@ -484,10 +491,6 @@ public class ListMenuController implements Initializable {
         selectedNames.getSelectionModel().clearSelection();
         namesVersionListView.getSelectionModel().clearSelection();
 
-    }
-    //sets the info when the items in the selected list are clicked
-    public void selectedListClicked() throws Exception {
-        setInfoTab(selectedNames);
     }
 
     //Called when a name is selected from the first list

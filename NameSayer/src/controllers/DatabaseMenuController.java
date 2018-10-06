@@ -12,6 +12,7 @@ import javafx.scene.control.*;
 import main.Audio;
 import main.Names;
 import main.Names.NameVersions;
+import main.PlayableNames;
 import main.SceneChanger;
 
 import java.io.File;
@@ -31,11 +32,11 @@ public class DatabaseMenuController implements Initializable {
     public Button backButton;
 
     @FXML
-    public ListView<NameVersions> practiceNamesListView;
+    public ListView<PlayableNames> practiceNamesListView;
     @FXML
     public ListView<NameVersions> databaseNamesListView;
 
-    private ObservableList<NameVersions> practiceNamesList = FXCollections.observableArrayList();
+    private ObservableList<PlayableNames> practiceNamesList = FXCollections.observableArrayList();
 
     private String currentWorkingDir = System.getProperty("user.dir");
 
@@ -45,16 +46,16 @@ public class DatabaseMenuController implements Initializable {
         updateList();
 
         // Setting the cell of the selectedListView to a custom cell so custom text is displayed
-        practiceNamesListView.setCellFactory(param -> new ListCell<NameVersions>() {
+        practiceNamesListView.setCellFactory(param -> new ListCell<PlayableNames>() {
 
             @Override
-            protected void updateItem(NameVersions version, boolean empty) {
-                super.updateItem(version, empty);
+            protected void updateItem(PlayableNames name, boolean empty) {
+                super.updateItem(name, empty);
 
-                if (empty || version == null || version.getVersion() == null) {
+                if (empty || name == null || name.getName() == null) {
                     setText(null);
                 } else {
-                    setText(version.getVersion());
+                    setText(name.getName());
                 }
             }
 
@@ -62,13 +63,13 @@ public class DatabaseMenuController implements Initializable {
 
         // Adding listeners to the objects in practiceNamesListView. Once a practice name is selected, the corresponding
         // versions of that name present in the database are shown in another list
-        practiceNamesListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<NameVersions>() {
+        practiceNamesListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<PlayableNames>() {
             @Override
-            public void changed(ObservableValue<? extends NameVersions> observable, NameVersions oldValue, NameVersions newValue) {
+            public void changed(ObservableValue<? extends PlayableNames> observable, PlayableNames oldValue, PlayableNames newValue) {
 
                 if (practiceNamesListView.getSelectionModel().getSelectedItem() != null) {
 
-                    Names tempNameObjects = SceneChanger.getListMenuController().getNamesMap().get(practiceNamesListView.getSelectionModel().getSelectedItem().getParentName());
+                    Names tempNameObjects = SceneChanger.getListMenuController().getNamesMap().get(SceneChanger.getListMenuController().getNameVersionsMap().get(practiceNamesListView.getSelectionModel().getSelectedItem()).getParentName());
 
                     if (tempNameObjects != null) {
                         databaseNamesListView.setItems(tempNameObjects.getVersions());
@@ -123,21 +124,19 @@ public class DatabaseMenuController implements Initializable {
                 boolean nameFound = false;
 
                 if (practiceNamesList.size() != 0) {
-                    for (NameVersions version : practiceNamesList) {
-                        if (version.getVersion().equals(tempName)) {
+                    for (PlayableNames name : practiceNamesList) {
+                        if (name.getName().equals(tempName)) {
                             nameFound = true;
                             break;
                         }
                     }
 
                     if (!nameFound) {
-                        Names tempNameObject = new Names(tempFileName[0], tempAudioPath);
-                        practiceNamesList.add(new NameVersions(tempNameObject, tempName, tempAudioPath));
+                        practiceNamesList.add(new PlayableNames(tempName, tempAudioPath));
                     }
 
                 } else {
-                    Names tempNameObject = new Names(tempFileName[0], tempAudioPath);
-                    practiceNamesList.add(new NameVersions(tempNameObject, tempName, tempAudioPath));
+                    practiceNamesList.add(new PlayableNames(tempName, tempAudioPath));
                 }
             }
         }
@@ -151,7 +150,7 @@ public class DatabaseMenuController implements Initializable {
 
     //Deletes the selected user amde practice file
     public void deleteButtonPressed() {
-        NameVersions selectedName = practiceNamesListView.getSelectionModel().getSelectedItem();
+        PlayableNames selectedName = practiceNamesListView.getSelectionModel().getSelectedItem();
         //Checks if there is a name selected or else shows a alert box
         if (selectedName == null) {
             Alert errorAlert = new Alert(Alert.AlertType.WARNING);
@@ -162,7 +161,7 @@ public class DatabaseMenuController implements Initializable {
         } else {
             //Add the code to ask for confirmation
             Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
-            confirmationAlert.setHeaderText("Are you sure you want to delete " + selectedName.getVersion());
+            confirmationAlert.setHeaderText("Are you sure you want to delete " + selectedName.getName());
             Optional<ButtonType> option = confirmationAlert.showAndWait();
             if (option.get() == ButtonType.OK) {
                 File tempAudioFile = new File(selectedName.getAudioPath());
@@ -180,7 +179,7 @@ public class DatabaseMenuController implements Initializable {
     // Playing the selected practice name
     public void playButtonPressed() {
 
-        NameVersions selectedName = practiceNamesListView.getSelectionModel().getSelectedItem();
+        PlayableNames selectedName = practiceNamesListView.getSelectionModel().getSelectedItem();
         if (selectedName != null) {
             playButton.setText("Playing");
             playButton.setDisable(true);
@@ -211,7 +210,7 @@ public class DatabaseMenuController implements Initializable {
     // Playing the selected version of a name from the database
     public void playDatabaseVersionButtonPressed() {
 
-        NameVersions selectedDatabaseName = databaseNamesListView.getSelectionModel().getSelectedItem();
+        PlayableNames selectedDatabaseName = new PlayableNames(databaseNamesListView.getSelectionModel().getSelectedItem().getVersion(), databaseNamesListView.getSelectionModel().getSelectedItem().getAudioPath());
         //If there is a selected name then disable the required buttons during playing and then
         //re enable them after it has finished playing
         if (selectedDatabaseName != null) {

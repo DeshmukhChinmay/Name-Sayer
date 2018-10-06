@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import main.Audio;
-import main.Names.NameVersions;
+import main.PlayableNames;
 import main.SceneChanger;
 
 public class PracticeMenuController {
@@ -33,14 +33,14 @@ public class PracticeMenuController {
 
     private String currentWorkingDir = System.getProperty("user.dir");
     private File fileName;
-    private NameVersions nameVersion;
+    private PlayableNames name;
 
     private boolean fileSaved = false;
 
     //Compares user recorded audio with that of the database audio
     //User recorded audio first and then database audio plays
     public void compareToAudio() {
-        Task task = Audio.getInstance().comparePracticeThenDatabase(nameVersion);//Gets the task from Audio class
+        Task task = Audio.getInstance().comparePracticeThenDatabase(name);//Gets the task from Audio class
         listenButton.setDisable(true);
         backButton.setDisable(true);
         compareButton.setDisable(true);
@@ -62,7 +62,7 @@ public class PracticeMenuController {
 
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
         LocalDateTime dateAndTime = LocalDateTime.now();
-        fileName = new File(currentWorkingDir + "/NameSayer/PracticeNames/" + nameVersion.getParentName() + "_" + dateTimeFormatter.format(dateAndTime) + ".wav");
+        fileName = new File(currentWorkingDir + "/NameSayer/PracticeNames/" + SceneChanger.getListMenuController().getNameVersionsMap().get(name).getParentName() + "_" + dateTimeFormatter.format(dateAndTime) + ".wav");
         Files.copy(new File(currentWorkingDir + "/NameSayer/Temp/tempAudio.wav").toPath(), fileName.toPath(), StandardCopyOption.REPLACE_EXISTING);
         SceneChanger.getDatabaseMenuController().updateList();
         saveButton.setDisable(true);
@@ -150,8 +150,8 @@ public class PracticeMenuController {
         new Thread(task).start();
     }
 
-    public void setNameVersion(NameVersions version) {
-        this.nameVersion = version;
+    public void setPlayableName(PlayableNames name) {
+        this.name = name;
     }
 
     //When the record button is pressed it follows this logic
