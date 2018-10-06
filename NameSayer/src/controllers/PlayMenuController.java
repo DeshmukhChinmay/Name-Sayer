@@ -154,12 +154,12 @@ public class PlayMenuController implements Initializable {
     public void playButtonPressed() {
         playButton.setText("Playing");
         playButton.setDisable(true);
-        Task task =  Audio.getInstance().playAudio(currentSelection);
-        task.setOnSucceeded(e -> {
-            playButton.setDisable(false);
-            playButton.setText("Play");
-        });
-        new Thread(task).start();
+//        Task task =  Audio.getInstance().playAudio(currentSelection);
+//        task.setOnSucceeded(e -> {
+//            playButton.setDisable(false);
+//            playButton.setText("Play");
+//        });
+//        new Thread(task).start();
     }
     //Shuffles the order of the names to be played
     public void shuffleButtonPressed() {

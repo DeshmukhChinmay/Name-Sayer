@@ -22,23 +22,23 @@ public class Audio {
     }
 
     //Method that returns a task that plays the selected audio format using Linux command ffplay by using a Processbuilder
-    public Task playAudio(PlayableNames name) {
-        Task<Void> task = new Task<Void>() {
-            @Override
-            public Void call() throws Exception {
-                //Checks if the file normalized and if the silence has been removed
-                if (!name.isFileAdjusted()) {
-                    normalizeAndCutSilence(name);
-                }
-
-                ProcessBuilder playProcess = new ProcessBuilder("ffplay", "-autoexit", "-nodisp", name.getAudioPath());
-                Process process = playProcess.start();
-                process.waitFor();
-                return null;
-            }
-        };
-        return task;
-    }
+//    public Task playAudio(PlayableNames name) {
+//        Task<Void> task = new Task<Void>() {
+//            @Override
+//            public Void call() throws Exception {
+//                //Checks if the file normalized and if the silence has been removed
+//                if (!name.isFileAdjusted()) {
+//                    normalizeAndCutSilence(name);
+//                }
+//
+//                ProcessBuilder playProcess = new ProcessBuilder("ffplay", "-autoexit", "-nodisp", name.getAudioPath());
+//                Process process = playProcess.start();
+//                process.waitFor();
+//                return null;
+//            }
+//        };
+//        return task;
+//    }
 
     //Method that returns a task that plays the user recorded audio first and then the database name after to comapre
     //the 2 audio by using processbuilder and linux ffplay command
