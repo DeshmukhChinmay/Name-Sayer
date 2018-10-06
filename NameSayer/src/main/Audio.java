@@ -1,5 +1,6 @@
 package main;
 
+import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 
 import javax.sound.sampled.AudioFormat;
@@ -75,5 +76,40 @@ public class Audio {
         normaliseProcess.waitFor();
         nameVersions.setFileAdjusted(true);
     }
+
+    //// -----------------------------------------------------
+    //// TEST THIS CODE IF POSSIBLE
+
+
+
+    public Service<Void> normaliseAndRemoveSilence(File audio) {
+        Service<Void> service = new Service<Void>() {
+            @Override
+            protected Task<Void> createTask() {
+                return new Task<Void>() {
+                    @Override
+                    protected Void call() throws Exception {
+                        String removeSilenceCommand = "ffmpeg -y -i " + audio.getAbsolutePath() + " -af silenceremove=1:0:-48dB " + currentWorkingDir + "/NameSayer/Temp/silenceRemoved.wav";
+                        ProcessBuilder silenceBuilder = new ProcessBuilder("/bin/bash", "-c", removeSilenceCommand);
+                        Process silenceProcess = silenceBuilder.start();
+                        silenceProcess.waitFor();
+
+                        String normaliseCommand = "ffmpeg -y -i " + currentWorkingDir + "/NameSayer/Temp/silenceRemoved.wav" + " -filter:a loudnorm " + currentWorkingDir + "/NameSayer/Temp/finalAudio.wav";
+                        ProcessBuilder normaliseBuilder = new ProcessBuilder("/bin/bash", "-c", normaliseCommand);
+                        Process normaliseProcess = normaliseBuilder.start();
+                        normaliseProcess.waitFor();
+
+                        return null;
+                    }
+                };
+            }
+        };
+
+        return service;
+    }
+
+
+
+    //// -----------------------------------------------------
 
 }

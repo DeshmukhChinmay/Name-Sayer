@@ -4,6 +4,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -58,9 +59,10 @@ public class ListMenuController implements Initializable {
     private ObservableList<String> namesSearchViewList = FXCollections.observableArrayList();
 
     private HashMap<String, Names> namesMap = new HashMap<>();
+    private HashMap<String, NameVersions> nameVersionsMap = new HashMap<>();
     NameVersions currentlySelected;
     Names tempName = null;
-    String tempNameString = "";
+//    String tempNameString = "";
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -74,7 +76,7 @@ public class ListMenuController implements Initializable {
         }
 
         initialiseNameMap();
-        //initalises the lsit view of selected names to store NameVersion objects
+        //initalises the list view of selected names to store NameVersion objects
         selectedNames.setCellFactory(param -> new ListCell<NameVersions>() {
 
             @Override
@@ -208,6 +210,14 @@ public class ListMenuController implements Initializable {
         }
     }
 
+    public void initialiseNameVersionsMap() {
+        for (Names n: nameObjects) {
+            for (NameVersions nV: n.getVersions()) {
+                nameVersionsMap.put(nV.getVersion(), nV);
+            }
+        }
+    }
+
     // Checks whether there are any audio files present in the database and copies them
     // into the appropriate folders. 'Names' objects are also created and added to the appropriate
     // ObservableLists. The name for the 'Names' objects are extracted from the file names and the
@@ -215,30 +225,33 @@ public class ListMenuController implements Initializable {
     public void initialiseNameObjects() throws IOException {
 
         databaseFolder = Main.getDatabaseFolder();
-        File tempAudioFiles = new File(currentWorkingDir + "/NameSayer/Temp/");
+//        File tempAudioFiles = new File(currentWorkingDir + "/NameSayer/Temp/");
+//        Service<Void> audioService = null;
         if (databaseFolder.exists()) {
             File[] namesInDatabase = databaseFolder.listFiles();
             String tempFilename;
+            String tempName;
 
             for (File f : namesInDatabase) {
-                for (File tempFile : tempAudioFiles.listFiles()) {
-                    tempFile.delete();
-                }
+//                for (File tempFile : tempAudioFiles.listFiles()) {
+//                    tempFile.delete();
+//                }
                 if (f.isHidden()) {
                     continue;
                 } else {
                     tempFilename = f.getName();
                     String[] tempFilenameParts = tempFilename.split("_");
                     String[] tempNameParts = tempFilenameParts[3].split("\\.");
-                    tempNameString = tempNameParts[0].substring(0, 1).toUpperCase() + tempNameParts[0].substring(1);
-                    File tempFolder = new File(currentWorkingDir + "/NameSayer/Recordings/" + tempNameString + "/");
+                    tempName = tempNameParts[0].substring(0, 1).toUpperCase() + tempNameParts[0].substring(1);
+                    //tempNameString = tempNameParts[0].substring(0, 1).toUpperCase() + tempNameParts[0].substring(1);
+                    File tempFolder = new File(currentWorkingDir + "/NameSayer/Recordings/" + tempName + "/");
                     File destination = new File(tempFolder + "/" + f.getName());
 
                     if (destination.exists()) {
                         boolean namePresent = false;
                         Names nameFound = null;
                         for (Names n : nameObjects) {
-                            if (n.getName().equals(tempNameString)) {
+                            if (n.getName().equals(tempName)) {
                                 namePresent = true;
                                 nameFound = n;
                                 break;
@@ -246,30 +259,62 @@ public class ListMenuController implements Initializable {
                         }
 
                         if (namePresent) {
-                            nameFound.addVersion(tempNameString, destination.getAbsolutePath());
+                            nameFound.addVersion(tempName, destination.getAbsolutePath());
+//                            nameFound.addVersion(tempNameString, destination.getAbsolutePath());
                         } else {
-                            nameObjects.add(new Names(tempNameString, destination.getAbsolutePath()));
+                            nameObjects.add(new Names(tempName, destination.getAbsolutePath()));
+//                            nameObjects.add(new Names(tempNameString, destination.getAbsolutePath()));
                         }
 
                     } else {
+
+                        //// ----------------------------------------------------------------------
+                        //// TEST THIS CODE IF POSSIBLE - UNCOMMENT LINES 64,219,220,227-229,237,254,257 AS WELL
+
+                        /*
+
                         if (tempFolder.exists()) {
-//                            Task audioTask = Audio.getInstance().normaliseAudioAndRemoveSilence(f);
-//                            audioTask.setOnSucceeded(e -> {
-//                                copyFiles(tempAudioFiles, destination, tempNameString, false);
-//                            });
-                            new Thread(Audio.getInstance().normaliseAudio(f)).start();
-                            new Thread(Audio.getInstance().removeSilence()).start();
-                            copyFiles(tempAudioFiles, destination, tempNameString, false);
+//                          audioService = Audio.getInstance().normaliseAndRemoveSilence(f);
+//                          audioService.start();
+//
+//                          audioService.setOnSucceeded(e -> {
+//                              copyFiles(tempAudioFiles, destination, tempNameString, true);
+//                          });
                         } else {
                             tempFolder.mkdirs();
-//                            Task audioTask = Audio.getInstance().normaliseAudioAndRemoveSilence(f);
-//                            audioTask.setOnSucceeded(e -> {
-//                                copyFiles(tempAudioFiles, destination, tempNameString, false);
-//                            });
-                            new Thread(Audio.getInstance().normaliseAudio(f)).start();
-                            new Thread(Audio.getInstance().removeSilence()).start();
-                            copyFiles(tempAudioFiles, destination, tempNameString, false);
+                            audioService = Audio.getInstance().normaliseAndRemoveSilence(f);
+                            audioService.start();
+
+                            audioService.setOnSucceeded(e -> {
+                                copyFiles(destination, tempNameString, true);
+                            });
+
                         }
+
+                        */
+
+
+                        //// -----------------------------------------------------------------------
+                        //// COMMENT OUT THIS CODE TO TEST THE PREVIOUS CODE
+
+
+                        if (tempFolder.exists()) {
+                            Files.copy(f.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                            for (Names n : nameObjects) {
+                                if (n.getName().equals(tempName)) {
+                                    n.addVersion(tempName, destination.getAbsolutePath());
+
+                                }
+                            }
+                        } else {
+                            tempFolder.mkdirs();
+                            Files.copy(f.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                            nameObjects.add(new Names(tempName, destination.getAbsolutePath()));
+
+                        }
+
+                        //// ------------------------------------------------------------------------
+
                     }
 
                 }
@@ -283,7 +328,7 @@ public class ListMenuController implements Initializable {
         }
     }
 
-    private void copyFiles(File tempAudioFiles, File destination, String tempName, boolean newFile) {
+    private void copyFiles(File destination, String tempName, boolean newFile) {
         try {
             if (newFile) {
                 Files.copy(new File(currentWorkingDir + "/NameSayer/Temp/finalAudio.wav").toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
