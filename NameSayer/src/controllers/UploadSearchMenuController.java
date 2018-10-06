@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
+import java.util.LinkedList;
 import java.util.ResourceBundle;
 
 public class UploadSearchMenuController implements Initializable {
@@ -106,7 +107,7 @@ public class UploadSearchMenuController implements Initializable {
     public void createPlayableNames(String[] tempNames) throws IOException {
         Service<Void> concatService;
         String tempString = "";
-        String tempAudioPath = "";
+        LinkedList<String> tempAudioPath = new LinkedList<>();
         boolean firstName = false;
         for (String s: tempNames) {
             String modifiedName = s.substring(0,1).toUpperCase() + s.substring(1).toLowerCase();
@@ -119,21 +120,13 @@ public class UploadSearchMenuController implements Initializable {
                 boolean goodQualityFound = false;
                 for (NameVersions n : SceneChanger.getListMenuController().getNamesMap().get(modifiedName).getVersions()) {
                     if (!n.getBadQuality().get()) {
-                        if (firstName) {
-                            tempAudioPath = n.getAudioPath();
-                        } else {
-                            tempAudioPath = tempAudioPath + "%" + n.getAudioPath();
-                        }
+                        tempAudioPath.add(n.getAudioPath());
                         goodQualityFound = true;
                         break;
                     }
                 }
                 if (!goodQualityFound) {
-                    if (firstName) {
-                        tempAudioPath = SceneChanger.getListMenuController().getNamesMap().get(modifiedName).getVersions().get(0).getAudioPath();
-                    } else {
-                        tempAudioPath = tempAudioPath + "%" + SceneChanger.getListMenuController().getNamesMap().get(modifiedName).getVersions().get(0).getAudioPath();
-                    }
+                    tempAudioPath.add(SceneChanger.getListMenuController().getNamesMap().get(modifiedName).getVersions().get(0).getAudioPath());
                 }
                 firstName = false;
             }
@@ -146,17 +139,18 @@ public class UploadSearchMenuController implements Initializable {
                     file.createNewFile();
                 }
                 playableNames.add(tempString);
-                ConcatFilesText.getInstance().writeText(tempAudioPath);
-                final String finalName = tempString;
-                try {
-                    concatService = Audio.getInstance().concatAudioFiles(tempString);
-                    concatService.start();
-                    concatService.setOnSucceeded(event -> {
-                        playableNamesObjects.add(new PlayableNames(finalName, currentWorkingDir + "/NameSayer/Temp/Concat/" + finalName + ".wav"));
-                    });
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                playableNamesObjects.add(new PlayableNames(tempString, tempAudioPath));
+//                ConcatFilesText.getInstance().writeText(tempAudioPath);
+//                final String finalName = tempString;
+//                try {
+//                    concatService = Audio.getInstance().concatAudioFiles(tempString);
+//                    concatService.start();
+//                    concatService.setOnSucceeded(event -> {
+//
+//                    });
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
             }
         }
     }

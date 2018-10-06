@@ -124,16 +124,21 @@ public class ListMenuController implements Initializable {
                             if (n.versionIsSelected()) {
                                 if (!(selectedVersionsViewList.contains(n.getVersion()))) {
                                     selectedVersionsViewList.add(n.getVersion());
-                                    playableNamesObjects.add(new PlayableNames(n.getVersion(), n.getAudioPath()));
+                                    LinkedList<String> tempArray = new LinkedList<>();
+                                    tempArray.add(n.getAudioPath());
+                                    playableNamesObjects.add(new PlayableNames(n.getVersion(), tempArray));
                                 }
                             } else {
                                 if (selectedVersionsViewList.contains(n.getVersion())) {
                                     selectedVersionsViewList.remove(n.getVersion());
-                                        for (PlayableNames pN : playableNamesObjects) {
-                                                if (n.getVersion().equals(pN.getName())) {
-                                                    playableNamesObjects.remove(pN);
+                                    PlayableNames tempName = null;
+                                    for (PlayableNames pN : playableNamesObjects) {
+                                        if (n.getVersion().equals(pN.getName())) {
+                                            tempName = pN;
+                                            break;
                                         }
                                     }
+                                    playableNamesObjects.remove(tempName);
                                 }
                             }
                         }
