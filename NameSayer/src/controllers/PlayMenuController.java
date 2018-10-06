@@ -133,6 +133,7 @@ public class PlayMenuController implements Initializable {
     public void backButtonPressed() {
         prevButton.setDisable(true);//Makes it so that prevButton is always disabled
         nextButton.setDisable(false);
+        SceneChanger.getListMenuController().searchFunction();
         single = false;
         selectedListView.getSelectionModel().clearSelection();
         if(fromUpload){

@@ -46,7 +46,9 @@ public class ListMenuController implements Initializable {
     @FXML
     public Label qualityField;
     @FXML
-    public Label sameNameField;
+    public Label durationField;
+    @FXML
+    public ComboBox searchBy;
 
 
     private LinkedList<Names> nameObjects = new LinkedList<>();
@@ -59,11 +61,11 @@ public class ListMenuController implements Initializable {
     private HashMap<String, NameVersions> nameVersionsMap = new HashMap<>();
     NameVersions currentlySelected;
     Names tempName = null;
-//    String tempNameString = "";
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        searchBy.getItems().addAll("Name","Tag");
+        searchBy.getSelectionModel().select("Name");
         try {
             initialiseNameObjects();
             updateMainList();
@@ -148,8 +150,9 @@ public class ListMenuController implements Initializable {
         } catch (IOException e) {
         }
     }
+
     //Reinitalises everything when new database added
-    public void reinitialiseAll() throws IOException{
+    public void reinitialiseAll() throws IOException {
         initialiseNameObjects();
         initialiseNameMap();
         checkQualityStatus();
@@ -227,17 +230,12 @@ public class ListMenuController implements Initializable {
     public void initialiseNameObjects() throws IOException {
 
         databaseFolder = Main.getDatabaseFolder();
-//        File tempAudioFiles = new File(currentWorkingDir + "/NameSayer/Temp/");
-//        Service<Void> audioService = null;
         if (databaseFolder.exists()) {
             File[] namesInDatabase = databaseFolder.listFiles();
             String tempFilename;
             String tempName;
 
             for (File f : namesInDatabase) {
-//                for (File tempFile : tempAudioFiles.listFiles()) {
-//                    tempFile.delete();
-//                }
                 if (f.isHidden()) {
                     continue;
                 } else {
@@ -245,7 +243,6 @@ public class ListMenuController implements Initializable {
                     String[] tempFilenameParts = tempFilename.split("_");
                     String[] tempNameParts = tempFilenameParts[3].split("\\.");
                     tempName = tempNameParts[0].substring(0, 1).toUpperCase() + tempNameParts[0].substring(1);
-                    //tempNameString = tempNameParts[0].substring(0, 1).toUpperCase() + tempNameParts[0].substring(1);
                     File tempFolder = new File(currentWorkingDir + "/NameSayer/Recordings/" + tempName + "/");
                     File destination = new File(tempFolder + "/" + f.getName());
 
@@ -262,44 +259,11 @@ public class ListMenuController implements Initializable {
 
                         if (namePresent) {
                             nameFound.addVersion(tempName, destination.getAbsolutePath());
-//                            nameFound.addVersion(tempNameString, destination.getAbsolutePath());
                         } else {
                             nameObjects.add(new Names(tempName, destination.getAbsolutePath()));
-//                            nameObjects.add(new Names(tempNameString, destination.getAbsolutePath()));
                         }
 
                     } else {
-
-                        //// ----------------------------------------------------------------------
-                        //// TEST THIS CODE IF POSSIBLE - UNCOMMENT LINES 64,219,220,227-229,237,254,257 AS WELL
-
-                        /*
-
-                        if (tempFolder.exists()) {
-//                          audioService = Audio.getInstance().normaliseAndRemoveSilence(f);
-//                          audioService.start();
-//
-//                          audioService.setOnSucceeded(e -> {
-//                              copyFiles(tempAudioFiles, destination, tempNameString, true);
-//                          });
-                        } else {
-                            tempFolder.mkdirs();
-                            audioService = Audio.getInstance().normaliseAndRemoveSilence(f);
-                            audioService.start();
-
-                            audioService.setOnSucceeded(e -> {
-                                copyFiles(destination, tempNameString, true);
-                            });
-
-                        }
-
-                        */
-
-
-                        //// -----------------------------------------------------------------------
-                        //// COMMENT OUT THIS CODE TO TEST THE PREVIOUS CODE
-
-
                         if (tempFolder.exists()) {
                             Files.copy(f.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
                             for (Names n : nameObjects) {
@@ -312,11 +276,7 @@ public class ListMenuController implements Initializable {
                             tempFolder.mkdirs();
                             Files.copy(f.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
                             nameObjects.add(new Names(tempName, destination.getAbsolutePath()));
-
                         }
-
-                        //// ------------------------------------------------------------------------
-
                     }
 
                 }
@@ -327,24 +287,6 @@ public class ListMenuController implements Initializable {
             errorAlert.setHeaderText(null);
             errorAlert.setHeaderText("Please Select Names");
             errorAlert.showAndWait();
-        }
-    }
-
-    private void copyFiles(File destination, String tempName, boolean newFile) {
-        try {
-            if (newFile) {
-                Files.copy(new File(currentWorkingDir + "/NameSayer/Temp/finalAudio.wav").toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                nameObjects.add(new Names(tempName, destination.getAbsolutePath()));
-            } else {
-                Files.copy(new File(currentWorkingDir + "/NameSayer/Temp/finalAudio.wav").toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                for (Names n : nameObjects) {
-                    if (n.getName().equals(tempName)) {
-                        n.addVersion(tempName, destination.getAbsolutePath());
-                    }
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
@@ -383,17 +325,11 @@ public class ListMenuController implements Initializable {
         selectedVersionsViewList.clear();
     }
 
-    public boolean isPresent(String name) {
-        if (namesMap.get(name) == null) {
-            return false;
-        } else {
-            return true;
-        }
-    }
 
     public void clearButtonPressed() {
         clearSelection();
-        clearInfoPanel();
+
+
     }
 
     //Returns to the main menu
@@ -430,7 +366,7 @@ public class ListMenuController implements Initializable {
     //This dynamically updates the list view for the user to select single names to play
     public void searchFunction() {
         namesSearchViewList.clear();
-        if (!filterButton.isSelected()) { //Searches by name
+        if (searchBy.getSelectionModel().getSelectedItem().equals("Name")) { //Searches by name
             if (nameTagField.getText().length() == 0 || nameTagField.getText() == null) { //If notthing entered then output everything
                 namesListView.setItems(namesViewList.sorted());
             } else {
@@ -442,7 +378,7 @@ public class ListMenuController implements Initializable {
                 }
                 namesListView.setItems(namesSearchViewList);
             }
-        } else { //Searches by tag
+        } else if(searchBy.getSelectionModel().getSelectedItem().equals("Tag")){ //Searches by tag
             if (nameTagField.getText().length() == 0 || nameTagField.getText() == null) {
                 namesListView.setItems(namesViewList.sorted());
             } else {
@@ -457,19 +393,10 @@ public class ListMenuController implements Initializable {
                 namesListView.setItems(namesSearchViewList);
             }
         }
-    }
+        else{
 
-    //Changes the text on toggle button
-    public void onFilterButtonPressed() {
-        if (filterButton.isSelected()) {
-            filterButton.setText("Tag");
-
-        } else {
-            filterButton.setText("Name");
         }
-        searchFunction();
     }
-
     //Method for tag button. WHen tag button is pressed it removes the current tag from the text file if there is one
     //and then changes the field in the respective NameVersion object and then adds the new tag to the text file
     public void onTagButtonPressed() throws Exception {
@@ -493,38 +420,42 @@ public class ListMenuController implements Initializable {
 
     }
 
-    //Called when a name is selected from the first list
-    public void namesListClicked() {
-        clearInfoPanel();
-    }
-
     //sets the info when the items in the version selection are clicked
     public void onSelectVersion() throws Exception {
         setInfoTab(namesVersionListView);
     }
+
     //Sets the info to using whichever list was clicked where listView is whichever list was clicked
     public void setInfoTab(ListView<NameVersions> listView) throws Exception {
         if (listView.getSelectionModel().getSelectedItem() != null) {
             currentlySelected = listView.getSelectionModel().getSelectedItem();
             tagName.setText(currentlySelected.getTag());
-            sameNameField.setText(Integer.toString(namesMap.get(currentlySelected.getParentName()).getVersions().size()));
-                if (currentlySelected.getBadQuality().getValue()) { //gets the quality button
+            durationField.setText(Double.toString(Audio.getInstance().getWavFileLength(new File(currentlySelected.getAudioPath()))));
+            if (currentlySelected.getBadQuality().getValue()) { //gets the quality button
                 qualityField.setText("Bad");
             } else {
                 qualityField.setText("Good");
             }
-        } else {
-            clearInfoPanel();
         }
     }
+
     //Clears the info panel
-    private void clearInfoPanel(){
+    private void clearInfoPanel() {
         nameTagField.clear();
         tagField.clear();
         tagName.setText(null);
-        sameNameField.setText(null);
+        durationField.setText(null);
         qualityField.setText(null);
 
     }
 
+
+    public boolean isPresent(String name) {
+        if (namesMap.get(name) == null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }
+

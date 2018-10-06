@@ -27,7 +27,7 @@ public class Audio {
             @Override
             public Void call() throws Exception {
                 //Checks if the file normalized and if the silence has been removed
-                if(!name.isFileAdjusted()) {
+                if (!name.isFileAdjusted()) {
                     normalizeAndCutSilence(name);
                 }
 
@@ -39,6 +39,7 @@ public class Audio {
         };
         return task;
     }
+
     //Method that returns a task that plays the user recorded audio first and then the database name after to comapre
     //the 2 audio by using processbuilder and linux ffplay command
     public Task comparePracticeThenDatabase(PlayableNames databaseName) {
@@ -49,7 +50,8 @@ public class Audio {
                 playPracticeProcess.directory(new File("./NameSayer/Temp/"));
                 Process process = playPracticeProcess.start();
                 process.waitFor();
-                ProcessBuilder playDatabaseName = new ProcessBuilder("ffplay", "-autoexit", "-nodisp", databaseName.getAudioPath());
+                ProcessBuilder playDatabaseName = new ProcessBuilder("ffplay", "-autoexit", "-nodisp", "finalWav.wav");
+                playDatabaseName.directory(new File("./NameSayer/Temp/"));
                 Process secondProcess = playDatabaseName.start();
                 secondProcess.waitFor();
                 return null;
@@ -67,16 +69,18 @@ public class Audio {
         return Math.round((audioFileLength / (frameSize * frameRate)) * 100.0) / 100.0;
     }
 
-    private void normalizeAndCutSilence(PlayableNames name) throws Exception{
+    private void normalizeAndCutSilence(PlayableNames name) throws Exception {
         String removeSilenceCommand = "ffmpeg -y -i " + name.getAudioPath() + " -af silenceremove=1:0:-48dB " + name.getAudioPath();
         ProcessBuilder silenceBuilder = new ProcessBuilder("/bin/bash", "-c", removeSilenceCommand);
         Process silenceProcess = silenceBuilder.start();
         silenceProcess.waitFor();
 
-        String normaliseCommand = "ffmpeg -y -i " + name.getAudioPath() + " -filter:a loudnorm " + name.getAudioPath();
+        String normaliseCommand = "ffmpeg -y -i silenceRemoved.wav -filter:a volume=50dB finalWav.wav";
         ProcessBuilder normaliseBuilder = new ProcessBuilder("/bin/bash", "-c", normaliseCommand);
+        normaliseBuilder.directory(new File("./NameSayer/Temp/"));
         Process normaliseProcess = normaliseBuilder.start();
         normaliseProcess.waitFor();
+        new File("./NameSayer/Temp/silenceRemoved.wav").delete();
         name.setFileAdjusted(true);
     }
 
@@ -104,7 +108,6 @@ public class Audio {
     //// TEST THIS CODE IF POSSIBLE
 
 
-
     public Service<Void> normaliseAndRemoveSilence(File audio) {
         Service<Void> service = new Service<Void>() {
             @Override
@@ -125,14 +128,16 @@ public class Audio {
                         return null;
                     }
                 };
-            }
+
+            };
+
         };
 
         return service;
+
     }
 
-
-
-    //// -----------------------------------------------------
-
 }
+
+
+

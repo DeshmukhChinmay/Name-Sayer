@@ -61,7 +61,7 @@
                      <font>
                         <Font size="25.0" />
                      </font></Button>
-                        <Button fx:id="practiceButton" alignment="CENTER" mnemonicParsing="false" onAction="#practiceButtonPressed" prefHeight="92.0" prefWidth="209.0" styleClass="mainButton" stylesheets="@../css/main.css" text="Practice Name">
+                        <Button fx:id="practiceButton" alignment="CENTER" mnemonicParsing="false" onAction="#practiceButtonPressed" prefHeight="92.0" prefWidth="209.0" styleClass="mainButton" stylesheets="@../css/main.css" text="Practice Name" textAlignment="CENTER" wrapText="true">
                             <VBox.margin>
                                 <Insets top="20.0" />
                             </VBox.margin>
@@ -69,7 +69,7 @@
                         <Font size="25.0" />
                      </font>
                         </Button>
-                        <ToggleButton id="toggleButton" fx:id="qualityButton" mnemonicParsing="false" onAction="#setQualityRating" prefHeight="87.0" prefWidth="196.0" styleClass="toggleButton" stylesheets="@../css/play.css" text="Good Quality">
+                        <ToggleButton id="toggleButton" fx:id="qualityButton" mnemonicParsing="false" onAction="#setQualityRating" prefHeight="87.0" prefWidth="196.0" styleClass="toggleButton" stylesheets="@../css/play.css" text="Good Quality" textAlignment="CENTER" wrapText="true">
                             <VBox.margin>
                                 <Insets top="30.0" />
                             </VBox.margin>
