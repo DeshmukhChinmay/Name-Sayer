@@ -32,6 +32,7 @@ public class Main extends Application {
 
         File recordingsFolder = new File(currentWorkingDir + "/NameSayer/Recordings");
         File tempFolder = new File(currentWorkingDir + "/NameSayer/Temp");
+        File tempConcatFolder = new File(currentWorkingDir + "/NameSayer/Temp/Concat/");
         File practiceFolder = new File(currentWorkingDir + "/NameSayer/PracticeNames");
 
         if (!(recordingsFolder.exists())) {
@@ -40,6 +41,10 @@ public class Main extends Application {
 
         if (!(tempFolder.exists())) {
             tempFolder.mkdirs();
+        }
+
+        if (!(tempConcatFolder.exists())) {
+            tempConcatFolder.mkdirs();
         }
 
         if (!(practiceFolder.exists())) {

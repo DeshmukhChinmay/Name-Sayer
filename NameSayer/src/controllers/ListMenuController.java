@@ -34,11 +34,9 @@ public class ListMenuController implements Initializable {
     @FXML
     public ListView<NameVersions> namesVersionListView;
     @FXML
-    public ListView<NameVersions> selectedNames;
+    public ListView<PlayableNames> selectedNames;
     @FXML
     public TextField nameTagField;
-    @FXML
-    public ToggleButton filterButton;
     @FXML
     public TextField tagField;
     @FXML
@@ -52,21 +50,24 @@ public class ListMenuController implements Initializable {
 
 
     private LinkedList<Names> nameObjects = new LinkedList<>();
-    private ObservableList<String> namesViewList = FXCollections.observableArrayList();
-    private ObservableList<NameVersions> selectedVersionObjects = FXCollections.observableArrayList();
-    private ObservableList<String> selectedVersionsViewList = FXCollections.observableArrayList();
+    final private ObservableList<String> namesViewList = FXCollections.observableArrayList();
+    private ObservableList<PlayableNames> playableNamesObjects = FXCollections.observableArrayList();
+    final private ObservableList<String> selectedVersionsViewList = FXCollections.observableArrayList();
     private ObservableList<String> namesSearchViewList = FXCollections.observableArrayList();
 
     private HashMap<String, Names> namesMap = new HashMap<>();
+    private HashMap<String, NameVersions> nameVersionsMap = new HashMap<>();
     NameVersions currentlySelected;
     Names tempName = null;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        searchBy.getItems().addAll("Name","Tag");
+        searchBy.getItems().addAll("Name", "Tag");
         searchBy.getSelectionModel().select("Name");
+
+        initialiseNameObjects();
         try {
-            initialiseNameObjects();
+            updateNameObjects();
             updateMainList();
 
         } catch (IOException e) {
@@ -74,17 +75,18 @@ public class ListMenuController implements Initializable {
         }
 
         initialiseNameMap();
-        //initalises the lsit view of selected names to store NameVersion objects
-        selectedNames.setCellFactory(param -> new ListCell<NameVersions>() {
+        initialiseNameVersionsMap();
+        //initalises the list view of selected names to store NameVersion objects
+        selectedNames.setCellFactory(param -> new ListCell<PlayableNames>() {
 
             @Override
-            protected void updateItem(NameVersions version, boolean empty) {
-                super.updateItem(version, empty);
+            protected void updateItem(PlayableNames name, boolean empty) {
+                super.updateItem(name, empty);
 
-                if (empty || version == null || version.getVersion() == null) {
+                if (empty || name == null || name.getName() == null) {
                     setText(null);
                 } else {
-                    setText(version.getVersion());
+                    setText(name.getName());
                 }
             }
 
@@ -122,12 +124,16 @@ public class ListMenuController implements Initializable {
                             if (n.versionIsSelected()) {
                                 if (!(selectedVersionsViewList.contains(n.getVersion()))) {
                                     selectedVersionsViewList.add(n.getVersion());
-                                    selectedVersionObjects.add(n);
+                                    playableNamesObjects.add(new PlayableNames(n.getVersion(), n.getAudioPath()));
                                 }
                             } else {
                                 if (selectedVersionsViewList.contains(n.getVersion())) {
                                     selectedVersionsViewList.remove(n.getVersion());
-                                    selectedVersionObjects.remove(n);
+                                        for (PlayableNames pN : playableNamesObjects) {
+                                                if (n.getVersion().equals(pN.getName())) {
+                                                    playableNamesObjects.remove(pN);
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -136,7 +142,7 @@ public class ListMenuController implements Initializable {
             }
         });
 
-        selectedNames.setItems(selectedVersionObjects);
+        selectedNames.setItems(playableNamesObjects);
 
         try {
             checkQualityStatus();
@@ -147,9 +153,10 @@ public class ListMenuController implements Initializable {
 
     //Reinitalises everything when new database added
     public void reinitialiseAll() throws IOException {
-        initialiseNameObjects();
-        updateMainList();
+
+        updateNameObjects();
         initialiseNameMap();
+        initialiseNameVersionsMap();
         checkQualityStatus();
         initialiseTags();
     }
@@ -210,11 +217,48 @@ public class ListMenuController implements Initializable {
         }
     }
 
+    public void initialiseNameVersionsMap() {
+        for (Names n : nameObjects) {
+            for (NameVersions nV : n.getVersions()) {
+                nameVersionsMap.put(nV.getVersion(), nV);
+            }
+        }
+    }
+
+    public void initialiseNameObjects() {
+
+        File recordingsFolder = new File(currentWorkingDir + "/NameSayer/Recordings/");
+        File[] nameFolders = recordingsFolder.listFiles();
+        for (File nameFolder : nameFolders) {
+            String tempName = nameFolder.getName();
+            if (!nameFolder.isHidden()) {
+                File[] nameFiles = nameFolder.listFiles();
+                boolean firstFile = true;
+                for (File name : nameFiles) {
+                    if (firstFile) {
+                        nameObjects.add(new Names(tempName, name.getAbsolutePath()));
+                        firstFile = false;
+                    } else {
+                        Names nameFound = null;
+                        for (Names n : nameObjects) {
+                            if (n.getName().equals(tempName)) {
+                                nameFound = n;
+                                break;
+                            }
+                        }
+                        nameFound.addVersion(tempName, name.getAbsolutePath());
+                    }
+                }
+            }
+        }
+
+    }
+
     // Checks whether there are any audio files present in the database and copies them
     // into the appropriate folders. 'Names' objects are also created and added to the appropriate
     // ObservableLists. The name for the 'Names' objects are extracted from the file names and the
     // path of the file assigned to the field of a version for that name
-    public void initialiseNameObjects() throws IOException {
+    public void updateNameObjects() throws IOException {
 
         databaseFolder = Main.getDatabaseFolder();
         if (databaseFolder.exists()) {
@@ -233,24 +277,7 @@ public class ListMenuController implements Initializable {
                     File tempFolder = new File(currentWorkingDir + "/NameSayer/Recordings/" + tempName + "/");
                     File destination = new File(tempFolder + "/" + f.getName());
 
-                    if (destination.exists()) {
-                        boolean namePresent = false;
-                        Names nameFound = null;
-                        for (Names n : nameObjects) {
-                            if (n.getName().equals(tempName)) {
-                                namePresent = true;
-                                nameFound = n;
-                                break;
-                            }
-                        }
-
-                        if (namePresent) {
-                            nameFound.addVersion(tempName, destination.getAbsolutePath());
-                        } else {
-                            nameObjects.add(new Names(tempName, destination.getAbsolutePath()));
-                        }
-
-                    } else {
+                    if (!destination.exists()) {
                         if (tempFolder.exists()) {
                             Files.copy(f.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
                             for (Names n : nameObjects) {
@@ -286,25 +313,33 @@ public class ListMenuController implements Initializable {
         namesListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
     }
 
-    public ObservableList<NameVersions> getSelectedVersionObjects() {
-        return selectedVersionObjects;
+    public ObservableList<PlayableNames> getPlayableNamesObjects() {
+        return playableNamesObjects;
     }
 
     public HashMap<String, Names> getNamesMap() {
         return namesMap;
     }
 
+    public HashMap<String, NameVersions> getNameVersionsMap() {
+        return nameVersionsMap;
+    }
+
     private void clearSelection() {
-        //Resets all items from selected lists except first one
-        for (Names n : nameObjects) {
-            for (NameVersions v : n.getVersions()) {
-                v.versionSelected().setValue(false);
+        if (nameObjects != null) {
+            //Resets all items from selected lists except first one
+            for (Names n : nameObjects) {
+                for (NameVersions v : n.getVersions()) {
+                    if (v != null){
+                        v.versionSelected().setValue(false);
+                }
+                }
             }
         }
         //Clears lists for selected versions
         namesListView.getSelectionModel().clearSelection();
         namesVersionListView.setItems(null);
-        selectedVersionObjects.clear();
+        playableNamesObjects.clear();
         selectedVersionsViewList.clear();
     }
 
@@ -317,7 +352,6 @@ public class ListMenuController implements Initializable {
 
     //Returns to the main menu
     public void backButtonPressed() {
-        clearSelection();
         clearInfoPanel();
         SceneChanger.loadMainPage();
     }
@@ -338,6 +372,7 @@ public class ListMenuController implements Initializable {
             }
             //This will set the buttons in the next scene to be disabled as no creation will be currently selected
             SceneChanger.getPlayMenuController().setFromUpload(false);
+            SceneChanger.getPlayMenuController().toggleQualityButtonVisibility();
             SceneChanger.getPlayMenuController().playButton.setDisable(true);
             SceneChanger.getPlayMenuController().practiceButton.setDisable(true);
             SceneChanger.loadPlayPage();
@@ -360,7 +395,7 @@ public class ListMenuController implements Initializable {
                 }
                 namesListView.setItems(namesSearchViewList);
             }
-        } else if(searchBy.getSelectionModel().getSelectedItem().equals("Tag")){ //Searches by tag
+        } else if (searchBy.getSelectionModel().getSelectedItem().equals("Tag")) { //Searches by tag
             if (nameTagField.getText().length() == 0 || nameTagField.getText() == null) {
                 namesListView.setItems(namesViewList.sorted());
             } else {
@@ -374,11 +409,11 @@ public class ListMenuController implements Initializable {
                 }
                 namesListView.setItems(namesSearchViewList);
             }
-        }
-        else{
+        } else {
 
         }
     }
+
     //Method for tag button. WHen tag button is pressed it removes the current tag from the text file if there is one
     //and then changes the field in the respective NameVersion object and then adds the new tag to the text file
     public void onTagButtonPressed() throws Exception {
@@ -400,11 +435,6 @@ public class ListMenuController implements Initializable {
         selectedNames.getSelectionModel().clearSelection();
         namesVersionListView.getSelectionModel().clearSelection();
 
-    }
-
-    //sets the info when the items in the selected list are clicked
-    public void selectedListClicked() throws Exception {
-        setInfoTab(selectedNames);
     }
 
     //sets the info when the items in the version selection are clicked

@@ -1,10 +1,10 @@
 package controllers;
 
-import javafx.beans.property.BooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Service;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -12,9 +12,8 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
-import main.Names;
+import main.*;
 import main.Names.NameVersions;
-import main.SceneChanger;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -35,22 +34,23 @@ public class UploadSearchMenuController implements Initializable {
 
     private File fileUploaded = null;
     private ObservableList<String> playableNames = FXCollections.observableArrayList();
-    private ObservableList<NameVersions> namesToPlay = FXCollections.observableArrayList();
+    private ObservableList<PlayableNames> playableNamesObjects = FXCollections.observableArrayList();
 
     private int characterLimit = 50;
+    private String currentWorkingDir = System.getProperty("user.dir");
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-    enteredName.textProperty().addListener(new ChangeListener<String>() {
-        @Override
-        public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-            if (enteredName.getText().length() > characterLimit) {
-                String temp = enteredName.getText().substring(0, characterLimit);
-                enteredName.setText(temp);
+        enteredName.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (enteredName.getText().length() > characterLimit) {
+                    String temp = enteredName.getText().substring(0, characterLimit);
+                    enteredName.setText(temp);
+                }
             }
-        }
-    });
+        });
 
     }
 
@@ -81,29 +81,62 @@ public class UploadSearchMenuController implements Initializable {
             BufferedReader reader = new BufferedReader(new FileReader(fileUploaded));
             String line = null;
             String tempString;
+            String tempAudioPath;
+            Service<Void> concatService;
 
             while ((line = reader.readLine()) != null) {
+                boolean firstName = true;
                 String[] tempNames = line.split("[ -]");
                 inputFileTextArea.appendText(line + "\n");
                 tempString = "";
-                for (String s: tempNames) {
-                    if (SceneChanger.getListMenuController().isPresent(s)) {
-                        tempString = tempString + s + " ";
+                tempAudioPath = "";
+                for (String s : tempNames) {
+                    if (SceneChanger.getListMenuController().isPresent(s.toLowerCase())) {
+                        if (firstName) {
+                            tempString = s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
+                        } else {
+                            tempString = tempString + " " + s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
+                        }
                         boolean goodQualityFound = false;
-                        for (NameVersions n: SceneChanger.getListMenuController().getNamesMap().get(s).getVersions()) {
+                        for (NameVersions n : SceneChanger.getListMenuController().getNamesMap().get(s).getVersions()) {
                             if (!n.getBadQuality().get()) {
-                                namesToPlay.add(n);
+                                if (firstName) {
+                                    tempAudioPath = n.getAudioPath();
+                                } else {
+                                    tempAudioPath = tempAudioPath + "%" + n.getAudioPath();
+                                }
                                 goodQualityFound = true;
                                 break;
                             }
                         }
                         if (!goodQualityFound) {
-                            namesToPlay.add(SceneChanger.getListMenuController().getNamesMap().get(s).getVersions().get(0));
+                            if (firstName) {
+                                tempAudioPath = SceneChanger.getListMenuController().getNamesMap().get(s).getVersions().get(0).getAudioPath();
+                            } else {
+                                tempAudioPath = tempAudioPath + "%" + SceneChanger.getListMenuController().getNamesMap().get(s).getVersions().get(0).getAudioPath();
+                            }
+
                         }
+                        firstName = false;
                     }
                 }
                 if (!tempString.equals("")) {
+                    File file = new File(currentWorkingDir + "/NameSayer/Temp/Concat/concatFiles.txt");
+                    if (!file.exists()) {
+                        file.createNewFile();
+                    }
                     playableNames.add(tempString);
+                    ConcatFilesText.getInstance().writeText(tempAudioPath);
+                    final String finalName = tempString;
+                    try {
+                        concatService = Audio.getInstance().concatAudioFiles(tempString);
+                        concatService.start();
+                        concatService.setOnSucceeded(event -> {
+                            playableNamesObjects.add(new PlayableNames(finalName, currentWorkingDir + "/NameSayer/Temp/Concat/" + finalName + ".wav"));
+                        });
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 
@@ -112,50 +145,82 @@ public class UploadSearchMenuController implements Initializable {
 
     public void selectButtonPressed() {
         if (!enteredName.getText().equals("")) {
+            Service<Void> concatService;
             playableNames.clear();
             playableNamesListView.setItems(playableNames);
             String[] tempNames = enteredName.getText().split("[ -]");
             String tempString = "";
-            for (String s: tempNames) {
+            String tempAudioPath = "";
+            boolean firstName = true;
+            for (String s : tempNames) {
                 if (SceneChanger.getListMenuController().isPresent(s)) {
-                    tempString = tempString + s + " ";
+                    if (firstName) {
+                        tempString = s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
+                    } else {
+                        tempString = tempString + " " + s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
+                    }
                     boolean goodQualityFound = false;
-                    for (NameVersions n: SceneChanger.getListMenuController().getNamesMap().get(s).getVersions()) {
+                    for (NameVersions n : SceneChanger.getListMenuController().getNamesMap().get(s).getVersions()) {
                         if (!n.getBadQuality().get()) {
-                            namesToPlay.add(n);
+                            if (firstName) {
+                                tempAudioPath = n.getAudioPath();
+                            } else {
+                                tempAudioPath = tempAudioPath + "%" + n.getAudioPath();
+                            }
                             goodQualityFound = true;
                             break;
                         }
                     }
                     if (!goodQualityFound) {
-                        namesToPlay.add(SceneChanger.getListMenuController().getNamesMap().get(s).getVersions().get(0));
+                        if (firstName) {
+                            tempAudioPath = SceneChanger.getListMenuController().getNamesMap().get(s).getVersions().get(0).getAudioPath();
+                        } else {
+                            tempAudioPath = tempAudioPath + "%" + SceneChanger.getListMenuController().getNamesMap().get(s).getVersions().get(0).getAudioPath();
+                        }
+
                     }
+                    firstName = false;
                 }
             }
             if (!tempString.equals("")) {
-                playableNames.add(tempString);
+                try {
+                    File file = new File(currentWorkingDir + "/NameSayer/Temp/Concat/concatFiles.txt");
+                    if (!file.exists()) {
+                        file.createNewFile();
+                    }
+                    playableNames.add(tempString);
+                    ConcatFilesText.getInstance().writeText(tempAudioPath);
+                    final String finalName = tempString;
+                    concatService = Audio.getInstance().concatAudioFiles(tempString);
+                    concatService.start();
+                    concatService.setOnSucceeded(event -> {
+                        playableNamesObjects.add(new PlayableNames(finalName, currentWorkingDir + "/NameSayer/Temp/Concat/" + finalName + ".wav"));
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
 
-    public ObservableList<NameVersions> getNamesToPlay() {
-        return namesToPlay;
+    public ObservableList<PlayableNames> getPlayableNamesObjects() {
+        return playableNamesObjects;
     }
 
-    public void backButtonPressed(){
+    public void backButtonPressed() {
         if (inputFileTextArea.isVisible()) {
             inputFileTextArea.clear();
             inputFileTextArea.setVisible(false);
         }
         playableNames.clear();
         playableNamesListView.setItems(null);
-        namesToPlay.clear();
+        playableNamesObjects.clear();
         SceneChanger.loadMainPage();
     }
 
-    public void nextButtonPressed(){
+    public void nextButtonPressed() {
 
-        if (namesToPlay.size() == 0) {
+        if (playableNamesObjects.size() == 0) {
             Alert errorAlert = new Alert(Alert.AlertType.WARNING);
             errorAlert.setTitle("No names are playable");
             errorAlert.setHeaderText(null);
@@ -163,7 +228,14 @@ public class UploadSearchMenuController implements Initializable {
             errorAlert.showAndWait();
         }
 
-        SceneChanger.loadPlayPage();
         SceneChanger.getPlayMenuController().setFromUpload(true);
+        SceneChanger.getPlayMenuController().toggleQualityButtonVisibility();
+        SceneChanger.loadPlayPage();
+    }
+
+    public void handleKeyReleased() {
+        String text = enteredName.getText();
+        boolean disableButton = text.isEmpty() || text.trim().isEmpty() || text.endsWith(" ");
+        enteredName.setDisable(disableButton);
     }
 }

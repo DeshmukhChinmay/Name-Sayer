@@ -24,7 +24,7 @@ public class TagText {
         writer.close();
     }
 
-    //Removes the given string in a text field by creating a temp folder and moving all but that line into the new file
+    //Removes the given string in a text field by creating a updateNameObjects folder and moving all but that line into the new file
     //and renaming it
     public void removeTextFromFile(String versionName, String tag) throws IOException {
         //Gets the files for a Temp file and Recordings

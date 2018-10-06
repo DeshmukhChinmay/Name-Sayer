@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import main.Audio;
 import main.BadAudioText;
 import main.Names.NameVersions;
+import main.PlayableNames;
 import main.SceneChanger;
 
 import java.io.*;
@@ -30,33 +31,27 @@ public class PlayMenuController implements Initializable {
     @FXML
     public Button prevButton;
 
-    public ListView<NameVersions> selectedListView;
-
-    private ObservableList<NameVersions> selectedVersionList;
-    private NameVersions currentSelection;
+    public ListView<PlayableNames> selectedListView;
+    private ObservableList<PlayableNames> selectedVersionList;
+    private PlayableNames currentSelection;
     public boolean single;
     public boolean fromUpload;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         prevButton.setDisable(true);//Makes it so that prevButton is always disabled
 
-        if (fromUpload) {
-            selectedVersionList = SceneChanger.getUploadSearchMenuController().getNamesToPlay();
-        } else {
-            selectedVersionList = SceneChanger.getListMenuController().getSelectedVersionObjects();
-        }
-
         // Setting the cell of the selectedListView to a custom cell so custom text is displayed
-        selectedListView.setCellFactory(param -> new ListCell<NameVersions>() {
+        selectedListView.setCellFactory(param -> new ListCell<PlayableNames>() {
 
             @Override
-            protected void updateItem(NameVersions version, boolean empty) {
-                super.updateItem(version, empty);
+            protected void updateItem(PlayableNames name, boolean empty) {
+                super.updateItem(name, empty);
 
-                if (empty || version == null || version.getVersion() == null) {
+                if (empty || name == null || name.getName() == null) {
                     setText(null);
                 } else {
-                    setText(version.getVersion());
+                    setText(name.getName());
                 }
             }
 
@@ -66,23 +61,32 @@ public class PlayMenuController implements Initializable {
 
         // Adding a listener to the selections from selectedListView. Other buttons are disable/enabled appropriately
         // depending on the selection
-        selectedListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<NameVersions>() {
+        selectedListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<PlayableNames>() {
             @Override
-            public void changed(ObservableValue<? extends NameVersions> observable, NameVersions oldValue, NameVersions newValue) {
+            public void changed(ObservableValue<? extends PlayableNames> observable, PlayableNames oldValue, PlayableNames newValue) {
                 currentSelection = newValue;
-                if(currentSelection != null) {
-                    getQualityRating(currentSelection);
-                    playButton.setDisable(false);
-                    practiceButton.setDisable(false);
-                    checkLogicOfCycleButton();
+                if (fromUpload) {
+                    if(currentSelection != null) {
+                        playButton.setDisable(false);
+                        practiceButton.setDisable(false);
+                        checkLogicOfCycleButton();
+                    }
+                } else {
+                    if(currentSelection != null) {
+                        getQualityRating(currentSelection);
+                        playButton.setDisable(false);
+                        practiceButton.setDisable(false);
+                        checkLogicOfCycleButton();
+                    }
                 }
+
             }
         });
     }
 
     //Sets the quality rating on the UI screen whenever a name is selected
-    public void getQualityRating(NameVersions version) {
-        if (version.getBadQuality().get()) {
+    public void getQualityRating(PlayableNames name) {
+        if (name.getBadQuality().get()) {
             qualityButton.setSelected(true);
             qualityButton.setText("Bad Quality");
 
@@ -110,14 +114,16 @@ public class PlayMenuController implements Initializable {
             if (qualityButton.isSelected()) {
                 qualityButton.setText("Bad Quality");
                 currentSelection.getBadQuality().setValue(true);
+                SceneChanger.getListMenuController().getNameVersionsMap().get(currentSelection.getName()).getBadQuality().setValue(true);
                 //Writes the current selected name to the text file
-                BadAudioText.getInstance().writeText(currentSelection.getVersion());
+                BadAudioText.getInstance().writeText(currentSelection.getName());
             } else {
                 qualityButton.setText("Good Quality");
                 //Sets value of bad quality name object to false
                 currentSelection.getBadQuality().setValue(false);
+                SceneChanger.getListMenuController().getNameVersionsMap().get(currentSelection.getName()).getBadQuality().setValue(false);
                 //Removes text fr0m file
-                BadAudioText.getInstance().removeTextFromFile(currentSelection.getVersion());
+                BadAudioText.getInstance().removeTextFromFile(currentSelection.getName());
             }
         }
     }
@@ -140,7 +146,7 @@ public class PlayMenuController implements Initializable {
 
     //Changes to a different stage where a practice name can be recorded
     public void practiceButtonPressed() {
-       SceneChanger.getPracticeMenuController().setNameVersion(selectedListView.getSelectionModel().getSelectedItem());
+       SceneChanger.getPracticeMenuController().setPlayableName(selectedListView.getSelectionModel().getSelectedItem());
        SceneChanger.loadPracticePage();
     }
 
@@ -160,6 +166,14 @@ public class PlayMenuController implements Initializable {
         Collections.shuffle(selectedVersionList);
         if(currentSelection != null) {
             checkLogicOfCycleButton();
+        }
+    }
+
+    public void toggleQualityButtonVisibility() {
+        if (fromUpload) {
+            qualityButton.setVisible(false);
+        } else {
+            qualityButton.setVisible(true);
         }
     }
 
@@ -207,7 +221,17 @@ public class PlayMenuController implements Initializable {
 
     public void setFromUpload(boolean condition){
         fromUpload  = condition;
+        setDisplayList();
+    }
 
+    public void setDisplayList() {
+        if (fromUpload) {
+            selectedVersionList = SceneChanger.getUploadSearchMenuController().getPlayableNamesObjects();
+        } else {
+            selectedVersionList = SceneChanger.getListMenuController().getPlayableNamesObjects();
+        }
+
+        selectedListView.setItems(selectedVersionList);
     }
 
 }

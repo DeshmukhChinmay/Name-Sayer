@@ -9,6 +9,9 @@ import javax.sound.sampled.AudioSystem;
 import java.io.File;
 import java.io.IOException;
 
+import main.Names;
+import main.PlayableNames;
+
 public class Audio {
     private static Audio ourInstance = new Audio();
 
@@ -19,16 +22,16 @@ public class Audio {
     }
 
     //Method that returns a task that plays the selected audio format using Linux command ffplay by using a Processbuilder
-    public Task playAudio(Names.NameVersions nameVersions) {
+    public Task playAudio(PlayableNames name) {
         Task<Void> task = new Task<Void>() {
             @Override
             public Void call() throws Exception {
                 //Checks if the file normalized and if the silence has been removed
-                if(!nameVersions.isFileAdjusted()) {
-                    normalizeAndCutSilence(nameVersions);
+                if (!name.isFileAdjusted()) {
+                    normalizeAndCutSilence(name);
                 }
 
-                ProcessBuilder playProcess = new ProcessBuilder("ffplay", "-autoexit", "-nodisp", nameVersions.getAudioPath());
+                ProcessBuilder playProcess = new ProcessBuilder("ffplay", "-autoexit", "-nodisp", name.getAudioPath());
                 Process process = playProcess.start();
                 process.waitFor();
                 return null;
@@ -36,9 +39,10 @@ public class Audio {
         };
         return task;
     }
+
     //Method that returns a task that plays the user recorded audio first and then the database name after to comapre
     //the 2 audio by using processbuilder and linux ffplay command
-    public Task comparePracticeThenDatabase(Names.NameVersions databaseName) {
+    public Task comparePracticeThenDatabase(PlayableNames databaseName) {
         Task<Void> task = new Task<Void>() {
             @Override
             public Void call() throws Exception {
@@ -66,8 +70,9 @@ public class Audio {
         return Math.round((audioFileLength / (frameSize * frameRate)) * 100.0) / 100.0;
     }
 
-    private void normalizeAndCutSilence(Names.NameVersions nameVersions) throws Exception{
-        String removeSilenceCommand = "ffmpeg -y -i " + nameVersions.getAudioPath() + " -af silenceremove=1:0:-48dB " + currentWorkingDir + "/NameSayer/Temp/silenceRemoved.wav";
+
+    private void normalizeAndCutSilence(PlayableNames name) throws Exception {
+        String removeSilenceCommand = "ffmpeg -y -i " + name.getAudioPath() + " -af silenceremove=1:0:-48dB " + name.getAudioPath();
         ProcessBuilder silenceBuilder = new ProcessBuilder("/bin/bash", "-c", removeSilenceCommand);
         Process silenceProcess = silenceBuilder.start();
         silenceProcess.waitFor();
@@ -78,7 +83,27 @@ public class Audio {
         Process normaliseProcess = normaliseBuilder.start();
         normaliseProcess.waitFor();
         new File("./NameSayer/Temp/silenceRemoved.wav").delete();
+        name.setFileAdjusted(true);
+    }
 
+    public Service<Void> concatAudioFiles(String name) {
+        Service<Void> service = new Service<Void>() {
+            @Override
+            protected Task<Void> createTask() {
+                return new Task<Void>() {
+                    @Override
+                    protected Void call() throws Exception {
+                        String cmd = "ffmpeg -f concat -safe 0 -i " + currentWorkingDir + "/NameSayer/Temp/Concat/concatFiles.txt" + " -c copy " + currentWorkingDir + "NameSayer/Temp/Concat/" + name + ".wav";
+                        ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", cmd);
+                        Process process = builder.start();
+                        process.waitFor();
+                        return null;
+                    }
+                };
+            }
+        };
+
+        return service;
     }
 
     public void normalizeAndCutSilenceOfUserRecording() throws Exception{
@@ -97,3 +122,6 @@ public class Audio {
 
     }
 }
+
+
+
