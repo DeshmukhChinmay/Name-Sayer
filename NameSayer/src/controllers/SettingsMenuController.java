@@ -97,6 +97,7 @@ public class SettingsMenuController {
         micVolume.progressProperty().setValue(0);
         SceneChanger.loadMainPage();
     }
+
     //Allows user to choose another database to add to the current one
     public void onAddDatabase() {
         DirectoryChooser databaseChooser = new DirectoryChooser(); //Creates a new stage and opens a directory chooser window
@@ -115,8 +116,10 @@ public class SettingsMenuController {
             }
         }
     }
+
     //Opens the github wiki page when help button is pressed
     public void onHelpButtonPressed() {
         SceneChanger.loadHelpMenu();
     }
+
 }

@@ -112,8 +112,8 @@ public class UploadSearchMenuController implements Initializable {
         if (!enteredName.getText().equals("")) {
             String[] tempNames = enteredName.getText().split("[ -]");
             playableNamesListView.setItems(playableNames);
-                createPlayableNames(tempNames);
-            }
+            createPlayableNames(tempNames);
+        }
         enteredName.clear();
     }
 
@@ -154,6 +154,7 @@ public class UploadSearchMenuController implements Initializable {
                 playableNamesObjects.add(new PlayableNames(tempString, tempAudioPath));
             }
         }
+
     }
 
     public ObservableList<PlayableNames> getPlayableNamesObjects() {
@@ -162,14 +163,17 @@ public class UploadSearchMenuController implements Initializable {
 
     // Clear all of the lists and disabling the text area
     public void backButtonPressed() {
+
         if (inputFileTextArea.isVisible()) {
             inputFileTextArea.clear();
             inputFileTextArea.setVisible(false);
         }
+
         playableNamesListView.setItems(null);
         selectButton.setDisable(true);
         clearButtonPressed();
         SceneChanger.loadMainPage();
+
     }
 
     // Changing the scene to the play menu
@@ -182,17 +186,20 @@ public class UploadSearchMenuController implements Initializable {
             errorAlert.setContentText("The selected names are not in the database");
             errorAlert.showAndWait();
         }
+
         if(playableNamesObjects.size() == 1){
             SceneChanger.getPlayMenuController().single = true;
             SceneChanger.getPlayMenuController().nextButton.setDisable(true);
 
         }
+
         selectButton.setDisable(true);
         SceneChanger.getPlayMenuController().playButton.setDisable(true);
         SceneChanger.getPlayMenuController().practiceButton.setDisable(true);
         SceneChanger.getPlayMenuController().setFromUpload(true);
         SceneChanger.getPlayMenuController().toggleQualityButtonVisibility();
         SceneChanger.loadPlayPage();
+
     }
 
     // Getting the input from the textfield when the enter key is pressed

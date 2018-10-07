@@ -80,7 +80,7 @@
                                 </HBox>
                                 <HBox alignment="CENTER_LEFT" maxWidth="432.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0" style="-fx-background-color: #5d728a;">
                                     <children>
-                                        <Label text="Duration">
+                                        <Label text="Duration:">
                                             <font>
                                                 <Font size="20.0" />
                                             </font>

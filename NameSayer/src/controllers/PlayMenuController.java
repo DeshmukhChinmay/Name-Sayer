@@ -10,7 +10,6 @@ import javafx.scene.control.*;
 
 import main.Audio;
 import main.BadAudioText;
-import main.Names.NameVersions;
 import main.PlayableNames;
 import main.SceneChanger;
 
@@ -173,6 +172,7 @@ public class PlayMenuController implements Initializable {
         }
     }
 
+    // Changing toggle buttons visibility depending on which screen the user comes from
     public void toggleQualityButtonVisibility() {
         if (fromUpload) {
             qualityButton.setVisible(false);
@@ -181,6 +181,7 @@ public class PlayMenuController implements Initializable {
         }
     }
 
+    // Selecting the next selection in the listview
     public void nextButtonPressed() {
         prevButton.setDisable(false);//If next button is pressed that means prev Button will be enabled
         selectedListView.getSelectionModel().selectNext();
@@ -192,6 +193,7 @@ public class PlayMenuController implements Initializable {
         }
     }
 
+    // Selecting the previous selection in the listview
     public void prevButtonPressed() {
         nextButton.setDisable(false);//If prev button is pressable that means that next button will be enabled
         selectedListView.getSelectionModel().selectPrevious(); //Selects the prev name in the list
@@ -226,13 +228,13 @@ public class PlayMenuController implements Initializable {
         setDisplayList();
     }
 
+    // Setting the list to be displayed for playing
     public void setDisplayList() {
         if (fromUpload) {
             selectedVersionList = SceneChanger.getUploadSearchMenuController().getPlayableNamesObjects();
         } else {
             selectedVersionList = SceneChanger.getListMenuController().getPlayableNamesObjects();
         }
-
         selectedListView.setItems(selectedVersionList);
     }
 
