@@ -34,6 +34,7 @@ public class MainMenuController implements Initializable {
         SceneChanger.loadDatabaseMenu();
     }
 
+    // Changes scene to the scene where the user can select names or upload a txt file containing names
     public void uploadFilePressed() {
         SceneChanger.loadUploadSearchPage();
     }

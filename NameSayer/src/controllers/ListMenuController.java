@@ -276,9 +276,7 @@ public class ListMenuController implements Initializable {
             String tempName;
 
             for (File f : namesInDatabase) {
-                if (f.isHidden()) {
-                    continue;
-                } else {
+                if (!f.isHidden()) {
                     tempFilename = f.getName();
                     String[] tempFilenameParts = tempFilename.split("_");
                     String[] tempNameParts = tempFilenameParts[3].split("\\.");
@@ -301,12 +299,10 @@ public class ListMenuController implements Initializable {
                             nameObjects.add(new Names(tempName, destination.getAbsolutePath()));
                         }
                     }
-
                 }
             }
 
-        }
-        else if(new File(currentWorkingDir+"/NameSayer/Recordings").listFiles() == null ||
+        } else if(new File(currentWorkingDir+"/NameSayer/Recordings").listFiles() == null ||
                 new File(currentWorkingDir+"/NameSayer/Recordings").listFiles().length == 0 ) {
             Alert errorAlert = new Alert(Alert.AlertType.WARNING);
             errorAlert.setTitle("No Default Folder");
@@ -314,9 +310,7 @@ public class ListMenuController implements Initializable {
             errorAlert.setHeaderText("No Default Names Folder");
             errorAlert.showAndWait();
         }
-        else {
 
-        }
     }
 
     // Updating the namesListView so that it displays the names available from the database alphabetically
@@ -486,5 +480,5 @@ public class ListMenuController implements Initializable {
             return true;
         }
     }
-}
 
+}

@@ -185,7 +185,6 @@ public class DatabaseMenuController implements Initializable {
                 practiceNamesListView.getSelectionModel().clearSelection();
             }
         }
-
     }
 
     // Playing the selected practice name
@@ -198,8 +197,8 @@ public class DatabaseMenuController implements Initializable {
             playDatabaseNameButton.setDisable(true);
             deleteButton.setDisable(true);
             backButton.setDisable(true);
-            //Play the selected creation on a separate thread
 
+            //Play the selected creation on a separate thread
             Task task = Audio.getInstance().playAudio(selectedName);
             task.setOnSucceeded(e -> { //Enables all buttons after finished playing
                 playButton.setDisable(false);
@@ -250,4 +249,5 @@ public class DatabaseMenuController implements Initializable {
             errorAlert.showAndWait();
         }
     }
+
 }

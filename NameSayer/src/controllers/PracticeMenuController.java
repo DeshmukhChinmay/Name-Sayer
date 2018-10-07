@@ -99,7 +99,6 @@ public class PracticeMenuController {
                             process.destroy();
                         }
                     }
-
                     Platform.runLater(new Runnable() {
                         public void run() {
                             //changes the states of buttons
@@ -195,4 +194,5 @@ public class PracticeMenuController {
         progressBar.setProgress(0);
         recording = false;
     }
+
 }
