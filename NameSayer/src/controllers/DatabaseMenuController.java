@@ -67,28 +67,30 @@ public class DatabaseMenuController implements Initializable {
         practiceNamesListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<PlayableNames>() {
             @Override
             public void changed(ObservableValue<? extends PlayableNames> observable, PlayableNames oldValue, PlayableNames newValue) {
+                 ObservableList<NameVersions> test = FXCollections.observableArrayList();
 
                 if (practiceNamesListView.getSelectionModel().getSelectedItem() != null) {
 
                     String[] tempNameString = practiceNamesListView.getSelectionModel().getSelectedItem().getName().split(" ");
 
-                    if (tempNameString.length != 1) {
-                        databaseNamesListView.setItems(null);
-                    } else {
-                        Names tempNameObjects = SceneChanger.getListMenuController().getNamesMap().get(SceneChanger.getListMenuController().getNameVersionsMap().get(tempNameString[0]).getParentName());
-
+                    for (String s : tempNameString) {
+                            Names tempNameObjects = SceneChanger.getListMenuController().getNamesMap().get(s.trim());
                         if (tempNameObjects != null) {
-                            databaseNamesListView.setItems(tempNameObjects.getVersions());
-                        } else {
-                            databaseNamesListView.setItems(tempNameObjects.getVersions());
+                            for (NameVersions n : tempNameObjects.getVersions()) {
+                                if(test.contains(n)){
+                                    continue;
+                                }
+                                else {
+                                    test.add(n);
+                                }
+                            }
                         }
                     }
-
-
-
+                }
+                    databaseNamesListView.setItems(test);
                 }
 
-            }
+
         });
 
         databaseNamesListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
@@ -219,35 +221,33 @@ public class DatabaseMenuController implements Initializable {
 
     // Playing the selected version of a name from the database
     public void playDatabaseVersionButtonPressed() {
+        if (databaseNamesListView.getSelectionModel().getSelectedItem() != null) {
+            LinkedList<String> tempAudioPath = new LinkedList<>();
+            tempAudioPath.add(databaseNamesListView.getSelectionModel().getSelectedItem().getAudioPath());
+            PlayableNames selectedDatabaseName = new PlayableNames(databaseNamesListView.getSelectionModel().getSelectedItem().getVersion(), tempAudioPath);
+            //If there is a selected name then disable the required buttons during playing and then
+            //re enable them after it has finished playing
+                playDatabaseNameButton.setText("Playing");
+                playDatabaseNameButton.setDisable(true);
+                playButton.setDisable(true);
+                deleteButton.setDisable(true);
+                backButton.setDisable(true);
+                Task task = Audio.getInstance().playAudio(selectedDatabaseName);
+                task.setOnSucceeded(e -> {
+                    playButton.setDisable(false);
+                    playDatabaseNameButton.setDisable(false);
+                    deleteButton.setDisable(false);
+                    backButton.setDisable(false);
+                    playDatabaseNameButton.setText("Play Database Recording");
+                });
+                new Thread(task).start();
 
-        LinkedList<String> tempAudioPath = new LinkedList<>();
-        tempAudioPath.add(databaseNamesListView.getSelectionModel().getSelectedItem().getAudioPath());
-        PlayableNames selectedDatabaseName = new PlayableNames(databaseNamesListView.getSelectionModel().getSelectedItem().getVersion(),tempAudioPath);
-        //If there is a selected name then disable the required buttons during playing and then
-        //re enable them after it has finished playing
-        if (selectedDatabaseName != null) {
-            playDatabaseNameButton.setText("Playing");
-            playDatabaseNameButton.setDisable(true);
-            playButton.setDisable(true);
-            deleteButton.setDisable(true);
-            backButton.setDisable(true);
-            Task task = Audio.getInstance().playAudio(selectedDatabaseName);
-            task.setOnSucceeded(e -> {
-                playButton.setDisable(false);
-                playDatabaseNameButton.setDisable(false);
-                deleteButton.setDisable(false);
-                backButton.setDisable(false);
-                playDatabaseNameButton.setText("Play Database Recording");
-            });
-            new Thread(task).start();
-        } else { //If no name is selected then it shows an alert to the user
+        } else {
             Alert errorAlert = new Alert(Alert.AlertType.WARNING);
             errorAlert.setTitle("No Database Name Selected");
             errorAlert.setHeaderText(null);
             errorAlert.setContentText("Please Select a Database Names");
             errorAlert.showAndWait();
         }
-
     }
-
 }

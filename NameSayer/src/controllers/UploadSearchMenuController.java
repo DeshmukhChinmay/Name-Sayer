@@ -121,7 +121,7 @@ public class UploadSearchMenuController implements Initializable {
     public void createPlayableNames(String[] tempNames) {
         String tempString = "";
         LinkedList<String> tempAudioPath = new LinkedList<>();
-        boolean firstName = false;
+        boolean firstName = true;
         for (String s: tempNames) {
             String modifiedName = s.substring(0,1).toUpperCase() + s.substring(1).toLowerCase();
             if (SceneChanger.getListMenuController().isPresent(modifiedName)) {
@@ -182,7 +182,12 @@ public class UploadSearchMenuController implements Initializable {
             errorAlert.setContentText("The selected names are not in the database");
             errorAlert.showAndWait();
         }
+        if(playableNamesObjects.size() == 1){
+            SceneChanger.getPlayMenuController().single = true;
+        }
         selectButton.setDisable(true);
+        SceneChanger.getPlayMenuController().playButton.setDisable(true);
+        SceneChanger.getPlayMenuController().practiceButton.setDisable(true);
         SceneChanger.getPlayMenuController().setFromUpload(true);
         SceneChanger.getPlayMenuController().toggleQualityButtonVisibility();
         SceneChanger.loadPlayPage();
