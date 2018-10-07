@@ -164,6 +164,7 @@ public class ListMenuController implements Initializable {
         initialiseNameVersionsMap();
         checkQualityStatus();
         initialiseTags();
+        updateMainList();
     }
 
     //Initalises the quality rating by checking the Bad_Recordings.txt file
@@ -300,12 +301,18 @@ public class ListMenuController implements Initializable {
 
                 }
             }
-        } else {
+
+        }
+        else if(new File(currentWorkingDir+"/NameSayer/Recordings").listFiles() == null ||
+                new File(currentWorkingDir+"/NameSayer/Recordings").listFiles().length == 0 ) {
             Alert errorAlert = new Alert(Alert.AlertType.WARNING);
             errorAlert.setTitle("No Default Folder");
             errorAlert.setHeaderText(null);
             errorAlert.setHeaderText("No Default Names Folder");
             errorAlert.showAndWait();
+        }
+        else {
+
         }
     }
 
@@ -325,7 +332,6 @@ public class ListMenuController implements Initializable {
      HashMap<String, Names> getNamesMap() {
         return namesMap;
     }
-
      HashMap<String, NameVersions> getNameVersionsMap() {
         return nameVersionsMap;
     }
