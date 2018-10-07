@@ -70,11 +70,21 @@ public class DatabaseMenuController implements Initializable {
 
                 if (practiceNamesListView.getSelectionModel().getSelectedItem() != null) {
 
-                    Names tempNameObjects = SceneChanger.getListMenuController().getNamesMap().get(SceneChanger.getListMenuController().getNameVersionsMap().get(practiceNamesListView.getSelectionModel().getSelectedItem()).getParentName());
+                    String[] tempNameString = practiceNamesListView.getSelectionModel().getSelectedItem().getName().split(" ");
 
-                    if (tempNameObjects != null) {
-                        databaseNamesListView.setItems(tempNameObjects.getVersions());
+                    if (tempNameString.length != 1) {
+                        databaseNamesListView.setItems(null);
+                    } else {
+                        Names tempNameObjects = SceneChanger.getListMenuController().getNamesMap().get(SceneChanger.getListMenuController().getNameVersionsMap().get(tempNameString[0]).getParentName());
+
+                        if (tempNameObjects != null) {
+                            databaseNamesListView.setItems(tempNameObjects.getVersions());
+                        } else {
+                            databaseNamesListView.setItems(tempNameObjects.getVersions());
+                        }
                     }
+
+
 
                 }
 

@@ -223,6 +223,7 @@ public class ListMenuController implements Initializable {
         }
     }
 
+    // Creates the map of NameVersions using the corresponding string as the key
     private void initialiseNameVersionsMap() {
         for (Names n : nameObjects) {
             for (NameVersions nV : n.getVersions()) {
@@ -231,6 +232,8 @@ public class ListMenuController implements Initializable {
         }
     }
 
+    // Checks whether there are any names present in the Recordings folder and creates
+    // the necessary objects
     private void initialiseNameObjects() {
 
         File recordingsFolder = new File(currentWorkingDir + "/NameSayer/Recordings/");
@@ -475,6 +478,7 @@ public class ListMenuController implements Initializable {
 
     }
 
+    // Checks whether a given name is present in the database
     public boolean isPresent(String name) {
         if (namesMap.get(name) == null) {
             return false;
