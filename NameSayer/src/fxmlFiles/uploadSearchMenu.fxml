@@ -18,7 +18,7 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1366.0" style="-fx-background-color: #53667B;" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.UploadSearchMenuController">
     <top>
-        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="59.0" prefWidth="613.0" text="Practice Name(s)" BorderPane.alignment="CENTER">
+        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="89.0" prefWidth="713.0" text="Practice Name(s)" BorderPane.alignment="CENTER">
             <font>
                 <Font size="75.0" />
             </font>
@@ -67,16 +67,13 @@
                 </VBox>
                 <VBox alignment="CENTER" prefHeight="625.0" prefWidth="605.0">
                     <children>
-                        <Label alignment="CENTER" contentDisplay="CENTER" text="Playable Names">
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="366.0" text="Playable Names">
                             <font>
                                 <Font size="30.0" />
                             </font>
                             <VBox.margin>
-                                <Insets left="20.0" />
+                                <Insets right="320.0" />
                             </VBox.margin>
-                            <padding>
-                                <Insets right="350.0" />
-                            </padding>
                         </Label>
                         <ListView fx:id="playableNamesListView" prefHeight="397.0" prefWidth="565.0" style="-fx-background-color: #5d728a;">
                             <VBox.margin>

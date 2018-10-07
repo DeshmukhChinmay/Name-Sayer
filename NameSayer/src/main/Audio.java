@@ -73,7 +73,7 @@ public class Audio {
     //It uses a processbuilder to call it in the terminal and is temporarily stored in a temp folder to be played
     private void normalizeAndCutSilence(String s) throws Exception {
         //Removes silence
-        String removeSilenceCommand = "ffmpeg -y -i " + s + " -af silenceremove=1:0:-48dB " + currentWorkingDir + "/NameSayer/Temp/silenceRemoved.wav";
+        String removeSilenceCommand = "ffmpeg -y -i " + "\"" + s + "\"" + " -af silenceremove=1:0:-48dB " + currentWorkingDir + "/NameSayer/Temp/silenceRemoved.wav";
         ProcessBuilder silenceBuilder = new ProcessBuilder("/bin/bash", "-c", removeSilenceCommand);
         Process silenceProcess = silenceBuilder.start();
         silenceProcess.waitFor();
