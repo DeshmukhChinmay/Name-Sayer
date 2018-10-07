@@ -24,7 +24,6 @@ import java.util.ResourceBundle;
 
 public class UploadSearchMenuController implements Initializable {
 
-
     @FXML
     private TextArea inputFileTextArea;
     @FXML
@@ -44,6 +43,7 @@ public class UploadSearchMenuController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         selectButton.defaultButtonProperty().bind(selectButton.focusedProperty());
 
+        // Limiting the user input to 50 characters
         enteredName.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -53,6 +53,9 @@ public class UploadSearchMenuController implements Initializable {
                 }
             }
         });
+
+        // Added a key event so that the user can press enter after entering a name
+        // instead of clicking the button
         enteredName.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {
@@ -63,6 +66,7 @@ public class UploadSearchMenuController implements Initializable {
         });
     }
 
+    // Method to let the user select a text file that contains names
     public void fileChooser() {
 
         FileChooser fileChooser = new FileChooser();
@@ -80,6 +84,8 @@ public class UploadSearchMenuController implements Initializable {
 
     }
 
+    // Reading the uploaded txt file and populating a list with names that are available
+    // in the database from the txt file
     public void fileUploaded() throws IOException {
         if (fileUploaded != null) {
             inputFileTextArea.clear();
@@ -100,16 +106,18 @@ public class UploadSearchMenuController implements Initializable {
 
     }
 
+    // Reading the name the user has entered in the textfield and populating a list
+    // with the names that can be played from the inputted name
     public void selectButtonPressed() {
         if (!enteredName.getText().equals("")) {
             String[] tempNames = enteredName.getText().split("[ -]");
             playableNamesListView.setItems(playableNames);
-
                 createPlayableNames(tempNames);
             }
         enteredName.clear();
     }
 
+    // Creating PlayableNames objects with the necessary audio paths
     public void createPlayableNames(String[] tempNames) {
         String tempString = "";
         LinkedList<String> tempAudioPath = new LinkedList<>();
@@ -122,6 +130,9 @@ public class UploadSearchMenuController implements Initializable {
                 } else {
                     tempString = tempString + " " + modifiedName;
                 }
+                // Checking if a good quality recording is present for a certain name and
+                // adding it to the audioPath for the PlayableNames object. If there is no good
+                // quality present then the first version of the name is adding to the audioPath
                 boolean goodQualityFound = false;
                 for (NameVersions n : SceneChanger.getListMenuController().getNamesMap().get(modifiedName).getVersions()) {
                     if (!n.getBadQuality().get()) {
@@ -149,6 +160,7 @@ public class UploadSearchMenuController implements Initializable {
         return playableNamesObjects;
     }
 
+    // Clear all of the lists and disabling the text area
     public void backButtonPressed() {
         if (inputFileTextArea.isVisible()) {
             inputFileTextArea.clear();
@@ -160,6 +172,7 @@ public class UploadSearchMenuController implements Initializable {
         SceneChanger.loadMainPage();
     }
 
+    // Changing the scene to the play menu
     public void nextButtonPressed() {
 
         if (playableNamesObjects.size() == 0) {
@@ -175,12 +188,14 @@ public class UploadSearchMenuController implements Initializable {
         SceneChanger.loadPlayPage();
     }
 
+    // Getting the input from the textfield when the enter key is pressed
     public void handleKeyReleased() {
         String text = enteredName.getText();
         boolean disableButton = text.isEmpty() || text.trim().isEmpty() || text.endsWith(" ");
         selectButton.setDisable(disableButton);
     }
 
+    // Clearing the lists that are present in the current scene
     public void clearButtonPressed() {
         playableNames.clear();
         enteredName.clear();

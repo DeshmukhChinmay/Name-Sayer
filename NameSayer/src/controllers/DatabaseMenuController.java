@@ -238,6 +238,7 @@ public class DatabaseMenuController implements Initializable {
             errorAlert.setContentText("Please Select a Database Names");
             errorAlert.showAndWait();
         }
+
     }
 
 }
