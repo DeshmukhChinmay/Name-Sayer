@@ -66,7 +66,7 @@ public class PracticeMenuController {
     public void SaveAudio() throws IOException {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
         LocalDateTime dateAndTime = LocalDateTime.now();
-        fileName = new File(currentWorkingDir + "/NameSayer/PracticeNames/" + SceneChanger.getListMenuController().getNameVersionsMap().get(name).getParentName() + "_" + dateTimeFormatter.format(dateAndTime) + ".wav");
+        fileName = new File(currentWorkingDir + "/NameSayer/PracticeNames/" + name.getName() + "_" + dateTimeFormatter.format(dateAndTime) + ".wav");
         Files.copy(new File(currentWorkingDir + "/NameSayer/Temp/tempAudio.wav").toPath(), fileName.toPath(), StandardCopyOption.REPLACE_EXISTING);
         SceneChanger.getDatabaseMenuController().updateList();
         saveButton.setDisable(true);
@@ -77,7 +77,7 @@ public class PracticeMenuController {
     //Creates a tempAudio.wav file that contains the user recording and also creates the progress bar for 5 seconds of recording
     public void startRecording() {
         //If button is pressed again and its already recorded it changes stop variable to true which stops the process and
-        //destroys it triggering its runlater method.
+        //destroys it triggering its run later method.
         if (recording) {
             recording = false;
             stop = true;
