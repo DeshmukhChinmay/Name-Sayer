@@ -1,4 +1,9 @@
+==========================NameSayer==================================
 
+Client - The Dean of Engineering
+Special Features - Custom Tags
+		   Keyboard Shortcuts
+		   Help Menu
 
 ==========================How to Run=================================
 
