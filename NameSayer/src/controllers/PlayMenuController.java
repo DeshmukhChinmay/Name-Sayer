@@ -137,6 +137,7 @@ public class PlayMenuController implements Initializable {
         selectedListView.getSelectionModel().clearSelection();
         if (fromUpload) {
             SceneChanger.loadUploadSearchPage();
+            SceneChanger.getUploadSearchMenuController().showSearchList();
         } else {
             SceneChanger.loadListPage();
 

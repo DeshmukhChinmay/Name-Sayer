@@ -195,6 +195,9 @@ public class ListMenuController implements Initializable {
             }
         }
     }
+    public LinkedList<Names> getNameObjects(){
+        return nameObjects;
+    }
 
     private void initialiseTags() throws IOException {
         File tagFile = new File("Tags_File.txt");

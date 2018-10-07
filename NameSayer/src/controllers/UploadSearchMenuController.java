@@ -32,10 +32,13 @@ public class UploadSearchMenuController implements Initializable {
     private TextField enteredName;
     @FXML
     private Button selectButton;
+    @FXML
+    private ListView searchList;
 
     private File fileUploaded = null;
     private ObservableList<String> playableNames = FXCollections.observableArrayList();
     private ObservableList<PlayableNames> playableNamesObjects = FXCollections.observableArrayList();
+    private ObservableList<String> namesSearchViewList = FXCollections.observableArrayList();
 
     private int characterLimit = 50;
 
@@ -78,6 +81,7 @@ public class UploadSearchMenuController implements Initializable {
 
         if (fileUploaded != null) {
             try {
+                playableNamesObjects.clear();
                 fileUploaded();
                 fileUploaded = null;
             } catch (IOException e) {
@@ -95,6 +99,7 @@ public class UploadSearchMenuController implements Initializable {
             playableNames.clear();
             playableNamesListView.setItems(playableNames);
             inputFileTextArea.setVisible(true);
+            searchList.setVisible(false);
 
             BufferedReader reader = new BufferedReader(new FileReader(fileUploaded));
             String line = null;
@@ -117,6 +122,7 @@ public class UploadSearchMenuController implements Initializable {
             playableNamesListView.setItems(playableNames);
             createPlayableNames(tempNames);
         }
+        setSearchList();
         enteredName.clear();
     }
 
@@ -148,6 +154,13 @@ public class UploadSearchMenuController implements Initializable {
                     tempAudioPath.add(SceneChanger.getListMenuController().getNamesMap().get(modifiedName).getVersions().get(0).getAudioPath());
                 }
                 firstName = false;
+            }
+            else{//If a name doesnt exist it will show a alert
+                Alert errorAlert = new Alert(Alert.AlertType.WARNING);
+                errorAlert.setTitle("Name Doesn't Exist!");
+                errorAlert.setHeaderText(null);
+                errorAlert.setContentText("The Name \"" + modifiedName + "\" does not exist. \n \n Will only add present names");
+                errorAlert.showAndWait();
             }
         }
 
@@ -205,11 +218,38 @@ public class UploadSearchMenuController implements Initializable {
 
     }
 
-    // Getting the input from the textfield when the enter key is pressed
+    // Getting the input from the textfield when the enter key is pressed and filters the searchList
     public void handleKeyReleased() {
+        namesSearchViewList.clear(); //Clears the list so no duplicate names
         String text = enteredName.getText();
-        boolean disableButton = text.isEmpty() || text.trim().isEmpty() || text.endsWith(" ");
+        String temp = text.replace("-", " ");//replaces - with spaces
+        boolean disableButton = text.isEmpty() || text.trim().isEmpty() || text.endsWith(" ") || text.startsWith(" ");
         selectButton.setDisable(disableButton);
+        if(disableButton){ //If button is disabled should show everything in the list
+            setSearchList();
+        }
+        else{ //If string contains a space that means there are more than one name and needs to get the latest name
+            if(temp.contains(" ")){
+                int charAfterSpace = temp.substring(temp.lastIndexOf(" ")).length(); //gets the index of last space
+                for (Names n: SceneChanger.getListMenuController().getNameObjects()){
+                    if ((n.getName().length() >= charAfterSpace-1) && //Checks if the entered names are bigger than the actual name
+                            (n.getName().substring(0, charAfterSpace-1).toLowerCase().equals(temp.substring((temp.lastIndexOf(" "))).trim().toLowerCase()))) {
+                        namesSearchViewList.add(n.getName()); //If names are equal adds to observable list
+                    }
+                }
+                searchList.setItems(namesSearchViewList);
+            }
+            else {
+                for (Names n : SceneChanger.getListMenuController().getNameObjects()) { //Loops through all names and checks if the first letters are matching and outputs it
+                    if ((n.getName().length() >= temp.length()) &&
+                            (n.getName().substring(0, temp.length()).toLowerCase().equals(temp.toLowerCase()))) {
+                        namesSearchViewList.add(n.getName());
+                    }
+                }
+                searchList.setItems(namesSearchViewList);
+            }
+        }
+
     }
 
     // Clearing the lists that are present in the current scene
@@ -219,6 +259,16 @@ public class UploadSearchMenuController implements Initializable {
         playableNames.clear();
         enteredName.clear();
         playableNamesObjects.clear();
+        setSearchList();
+    }
+    //Sets the search list with all items
+    public void setSearchList(){
+        searchList.setItems(SceneChanger.getListMenuController().namesListView.getItems());
+    }
+    //Sets search list to visible and text area to not visible
+    public void showSearchList(){
+        searchList.setVisible(true);
+        inputFileTextArea.setVisible(false);
     }
 
 }
