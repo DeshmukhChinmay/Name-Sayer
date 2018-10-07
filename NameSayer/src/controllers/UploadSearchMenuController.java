@@ -184,6 +184,8 @@ public class UploadSearchMenuController implements Initializable {
         }
         if(playableNamesObjects.size() == 1){
             SceneChanger.getPlayMenuController().single = true;
+            SceneChanger.getPlayMenuController().nextButton.setDisable(true);
+
         }
         selectButton.setDisable(true);
         SceneChanger.getPlayMenuController().playButton.setDisable(true);

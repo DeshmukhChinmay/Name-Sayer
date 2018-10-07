@@ -117,10 +117,6 @@ public class SettingsMenuController {
     }
     //Opens the github wiki page when help button is pressed
     public void onHelpButtonPressed() {
-        try {
-            Desktop.getDesktop().browse(new URL("https://github.com/DeshmukhChinmay/NameSayer/wiki").toURI());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        SceneChanger.loadHelpMenu();
     }
 }

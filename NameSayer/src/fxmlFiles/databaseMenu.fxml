@@ -10,6 +10,23 @@
     <center>
         <HBox prefHeight="653.0" prefWidth="1366.0" style="-fx-background-color: #778ca3;" BorderPane.alignment="CENTER">
             <children>
+            <VBox alignment="CENTER" prefHeight="411.0" prefWidth="455.0" spacing="10.0">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="307.0" prefHeight="35.0" prefWidth="307.0" text="Saved Attempts">
+                     <font>
+                        <Font size="30.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Label>
+                  <ListView fx:id="practiceNamesListView" maxWidth="420.0" minWidth="200.0" prefHeight="768.0" prefWidth="420.0" style="-fx-background-color: #5d728a;">
+                     <VBox.margin>
+                        <Insets bottom="20.0" left="30.0" />
+                     </VBox.margin>
+                  </ListView>
+               </children>
+            </VBox>
                 <VBox alignment="CENTER" prefHeight="441.0" prefWidth="455.0" spacing="10.0">
                     <children>
                         <Label alignment="CENTER" contentDisplay="CENTER" text="Database Names">
@@ -20,29 +37,15 @@
                                 <Insets top="10.0" />
                             </VBox.margin>
                         </Label>
-                        <ListView fx:id="databaseNamesListView" maxHeight="1000.0" maxWidth="1090.0" minWidth="200.0" prefHeight="768.0" prefWidth="445.0" style="-fx-background-color: #5d728a;">
+                        <ListView fx:id="databaseNamesListView" maxHeight="1000.0" maxWidth="424.0" minWidth="200.0" prefHeight="537.0" prefWidth="424.0" style="-fx-background-color: #5d728a;">
                             <VBox.margin>
-                                <Insets bottom="20.0" left="20.0" right="20.0" />
+                                <Insets bottom="20.0" right="20.0" />
                             </VBox.margin>
                         </ListView>
                     </children>
-                </VBox>
-                <VBox alignment="CENTER" prefHeight="411.0" prefWidth="455.0" spacing="10.0">
-                    <children>
-                        <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="307.0" prefHeight="35.0" prefWidth="307.0" text="Saved Attempts">
-                            <font>
-                                <Font size="30.0" />
-                            </font>
-                            <VBox.margin>
-                                <Insets left="25.0" top="10.0" />
-                            </VBox.margin>
-                        </Label>
-                        <ListView fx:id="practiceNamesListView" maxWidth="445.0" minWidth="200.0" prefHeight="768.0" prefWidth="445.0" style="-fx-background-color: #5d728a;">
-                            <VBox.margin>
-                                <Insets bottom="20.0" left="30.0" />
-                            </VBox.margin>
-                        </ListView>
-                    </children>
+               <HBox.margin>
+                  <Insets left="40.0" />
+               </HBox.margin>
                 </VBox>
                 <VBox alignment="CENTER" prefHeight="680.0" prefWidth="460.0" spacing="30.0" stylesheets="@../css/database.css">
                     <children>

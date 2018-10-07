@@ -21,6 +21,7 @@ public class SceneChanger {
     private static Scene settingsScene;
     private static Scene databaseScene;
     private static Scene uploadSearchScene;
+    private static Scene helpMenuScene;
 
     private static ListMenuController listMenuController;
     private static DatabaseMenuController databaseMenuController;
@@ -29,6 +30,7 @@ public class SceneChanger {
     private static PracticeMenuController practiceMenuController;
     private static SettingsMenuController settingsMenuController;
     private static UploadSearchMenuController uploadSearchMenuController;
+    private static HelpMenuController helpMenuController;
 
     public static SceneChanger getInstance() {
         return ourInstance;
@@ -74,6 +76,11 @@ public class SceneChanger {
         Parent databasePane = databaseLoader.load();
         databaseScene = new Scene(databasePane, 1366, 768);
         databaseMenuController = databaseLoader.getController();
+
+        FXMLLoader helpLoader = new FXMLLoader(getClass().getResource("/fxmlFiles/helpMenu.fxml"));
+        Parent helpPane = helpLoader.load();
+        helpMenuScene = new Scene(helpPane, 650, 750);
+        helpMenuController = helpLoader.getController();
     }
 
     //Loads Main page in the primary stage
@@ -106,11 +113,17 @@ public class SceneChanger {
 
     //Loads mic test page
     public static void loadSettingsPage() {
+        _secondaryStage.close();
         _primaryStage.setScene(settingsScene);
     }
 
     public static void loadDatabaseMenu() {
         _primaryStage.setScene(databaseScene);
+    }
+
+    public static void loadHelpMenu(){
+        _secondaryStage.setScene(helpMenuScene);
+        _secondaryStage.show();
     }
 
     //The following methods all return a instance of the respective controller

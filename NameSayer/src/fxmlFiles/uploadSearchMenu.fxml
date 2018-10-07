@@ -39,7 +39,7 @@
                                         <Font size="20.0" />
                                     </font>
                                 </TextField>
-                                <Button fx:id="selectButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#selectButtonPressed" prefHeight="53.0" prefWidth="178.0" styleClass="mainButton" text="Select">
+                                <Button fx:id="selectButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#selectButtonPressed" prefHeight="53.0" prefWidth="178.0" styleClass="mainButton" text="Add">
                                     <font>
                                         <Font size="20.0" />
                                     </font>

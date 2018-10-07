@@ -62,6 +62,7 @@ public class ListMenuController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         searchBy.getItems().addAll("Name", "Tag");
         searchBy.getSelectionModel().select("Name");
 
@@ -154,6 +155,8 @@ public class ListMenuController implements Initializable {
             initialiseTags();
         } catch (IOException e) {
         }
+        selectedNames.setMouseTransparent( true );
+        selectedNames.setFocusTraversable( false );
     }
 
     //Reinitalises everything when new database added
