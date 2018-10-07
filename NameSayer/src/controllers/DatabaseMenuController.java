@@ -80,7 +80,7 @@ public class DatabaseMenuController implements Initializable {
                         if (tempNameObjects != null) {
                             databaseNamesListView.setItems(tempNameObjects.getVersions());
                         } else {
-                            databaseNamesListView.setItems(tempNameObjects.getVersions());
+                            databaseNamesListView.setItems(null);
                         }
                     }
 
@@ -158,7 +158,7 @@ public class DatabaseMenuController implements Initializable {
         SceneChanger.loadMainPage();
     }
 
-    //Deletes the selected user amde practice file
+    //Deletes the selected user made practice file
     public void deleteButtonPressed() {
         PlayableNames selectedName = practiceNamesListView.getSelectionModel().getSelectedItem();
         //Checks if there is a name selected or else shows a alert box
