@@ -5,6 +5,8 @@ Special Features - Custom Tags
 		   Keyboard Shortcuts
 		   Help Menu
 
+Tested on - UG4 Linux Machines
+
 ==========================How to Run=================================
 
  Open the terminal and cd to the directory with the jar file

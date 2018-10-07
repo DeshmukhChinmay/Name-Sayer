@@ -41,6 +41,9 @@ public class UploadSearchMenuController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        //Makes the listview unselectable
+        playableNamesListView.setMouseTransparent( true );
+        playableNamesListView.setFocusTraversable( false );
         selectButton.defaultButtonProperty().bind(selectButton.focusedProperty());
 
         // Limiting the user input to 50 characters
@@ -211,6 +214,8 @@ public class UploadSearchMenuController implements Initializable {
 
     // Clearing the lists that are present in the current scene
     public void clearButtonPressed() {
+        inputFileTextArea.clear();
+        inputFileTextArea.setVisible(false);
         playableNames.clear();
         enteredName.clear();
         playableNamesObjects.clear();

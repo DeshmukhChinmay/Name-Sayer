@@ -155,6 +155,7 @@ public class ListMenuController implements Initializable {
             initialiseTags();
         } catch (IOException e) {
         }
+        //Makes the listview unselectable
         selectedNames.setMouseTransparent( true );
         selectedNames.setFocusTraversable( false );
     }
