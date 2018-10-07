@@ -113,9 +113,7 @@ public class DatabaseMenuController implements Initializable {
         String tempName;
 
         for (File f : practiceFolderFiles) {
-            if (f.isHidden()) {
-                continue;
-            } else {
+            if (!f.isHidden()) {
                 String[] tempFileName = f.getName().split("_");
                 String tempDate = "(Date: " + tempFileName[1].replaceAll("-", "/") + ")";
                 String tempTime = "(Time: " + tempFileName[2].split("\\.")[0].replaceAll("-", ":") + ")";
@@ -140,6 +138,7 @@ public class DatabaseMenuController implements Initializable {
                     practiceNamesList.add(new PlayableNames(tempName, tempAudioPath));
                 }
             }
+
         }
 
     }
