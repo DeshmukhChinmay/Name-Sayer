@@ -202,20 +202,21 @@ public class UploadSearchMenuController implements Initializable {
             errorAlert.setContentText("The selected names are not in the database");
             errorAlert.showAndWait();
         }
+        else {
 
-        if(playableNamesObjects.size() == 1){
-            SceneChanger.getPlayMenuController().single = true;
-            SceneChanger.getPlayMenuController().nextButton.setDisable(true);
+            if (playableNamesObjects.size() == 1) {
+                SceneChanger.getPlayMenuController().single = true;
+                SceneChanger.getPlayMenuController().nextButton.setDisable(true);
 
+            }
+
+            selectButton.setDisable(true);
+            SceneChanger.getPlayMenuController().playButton.setDisable(true);
+            SceneChanger.getPlayMenuController().practiceButton.setDisable(true);
+            SceneChanger.getPlayMenuController().setFromUpload(true);
+            SceneChanger.getPlayMenuController().toggleQualityButtonVisibility();
+            SceneChanger.loadPlayPage();
         }
-
-        selectButton.setDisable(true);
-        SceneChanger.getPlayMenuController().playButton.setDisable(true);
-        SceneChanger.getPlayMenuController().practiceButton.setDisable(true);
-        SceneChanger.getPlayMenuController().setFromUpload(true);
-        SceneChanger.getPlayMenuController().toggleQualityButtonVisibility();
-        SceneChanger.loadPlayPage();
-
     }
 
     // Getting the input from the textfield when the enter key is pressed and filters the searchList
