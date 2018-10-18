@@ -1,5 +1,6 @@
 package controllers;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -156,8 +157,17 @@ public class ListMenuController implements Initializable {
         } catch (IOException e) {
         }
         //Makes the listview unselectable
-        selectedNames.setMouseTransparent( true );
-        selectedNames.setFocusTraversable( false );
+        selectedNames.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue observable, Number oldvalue, Number newValue) {
+                Platform.runLater(new Runnable() {
+                    public void run() {
+                        selectedNames.getSelectionModel().select(-1);
+                    }
+                });
+
+            }
+        });
     }
 
     //Reinitalises everything when new database added
@@ -170,6 +180,7 @@ public class ListMenuController implements Initializable {
         initialiseTags();
         updateMainList();
     }
+
 
     //Initalises the quality rating by checking the Bad_Recordings.txt file
     public void checkQualityStatus() throws IOException {

@@ -34,7 +34,7 @@
                     <children>
                         <HBox alignment="CENTER" prefHeight="70.0" prefWidth="740.0" spacing="40.0">
                             <children>
-                                <TextField fx:id="enteredName" onKeyReleased="#handleKeyReleased" onMouseClicked="#showSearchList" prefHeight="53.0" prefWidth="431.0" promptText="Enter Name" style="-fx-background-color: #5d728a;">
+                                <TextField fx:id="enteredName" onKeyReleased="#handleKeyReleased" onMouseClicked="#showSearchList" prefHeight="53.0" prefWidth="431.0" promptText="Enter Name(s)" style="-fx-background-color: #5d728a;">
                                     <font>
                                         <Font size="20.0" />
                                     </font>
@@ -49,6 +49,14 @@
                                 <Insets left="20.0" top="20.0" />
                             </VBox.margin>
                         </HBox>
+                  <Label text="Names in Database">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="-15.0" />
+                     </VBox.margin>
+                  </Label>
                   <ListView fx:id="searchList" onMouseClicked="#showSearchList" prefHeight="199.0" prefWidth="720.0" style="-fx-background-color: #5d728a;">
                      <VBox.margin>
                         <Insets left="20.0" right="20.0" top="20.0" />

@@ -1,5 +1,6 @@
 package controllers;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -34,7 +35,6 @@ public class UploadSearchMenuController implements Initializable {
     private Button selectButton;
     @FXML
     private ListView searchList;
-
     private File fileUploaded = null;
     private ObservableList<String> playableNames = FXCollections.observableArrayList();
     private ObservableList<PlayableNames> playableNamesObjects = FXCollections.observableArrayList();
@@ -44,9 +44,32 @@ public class UploadSearchMenuController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        //Makes the list on selectable but still enables the scroll button
+        searchList.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue observable, Number oldvalue, Number newValue) {
+                Platform.runLater(new Runnable() {
+                    public void run() {
+                        searchList.getSelectionModel().select(-1);
+                    }
+                });
+
+            }
+        });
+        playableNamesListView.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue observable, Number oldvalue, Number newValue) {
+                Platform.runLater(new Runnable() {
+                    public void run() {
+                        playableNamesListView.getSelectionModel().select(-1);
+                    }
+                });
+
+            }
+        });
         //Makes the listview unselectable
-        playableNamesListView.setMouseTransparent( true );
-        playableNamesListView.setFocusTraversable( false );
+
         selectButton.defaultButtonProperty().bind(selectButton.focusedProperty());
 
         // Limiting the user input to 50 characters
