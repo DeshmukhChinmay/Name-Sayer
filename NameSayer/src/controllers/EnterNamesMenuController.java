@@ -23,7 +23,7 @@ import java.net.URL;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
 
-public class UploadSearchMenuController implements Initializable {
+public class EnterNamesMenuController implements Initializable {
 
     @FXML
     private TextArea inputFileTextArea;
@@ -179,11 +179,7 @@ public class UploadSearchMenuController implements Initializable {
                 firstName = false;
             }
             else{//If a name doesnt exist it will show a alert
-                Alert errorAlert = new Alert(Alert.AlertType.WARNING);
-                errorAlert.setTitle("Name Doesn't Exist!");
-                errorAlert.setHeaderText(null);
-                errorAlert.setContentText("The Name \"" + modifiedName + "\" does not exist. \n \n Will only add present names");
-                errorAlert.showAndWait();
+                new ErrorAlerts().showError("Name Doesn't Exist!","The Name \"" + modifiedName + "\" does not exist. \n \n Will only add present names");
             }
         }
 
@@ -219,11 +215,7 @@ public class UploadSearchMenuController implements Initializable {
     public void nextButtonPressed() {
 
         if (playableNamesObjects.size() == 0) {
-            Alert errorAlert = new Alert(Alert.AlertType.WARNING);
-            errorAlert.setTitle("No names are playable");
-            errorAlert.setHeaderText(null);
-            errorAlert.setContentText("The selected names are not in the database");
-            errorAlert.showAndWait();
+            new ErrorAlerts().showError("No names are playable","The selected names are not in the database");
         }
         else {
 

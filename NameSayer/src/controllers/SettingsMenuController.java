@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import main.ErrorAlerts;
 import main.Main;
 import main.SceneChanger;
 
@@ -108,11 +109,8 @@ public class SettingsMenuController {
             try {
                 SceneChanger.getListMenuController().reinitialiseAll(); //initialises the new database folder
             } catch (IOException e) {
-                Alert errorAlert = new Alert(Alert.AlertType.WARNING);
-                errorAlert.setTitle("Failed to initialise new DatabaseFolder");
-                errorAlert.setHeaderText(null);
-                errorAlert.setHeaderText("Please select new Database Folder");
-                errorAlert.showAndWait();
+                new ErrorAlerts().showError("Failed to initialise Database Folder","Please choose a new Database Folder");
+
             }
         }
     }

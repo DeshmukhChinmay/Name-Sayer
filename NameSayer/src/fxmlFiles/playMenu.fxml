@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
 <?import java.lang.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
@@ -73,12 +74,12 @@
                                 <Font size="25.0" />
                             </font>
                         </Button>
-                        <ToggleButton id="toggleButton" fx:id="qualityButton" mnemonicParsing="false" onAction="#setQualityRating" prefHeight="70.0" prefWidth="209.0" styleClass="toggleButton" stylesheets="@../css/play.css" text="Good Quality" textAlignment="CENTER" wrapText="true">
+                        <ToggleButton id="toggleButton" fx:id="qualityButton" mnemonicParsing="false" onAction="#setQualityRating" prefHeight="70.0" prefWidth="249.0" styleClass="toggleButton" stylesheets="@../css/play.css" text="Set As Bad Quality" textAlignment="CENTER" wrapText="true">
                             <VBox.margin>
                                 <Insets top="30.0" />
                             </VBox.margin>
                             <font>
-                                <Font size="25.0" />
+                                <Font size="21.0" />
                             </font>
                         </ToggleButton>
                     </children>
@@ -87,10 +88,13 @@
         </HBox>
     </center>
     <top>
-        <Label text="Play Recording" BorderPane.alignment="CENTER">
+        <Label text="Play Recording" textFill="WHITE" BorderPane.alignment="CENTER">
             <font>
                 <Font size="75.0" />
             </font>
+         <effect>
+            <DropShadow height="50.0" radius="30.75" width="75.0" />
+         </effect>
         </Label>
     </top>
     <bottom>
