@@ -28,7 +28,6 @@ public class DatabaseMenuController implements Initializable {
     public Button deleteButton;
     @FXML
     public Button backButton;
-
     @FXML
     public ListView<PlayableNames> practiceNamesListView;
     @FXML
@@ -41,6 +40,7 @@ public class DatabaseMenuController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        // Calling the method to update the ListViews
         updateList();
 
         // Setting the cell of the selectedListView to a custom cell so custom text is displayed
@@ -62,9 +62,10 @@ public class DatabaseMenuController implements Initializable {
         // Adding listeners to the objects in practiceNamesListView. Once a practice name is selected, the corresponding
         // versions of that name present in the database are shown in another list
         practiceNamesListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<PlayableNames>() {
+
             @Override
             public void changed(ObservableValue<? extends PlayableNames> observable, PlayableNames oldValue, PlayableNames newValue) {
-                 ObservableList<NameVersions> test = FXCollections.observableArrayList();
+                 ObservableList<NameVersions> dbNameVersions = FXCollections.observableArrayList();
 
                 if (practiceNamesListView.getSelectionModel().getSelectedItem() != null) {
 
@@ -74,23 +75,23 @@ public class DatabaseMenuController implements Initializable {
                             Names tempNameObjects = SceneChanger.getListMenuController().getNamesMap().get(s.trim());
                         if (tempNameObjects != null) {
                             for (NameVersions n : tempNameObjects.getVersions()) {
-                                if(test.contains(n)){
+                                if(dbNameVersions.contains(n)){
                                     continue;
                                 }
                                 else {
-                                    test.add(n);
+                                    dbNameVersions.add(n);
                                 }
                             }
                         }
                     }
                 }
-                    databaseNamesListView.setItems(test);
-                }
+
+                databaseNamesListView.setItems(dbNameVersions);
+
+            }
 
 
         });
-
-        databaseNamesListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         // Setting the cell of the databaseNamesListView to a custom cell so custom text is displayed
         databaseNamesListView.setCellFactory(param -> new ListCell<NameVersions>() {
@@ -108,6 +109,7 @@ public class DatabaseMenuController implements Initializable {
 
         });
 
+        databaseNamesListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         practiceNamesListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         practiceNamesListView.setItems(practiceNamesList);
 
@@ -123,10 +125,12 @@ public class DatabaseMenuController implements Initializable {
 
         for (File f : practiceFolderFiles) {
             if (!f.isHidden()) {
+
                 String[] tempFileName = f.getName().split("_");
                 String tempDate = "(Date: " + tempFileName[1].replaceAll("-", "/") + ")";
                 String tempTime = "(Time: " + tempFileName[2].split("\\.")[0].replaceAll("-", ":") + ")";
                 tempName = tempFileName[0] + " " + tempDate + " " + tempTime;
+
                 LinkedList<String> tempAudioPath = new LinkedList<>();
                 tempAudioPath.add(f.getAbsolutePath());
                 boolean nameFound = false;
@@ -152,27 +156,25 @@ public class DatabaseMenuController implements Initializable {
 
     }
 
-    //Changes the scene back to the main page
-    public void backButtonPressed() {
-        SceneChanger.loadMainPage();
-    }
-
-    //Deletes the selected user made practice file
+    // Deleting the name the user has selected
     public void deleteButtonPressed() {
         PlayableNames selectedName = practiceNamesListView.getSelectionModel().getSelectedItem();
-        //Checks if there is a name selected or else shows a alert box
+
+        // Checks if there is a name selected or else shows a alert box
         if (selectedName == null) {
            new ErrorAlerts().showError("No Name Selected","Please Select a Name");
         } else {
-            //Add the code to ask for confirmation
+            // Getting the confirmation from the user
             Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
             confirmationAlert.setHeaderText("Are you sure you want to delete " + selectedName.getName());
             Optional<ButtonType> option = confirmationAlert.showAndWait();
             if (option.get() == ButtonType.OK) {
                 File tempAudioFile = new File(selectedName.getAudioPath().get(0));
+
                 if (tempAudioFile.exists()) {
                     tempAudioFile.delete();
                 }
+
                 practiceNamesList.remove(selectedName);
                 databaseNamesListView.setItems(null);
                 practiceNamesListView.getSelectionModel().clearSelection();
@@ -184,6 +186,7 @@ public class DatabaseMenuController implements Initializable {
     public void playButtonPressed() {
 
         PlayableNames selectedName = practiceNamesListView.getSelectionModel().getSelectedItem();
+
         if (selectedName != null) {
             playButton.setText("Playing");
             playButton.setDisable(true);
@@ -191,17 +194,22 @@ public class DatabaseMenuController implements Initializable {
             deleteButton.setDisable(true);
             backButton.setDisable(true);
 
-            //Play the selected creation on a separate thread
+            // Play the selected creation on a separate thread
             Task task = Audio.getInstance().playAudio(selectedName);
-            task.setOnSucceeded(e -> { //Enables all buttons after finished playing
+
+            // Enables all buttons after finished playing
+            task.setOnSucceeded(e -> {
                 playButton.setDisable(false);
                 playDatabaseNameButton.setDisable(false);
                 deleteButton.setDisable(false);
                 backButton.setDisable(false);
                 playButton.setText("Play Practice Recording");
             });
+
             new Thread(task).start();
-        } else {//If no name is selected then it shows an alert to the user
+
+        } else {
+            // If no name is selected then it shows an alert to the user
             new ErrorAlerts().showError("No File Selected","Please Select File");
         }
 
@@ -213,26 +221,35 @@ public class DatabaseMenuController implements Initializable {
             LinkedList<String> tempAudioPath = new LinkedList<>();
             tempAudioPath.add(databaseNamesListView.getSelectionModel().getSelectedItem().getAudioPath());
             PlayableNames selectedDatabaseName = new PlayableNames(databaseNamesListView.getSelectionModel().getSelectedItem().getVersion(), tempAudioPath);
-            //If there is a selected name then disable the required buttons during playing and then
-            //re enable them after it has finished playing
-                playDatabaseNameButton.setText("Playing");
-                playDatabaseNameButton.setDisable(true);
-                playButton.setDisable(true);
-                deleteButton.setDisable(true);
-                backButton.setDisable(true);
-                Task task = Audio.getInstance().playAudio(selectedDatabaseName);
-                task.setOnSucceeded(e -> {
-                    playButton.setDisable(false);
-                    playDatabaseNameButton.setDisable(false);
-                    deleteButton.setDisable(false);
-                    backButton.setDisable(false);
-                    playDatabaseNameButton.setText("Play Database Recording");
-                });
-                new Thread(task).start();
+
+            // If there is a selected name then disable the required buttons during playing and then
+            // re enable them after it has finished playing
+            playDatabaseNameButton.setText("Playing");
+            playDatabaseNameButton.setDisable(true);
+            playButton.setDisable(true);
+            deleteButton.setDisable(true);
+            backButton.setDisable(true);
+
+            Task task = Audio.getInstance().playAudio(selectedDatabaseName);
+
+            task.setOnSucceeded(e -> {
+                playButton.setDisable(false);
+                playDatabaseNameButton.setDisable(false);
+                deleteButton.setDisable(false);
+                backButton.setDisable(false);
+                playDatabaseNameButton.setText("Play Database Recording");
+            });
+
+            new Thread(task).start();
 
         } else {
             new ErrorAlerts().showError("No Database Name Selected","Please Select a Database Name");
         }
+    }
+
+    // Changes the scene back to the main page
+    public void backButtonPressed() {
+        SceneChanger.loadMainPage();
     }
 
 }

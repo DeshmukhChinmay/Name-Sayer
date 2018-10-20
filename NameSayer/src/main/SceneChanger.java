@@ -9,10 +9,11 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class SceneChanger {
+
     private static SceneChanger ourInstance = new SceneChanger();
 
-    private static Stage _primaryStage;
-    private static Stage _secondaryStage = new Stage();
+    private static Stage primaryStage;
+    private static Stage secondaryStage = new Stage();
 
     private static Scene mainMenuScene;
     private static Scene listMenuScene;
@@ -20,7 +21,7 @@ public class SceneChanger {
     private static Scene practiceMenuScene;
     private static Scene settingsScene;
     private static Scene databaseScene;
-    private static Scene uploadSearchScene;
+    private static Scene enterNamesScene;
     private static Scene helpMenuScene;
 
     private static ListMenuController listMenuController;
@@ -37,10 +38,9 @@ public class SceneChanger {
     }
 
     private SceneChanger() {
-
     }
 
-    //Loads all Fxml files and gets the instance of each controller as well
+    // Loads all Fxml files and gets the instance of each controller as well
     public void loadFXMLFiles() throws Exception {
         FXMLLoader mainMenuLoader = new FXMLLoader(getClass().getResource("/fxmlFiles/mainMenu.fxml"));
         Parent mainMenuPane = mainMenuLoader.load();
@@ -52,10 +52,10 @@ public class SceneChanger {
         listMenuScene = new Scene(listMenuPane, 1366, 768);
         listMenuController = listLoader.getController();
 
-        FXMLLoader uploadSearchLoader = new FXMLLoader(getClass().getResource("/fxmlFiles/enterNamesMenu.fxml"));
-        Parent uploadSearchPane = uploadSearchLoader.load();
-        uploadSearchScene = new Scene(uploadSearchPane, 1366, 768);
-        enterNamesMenuController = uploadSearchLoader.getController();
+        FXMLLoader enterNamesLoader = new FXMLLoader(getClass().getResource("/fxmlFiles/enterNamesMenu.fxml"));
+        Parent enterNamesPane = enterNamesLoader.load();
+        enterNamesScene = new Scene(enterNamesPane, 1366, 768);
+        enterNamesMenuController = enterNamesLoader.getController();
 
         FXMLLoader playLoader = new FXMLLoader(getClass().getResource("/fxmlFiles/playMenu.fxml"));
         Parent playMenuPane = playLoader.load();
@@ -83,61 +83,60 @@ public class SceneChanger {
         helpMenuController = helpLoader.getController();
     }
 
-    //Loads Main page in the primary stage
+    // Loads Main page in the primary stage
     public static void loadMainPage() {
-        _secondaryStage.close();
-        _primaryStage.setScene(mainMenuScene);
+        secondaryStage.close();
+        primaryStage.setScene(mainMenuScene);
     }
 
-    //Loads list page in the primary stage
+    // Loads list page in the primary stage
     public static void loadListPage() {
-        _secondaryStage.close();
-        _primaryStage.setScene(listMenuScene);
+        secondaryStage.close();
+        primaryStage.setScene(listMenuScene);
     }
 
-    public static void loadUploadSearchPage() {
-        _primaryStage.setScene(uploadSearchScene);
+    // Loads the enter names scene in the primary stage
+    public static void loadEnterNamesPage() {
+        primaryStage.setScene(enterNamesScene);
     }
 
-    //Loads play page in primary stage
+    // Loads play page in primary stage
     public static void loadPlayPage() {
-        _secondaryStage.close();
-        _primaryStage.setScene(playMenuScene);
+        secondaryStage.close();
+        primaryStage.setScene(playMenuScene);
     }
 
-    //Loads practice page
+    // Loads practice page
     public static void loadPracticePage() {
-        _secondaryStage.setScene(practiceMenuScene);
-        _secondaryStage.show();
+        secondaryStage.setScene(practiceMenuScene);
+        secondaryStage.show();
     }
 
-    //Loads mic test page
+    // Loads mic test page
     public static void loadSettingsPage() {
-        _secondaryStage.close();
-        _primaryStage.setScene(settingsScene);
+        secondaryStage.close();
+        primaryStage.setScene(settingsScene);
     }
 
+    // Loads the database menu page
     public static void loadDatabaseMenu() {
-        _primaryStage.setScene(databaseScene);
+        primaryStage.setScene(databaseScene);
     }
 
+    // Loads the help menu page
     public static void loadHelpMenu(){
         Stage helpStage = new Stage();
         helpStage.setScene(helpMenuScene);
         helpStage.show();
     }
 
-    //The following methods all return a instance of the respective controller
+    // The following methods all return a instance of the respective controller
     public static ListMenuController getListMenuController() {
         return listMenuController;
     }
 
     public static DatabaseMenuController getDatabaseMenuController() {
         return databaseMenuController;
-    }
-
-    public static MainMenuController getMainMenuController() {
-        return mainMenuController;
     }
 
     public static PlayMenuController getPlayMenuController() {
@@ -152,25 +151,21 @@ public class SceneChanger {
         return enterNamesMenuController;
     }
 
-    public static SettingsMenuController getSettingsMenuController() {
-        return settingsMenuController;
+    // Sets up the primary stage
+    public static void setPrimaryStage(Stage stage) {
+        primaryStage = stage;
+        primaryStage.setTitle("NameSayer");
+        primaryStage.setScene(mainMenuScene);
+        primaryStage.setResizable(false);
+        primaryStage.show();
     }
 
-    //Sets up first and primary stage
-    public static void set_primaryStage(Stage stage) {
-        _primaryStage = stage;
-        _primaryStage.setTitle("NameSayer");
-        _primaryStage.setScene(mainMenuScene);
-        _primaryStage.setResizable(false);
-        _primaryStage.show();
-    }
-
-    //Sets up secondary stage
+    // Sets up the secondary stage
     public static void set_secondaryStage() {
-        _secondaryStage.setTitle("Name Sayer");
-        _secondaryStage.setResizable(false);
-        _secondaryStage.initStyle(StageStyle.UNDECORATED);
-        _secondaryStage.initModality(Modality.APPLICATION_MODAL);
+        secondaryStage.setTitle("Name Sayer");
+        secondaryStage.setResizable(false);
+        secondaryStage.initStyle(StageStyle.UNDECORATED);
+        secondaryStage.initModality(Modality.APPLICATION_MODAL);
     }
 
 

@@ -83,9 +83,10 @@ public class PlayMenuController implements Initializable {
 
             }
         });
+
     }
 
-    //Sets the quality rating on the UI screen whenever a name is selected
+    // Sets the quality rating on the UI screen whenever a name is selected
     public void getQualityRating(PlayableNames name) {
         if (name.getBadQuality().get()) {
             qualityButton.setSelected(true);
@@ -97,48 +98,49 @@ public class PlayMenuController implements Initializable {
         }
     }
 
-    //Sets the quality on the UI screen when the toggle button is toggled
+    // Sets the quality on the UI screen when the toggle button is toggled
     public void setQualityRating() throws IOException {
         if (currentSelection == null) {
-            if(qualityButton.isSelected()) {
-                qualityButton.setText("Set As Good Quality");
-            }
-            else{
-                qualityButton.setText("Set As Bad Quality");
 
-                }
+            if (qualityButton.isSelected()) {
+                qualityButton.setText("Set As Good Quality");
+            } else {
+                qualityButton.setText("Set As Bad Quality");
+            }
+
             new ErrorAlerts().showError("No Names Selected","Please Select a Name");
 
-        }
-            else {
-            //Gets the name of the currently playing name
-            //and sets the quality good or bad
+        } else {
+            // Gets the name of the currently playing name
+            // and sets the quality good or bad
             if (qualityButton.isSelected()) {
                 qualityButton.setText("Set As Good Quality");
                 currentSelection.getBadQuality().setValue(true);
                 SceneChanger.getListMenuController().getNameVersionsMap().get(currentSelection.getName()).getBadQuality().setValue(true);
-                //Writes the current selected name to the text file
+                // Writes the current selected name to the text file
                 BadAudioText.getInstance().writeText(currentSelection.getName());
             } else {
                 qualityButton.setText("Set As Bad Quality");
-                //Sets value of bad quality name object to false
+                // Sets value of bad quality name object to false
                 currentSelection.getBadQuality().setValue(false);
                 SceneChanger.getListMenuController().getNameVersionsMap().get(currentSelection.getName()).getBadQuality().setValue(false);
-                //Removes text fr0m file
+                // Removes text from file
                 BadAudioText.getInstance().removeTextFromFile(currentSelection.getName());
             }
         }
     }
 
-    //Changes scene to where the list view of all recordings are shown
+    // Changes to the previous screen
     public void backButtonPressed() {
-        prevButton.setDisable(true);//Makes it so that prevButton is always disabled
+        prevButton.setDisable(true);
         nextButton.setDisable(false);
         SceneChanger.getListMenuController().searchFunction();
         single = false;
         selectedListView.getSelectionModel().clearSelection();
+
+        // The previous screen depends on which screen was used to transition to this scene
         if (fromUpload) {
-            SceneChanger.loadUploadSearchPage();
+            SceneChanger.loadEnterNamesPage();
             SceneChanger.getEnterNamesMenuController().showSearchList();
         } else {
             SceneChanger.loadListPage();
@@ -146,7 +148,7 @@ public class PlayMenuController implements Initializable {
         }
     }
 
-    //Changes to a different stage where a practice name can be recorded
+    // Changes to a different stage where a practice name can be recorded
     public void practiceButtonPressed() {
         SceneChanger.getPracticeMenuController().setPlayableName(selectedListView.getSelectionModel().getSelectedItem());
         SceneChanger.loadPracticePage();
@@ -158,16 +160,19 @@ public class PlayMenuController implements Initializable {
         playButton.setDisable(true);
         prevButton.setDisable(true);
         nextButton.setDisable(true);
+
         Task task = Audio.getInstance().playAudio(currentSelection);
+
         task.setOnSucceeded(e -> {
             playButton.setDisable(false);
             playButton.setText("Play");
             checkLogicOfCycleButton();
         });
+
         new Thread(task).start();
     }
 
-    //Shuffles the order of the names to be played
+    // Shuffles the order of the names to be played
     public void shuffleButtonPressed() {
         Collections.shuffle(selectedVersionList);
         if (currentSelection != null) {
@@ -184,11 +189,12 @@ public class PlayMenuController implements Initializable {
         }
     }
 
-    // Selecting the next selection in the listview
+    // Selecting the next selection in the ListView and enabling the previous button
     public void nextButtonPressed() {
-        prevButton.setDisable(false);//If next button is pressed that means prev Button will be enabled
+        prevButton.setDisable(false);
         selectedListView.getSelectionModel().selectNext();
 
+        // If the new selection is the last recording then it should disable the next button
         if (currentSelection == selectedListView.getItems().get(selectedListView.getItems().size() - 1)) {
             nextButton.setDisable(true);
         } else {
@@ -196,12 +202,12 @@ public class PlayMenuController implements Initializable {
         }
     }
 
-    // Selecting the previous selection in the listview
+    // Selecting the previous selection in the ListView and enabling the next button
     public void prevButtonPressed() {
-        nextButton.setDisable(false);//If prev button is pressable that means that next button will be enabled
-        selectedListView.getSelectionModel().selectPrevious(); //Selects the prev name in the list
+        nextButton.setDisable(false);
+        selectedListView.getSelectionModel().selectPrevious();
 
-        //If new selection is the first creation then it should disable prev button
+        //If new selection is the first recording then it should disable the next button
         if (currentSelection == selectedListView.getItems().get(0)) {
             prevButton.setDisable(true);
         } else {
@@ -209,7 +215,7 @@ public class PlayMenuController implements Initializable {
         }
     }
 
-    //Checks when to disable/enable next and previous buttons
+    // Checks when to disable/enable next and previous buttons
     public void checkLogicOfCycleButton() {
         if (single) {
             nextButton.setDisable(true);
@@ -226,6 +232,7 @@ public class PlayMenuController implements Initializable {
         }
     }
 
+    // Setting the fromUpload field to a value so that we know what screen it was transitioned from
     public void setFromUpload(boolean condition) {
         fromUpload = condition;
         setDisplayList();

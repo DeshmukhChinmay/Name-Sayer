@@ -32,6 +32,7 @@
 .toggleButton:selected {
     -fx-background-color: #68e8a8;
 }
+
 #shuffleButton {
     -fx-background-color: #f28082;
 }

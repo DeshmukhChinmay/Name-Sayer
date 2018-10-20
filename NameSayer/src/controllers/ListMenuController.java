@@ -27,9 +27,6 @@ import java.util.ResourceBundle;
 
 public class ListMenuController implements Initializable {
 
-    private String currentWorkingDir = System.getProperty("user.dir");
-    private File databaseFolder;
-
     @FXML
     public ListView namesListView;
     @FXML
@@ -49,6 +46,8 @@ public class ListMenuController implements Initializable {
     @FXML
     public ComboBox searchBy;
 
+    private String currentWorkingDir = System.getProperty("user.dir");
+    private File databaseFolder;
 
     private LinkedList<Names> nameObjects = new LinkedList<>();
     final private ObservableList<String> namesViewList = FXCollections.observableArrayList();
@@ -58,27 +57,31 @@ public class ListMenuController implements Initializable {
 
     private HashMap<String, Names> namesMap = new HashMap<>();
     private HashMap<String, NameVersions> nameVersionsMap = new HashMap<>();
-    NameVersions currentlySelected;
-    Names tempName = null;
+
+    private NameVersions currentlySelected;
+    private Names tempName = null;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        searchBy.getItems().addAll("Name", "Tag");
-        searchBy.getSelectionModel().select("Name");
-
+        // Calling the initialise name objects method so that appropriate objects are created
+        // for the audio files that are present in the Recordings folder
         initialiseNameObjects();
+
+        // Calling update name objects method so that any new files from the Database folder are
+        // adding to the Recordings folder
         try {
             updateNameObjects();
             updateMainList();
-
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+        // Calling the methods to initialize the Hash Map
         initialiseNameMap();
         initialiseNameVersionsMap();
-        //initalises the list view of selected names to store NameVersion objects
+
+        // Setting the cell of the selectedListView to a custom cell so custom text is displayed
         selectedNames.setCellFactory(param -> new ListCell<PlayableNames>() {
 
             @Override
@@ -96,6 +99,7 @@ public class ListMenuController implements Initializable {
 
         // Setting the cell of the namesVersionListView to a custom cell so that a checkbox is shown
         namesVersionListView.setCellFactory(CheckBoxListCell.forListView(NameVersions::versionSelected, new StringConverter<NameVersions>() {
+
             @Override
             public String toString(NameVersions object) {
                 return object.getVersion();
@@ -105,13 +109,16 @@ public class ListMenuController implements Initializable {
             public NameVersions fromString(String string) {
                 return null;
             }
+
         }));
 
         // Adding a listener to the selection from namesListView. Once the user selects a name, the namesVersionsListView
         // populates with the ObservableList present for the selected name instance
         namesListView.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+
                 for (Names n : nameObjects) {
                     if (n.getName().equals(namesListView.getSelectionModel().getSelectedItem())) {
                         tempName = n;
@@ -119,6 +126,7 @@ public class ListMenuController implements Initializable {
                 }
 
                 if (tempName != null) {
+
                     namesVersionListView.setItems(tempName.getVersions());
 
                     tempName.getVersions().forEach(NameVersions -> NameVersions.versionSelected().addListener((obs, oldVal, newVal) -> {
@@ -149,14 +157,14 @@ public class ListMenuController implements Initializable {
             }
         });
 
-        selectedNames.setItems(playableNamesObjects);
-
+        // Calling the methods to set the tags and quality for the necessary objects
         try {
             checkQualityStatus();
             initialiseTags();
         } catch (IOException e) {
         }
-        //Makes the listview unselectable
+
+        // Makes the selected names list not clickable but still enabling the user to scroll through the list
         selectedNames.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue observable, Number oldvalue, Number newValue) {
@@ -168,86 +176,12 @@ public class ListMenuController implements Initializable {
 
             }
         });
-    }
 
-    //Reinitalises everything when new database added
-    public void reinitialiseAll() throws IOException {
+        searchBy.getItems().addAll("Name", "Tag");
+        searchBy.getSelectionModel().select("Name");
 
-        updateNameObjects();
-        initialiseNameMap();
-        initialiseNameVersionsMap();
-        checkQualityStatus();
-        initialiseTags();
-        updateMainList();
-    }
+        selectedNames.setItems(playableNamesObjects);
 
-
-    //Initalises the quality rating by checking the Bad_Recordings.txt file
-    public void checkQualityStatus() throws IOException {
-        File file = new File("Bad_Recordings.txt");
-        //Checks if such file already exists
-        if (file.exists()) {
-            BufferedReader reader = new BufferedReader(new FileReader(file));
-            String line = null;
-            while ((line = reader.readLine()) != null) {
-                //Gets the key by only using the string up to the white space
-                String key = line.substring(0, line.indexOf(" "));
-                //Returns the name object associated with the key
-                Names name = namesMap.get(key);
-                if (name != null) {
-                    //Loops through all the versions of that name until the string is the same
-                    for (NameVersions nVer : name.getVersions()) {
-                        if (nVer.getVersion().equals(line.substring(0, line.indexOf(')') + 1))) {
-                            //Sets bad quality to true
-                            nVer.getBadQuality().setValue(true);
-                        }
-                    }
-                }
-            }
-        }
-    }
-    public LinkedList<Names> getNameObjects(){
-        return nameObjects;
-    }
-
-    private void initialiseTags() throws IOException {
-        File tagFile = new File("Tags_File.txt");
-        //Checks if such file already exists
-        if (tagFile.exists()) {
-            BufferedReader reader = new BufferedReader(new FileReader(tagFile));
-            String line = null;
-            while ((line = reader.readLine()) != null) {
-                //Gets the key by only using the string up to the white space
-                String key = line.substring(0, line.indexOf(" "));
-                //Returns the name object associated with the key
-                Names name = namesMap.get(key);
-                if (name != null) {
-                    //Loops through all the versions of that name until the string is the same
-                    for (NameVersions nVer : name.getVersions()) {
-                        if (nVer.getVersion().equals(line.substring(0, line.indexOf(')') + 1))) {
-                            //Sets bad quality to true
-                            nVer.setTag(line.substring(line.indexOf('_') + 1, line.length()));
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    //Creates the map of Names using the corresponding string as the key
-    private void initialiseNameMap() {
-        for (Names n : nameObjects) {
-            namesMap.put(n.getName(), n);
-        }
-    }
-
-    // Creates the map of NameVersions using the corresponding string as the key
-    private void initialiseNameVersionsMap() {
-        for (Names n : nameObjects) {
-            for (NameVersions nV : n.getVersions()) {
-                nameVersionsMap.put(nV.getVersion(), nV);
-            }
-        }
     }
 
     // Checks whether there are any names present in the Recordings folder and creates
@@ -329,25 +263,105 @@ public class ListMenuController implements Initializable {
 
     // Updating the namesListView so that it displays the names available from the database alphabetically
     private void updateMainList() {
+
         for (Names n : nameObjects) {
             namesViewList.add(n.getName());
         }
+
         namesListView.setItems(namesViewList.sorted());
         namesListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+
     }
 
-     ObservableList<PlayableNames> getPlayableNamesObjects() {
-        return playableNamesObjects;
+    // Initialising the necessary objects with the tags that are assigned to them from the text file
+    private void initialiseTags() throws IOException {
+
+        File tagFile = new File("Tags_File.txt");
+
+        // Checks if such file already exists
+        if (tagFile.exists()) {
+            BufferedReader reader = new BufferedReader(new FileReader(tagFile));
+            String line = null;
+
+            while ((line = reader.readLine()) != null) {
+
+                // Gets the key by only using the string up to the white space
+                String key = line.substring(0, line.indexOf(" "));
+                // Returns the name object associated with the key
+                Names name = namesMap.get(key);
+
+                if (name != null) {
+                    // Loops through all the versions of that name until the string is the same
+                    for (NameVersions nVer : name.getVersions()) {
+                        if (nVer.getVersion().equals(line.substring(0, line.indexOf(')') + 1))) {
+                            // Sets bad quality to true
+                            nVer.setTag(line.substring(line.indexOf('_') + 1));
+                        }
+                    }
+                }
+            }
+        }
     }
 
-     HashMap<String, Names> getNamesMap() {
-        return namesMap;
-    }
-     HashMap<String, NameVersions> getNameVersionsMap() {
-        return nameVersionsMap;
+    // Creates the map of Names using the corresponding string as the key
+    private void initialiseNameMap() {
+        for (Names n : nameObjects) {
+            namesMap.put(n.getName(), n);
+        }
     }
 
+    // Creates the map of NameVersions using the corresponding string as the key
+    private void initialiseNameVersionsMap() {
+        for (Names n : nameObjects) {
+            for (NameVersions nV : n.getVersions()) {
+                nameVersionsMap.put(nV.getVersion(), nV);
+            }
+        }
+    }
+
+    // Initializing the quality rating by checking the Bad_Recordings.txt file
+    public void checkQualityStatus() throws IOException {
+
+        File file = new File("Bad_Recordings.txt");
+
+        // Checks if such file already exists
+        if (file.exists()) {
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+            String line = null;
+
+            while ((line = reader.readLine()) != null) {
+
+                // Gets the key by only using the string up to the white space
+                String key = line.substring(0, line.indexOf(" "));
+                // Returns the name object associated with the key
+                Names name = namesMap.get(key);
+
+                if (name != null) {
+                    // Loops through all the versions of that name until the string is the same
+                    for (NameVersions nVer : name.getVersions()) {
+                        if (nVer.getVersion().equals(line.substring(0, line.indexOf(')') + 1))) {
+                            // Sets bad quality to true
+                            nVer.getBadQuality().setValue(true);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Re-initializing everything necessary after a new database is added
+    public void reinitialiseAll() throws IOException {
+        updateNameObjects();
+        initialiseNameMap();
+        initialiseNameVersionsMap();
+        checkQualityStatus();
+        initialiseTags();
+        updateMainList();
+    }
+
+    // Clearing all of the selected items from all of the ListViews
     private void clearSelection() {
+
         if (nameObjects != null) {
             //Resets all items from selected lists except first one
             for (Names n : nameObjects) {
@@ -358,36 +372,36 @@ public class ListMenuController implements Initializable {
                 }
             }
         }
-        //Clears lists for selected versions
+
+        // Clears lists for selected versions
         namesListView.getSelectionModel().clearSelection();
         namesVersionListView.setItems(null);
         playableNamesObjects.clear();
         selectedVersionsViewList.clear();
     }
 
-    //Clears the selected items
+    // Clears the selected items
     public void clearButtonPressed() {
         clearSelection();
     }
 
-    //Returns to the main menu
+    // Returns to the main menu
     public void backButtonPressed() {
         clearInfoPanel();
         SceneChanger.loadMainPage();
     }
 
-    //Goes to the play menu
+    // Changing the screen to the play menu
     public void nextButtonPressed() {
         if (selectedNames.getItems().size() == 0) {
             new ErrorAlerts().showError("No Names Selected","Please Select a Name");
-
         } else {
-            //If only one creation selected should not be able to press next or prev
+            // If only one creation selected should not be able to press next or prev
             if (selectedNames.getItems().size() == 1) {
                 SceneChanger.getPlayMenuController().single = true;
                 SceneChanger.getPlayMenuController().nextButton.setDisable(true);
             }
-            //This will set the buttons in the next scene to be disabled as no creation will be currently selected
+            // This will set the buttons in the next scene to be disabled as no creation will be currently selected
             SceneChanger.getPlayMenuController().setFromUpload(false);
             SceneChanger.getPlayMenuController().toggleQualityButtonVisibility();
             SceneChanger.getPlayMenuController().playButton.setDisable(true);
@@ -397,14 +411,18 @@ public class ListMenuController implements Initializable {
         }
     }
 
-    //This dynamically updates the list view for the user to select single names to play
+    // Dynamically updating the list view for the user to select single names to play
     public void searchFunction() {
         namesSearchViewList.clear();
-        if (searchBy.getSelectionModel().getSelectedItem().equals("Name")) { //Searches by name
-            if (nameTagField.getText().length() == 0 || nameTagField.getText() == null) { //If notthing entered then output everything
+
+        // Searches by name
+        if (searchBy.getSelectionModel().getSelectedItem().equals("Name")) {
+            // If nothing entered then output everything
+            if (nameTagField.getText().length() == 0 || nameTagField.getText() == null) {
                 namesListView.setItems(namesViewList.sorted());
             } else {
-                for (Names n : nameObjects) { //Loops through all names and checks if the first letters are matching and outputs it
+                // Loops through all names and checks if the first letters are matching and outputs it
+                for (Names n : nameObjects) {
                     if ((n.getName().length() >= nameTagField.getText().length()) &&
                             (n.getName().substring(0, nameTagField.getText().length()).toLowerCase().equals(nameTagField.getText().toLowerCase()))) {
                         namesSearchViewList.add(n.getName());
@@ -412,11 +430,12 @@ public class ListMenuController implements Initializable {
                 }
                 namesListView.setItems(namesSearchViewList);
             }
-        } else if (searchBy.getSelectionModel().getSelectedItem().equals("Tag")) { //Searches by tag
+        } else if (searchBy.getSelectionModel().getSelectedItem().equals("Tag")) { // Searches by tag
             if (nameTagField.getText().length() == 0 || nameTagField.getText() == null) {
                 namesListView.setItems(namesViewList.sorted());
             } else {
-                for (Names n : nameObjects) { //If the versions of a name has the same tag it outputs the parent name case insensitive
+                // If the versions of a name has the same tag it outputs the parent name case insensitive
+                for (Names n : nameObjects) {
                     for (NameVersions nameVersions : n.getVersions()) {
                         if ((nameVersions.getTag() != null) && (nameVersions.getTag().toLowerCase().equals(nameTagField.getText().toLowerCase()))) {
                             namesSearchViewList.add(nameVersions.getParentName());
@@ -426,43 +445,48 @@ public class ListMenuController implements Initializable {
                 }
                 namesListView.setItems(namesSearchViewList);
             }
-        } else {
-
         }
     }
 
-    //Method for tag button. WHen tag button is pressed it removes the current tag from the text file if there is one
-    //and then changes the field in the respective NameVersion object and then adds the new tag to the text file
+    // Method for tag button. When tag button is pressed it removes the current tag from the text file if there is one
+    // and then changes the field in the respective NameVersion object and then adds the new tag to the text file
     public void onTagButtonPressed() throws Exception {
+
         if (currentlySelected == null) {
             new ErrorAlerts().showError("No Name Selected","Please Select a Name");
-
         } else {
-            if (currentlySelected.getTag() != null) { //Removes current tag from text file and adds new tag
+            // Removes current tag from text file and adds new tag
+            if (currentlySelected.getTag() != null) {
                 TagText.getInstance().removeTextFromFile(currentlySelected.getVersion(), currentlySelected.getTag());
             }
+
             TagText.getInstance().writeText(currentlySelected.getVersion(), tagField.getText());
             currentlySelected.setTag(tagField.getText()); //Sets the field in the object
             tagName.setText(currentlySelected.getTag()); //Sets the text on the label in the UI
         }
+
         currentlySelected = null;
         selectedNames.getSelectionModel().clearSelection();
         namesVersionListView.getSelectionModel().clearSelection();
 
     }
 
-    //sets the info when the items in the version selection are clicked
+    // Calling the method to set the info labels when any item in the ListView is selected
     public void onSelectVersion() throws Exception {
         setInfoTab(namesVersionListView);
     }
 
-    //Sets the info to using whichever list was clicked where listView is whichever list was clicked
+    // Sets the info labels using the selected version from the ListView
     private void setInfoTab(ListView<NameVersions> listView) throws Exception {
         if (listView.getSelectionModel().getSelectedItem() != null) {
-            currentlySelected = listView.getSelectionModel().getSelectedItem(); //gets currently selected item
-            tagName.setText(currentlySelected.getTag());//Sets tag label
+            currentlySelected = listView.getSelectionModel().getSelectedItem();
+
+            // Setting the appropriate labels
+            tagName.setText(currentlySelected.getTag());
+
             durationField.setText(Double.toString(Audio.getInstance().getWavFileLength(new File(currentlySelected.getAudioPath()))));
-            if (currentlySelected.getBadQuality().getValue()) { //gets the quality button
+
+            if (currentlySelected.getBadQuality().getValue()) {
                 qualityField.setText("Bad");
             } else {
                 qualityField.setText("Good");
@@ -470,7 +494,7 @@ public class ListMenuController implements Initializable {
         }
     }
 
-    //Clears the info panel
+    // Clears the labels for the info panel
     public void clearInfoPanel() {
         nameTagField.clear();
         tagField.clear();
@@ -487,6 +511,22 @@ public class ListMenuController implements Initializable {
         } else {
             return true;
         }
+    }
+
+    public LinkedList<Names> getNameObjects(){
+        return nameObjects;
+    }
+
+    ObservableList<PlayableNames> getPlayableNamesObjects() {
+        return playableNamesObjects;
+    }
+
+    HashMap<String, Names> getNamesMap() {
+        return namesMap;
+    }
+
+    HashMap<String, NameVersions> getNameVersionsMap() {
+        return nameVersionsMap;
     }
 
 }

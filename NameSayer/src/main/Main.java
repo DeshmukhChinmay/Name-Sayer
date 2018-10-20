@@ -16,7 +16,7 @@ public class Main extends Application {
         initialiseFolders();
         SceneChanger sceneChanger = SceneChanger.getInstance();
         sceneChanger.loadFXMLFiles();
-        SceneChanger.set_primaryStage(primaryStage);
+        SceneChanger.setPrimaryStage(primaryStage);
         SceneChanger.set_secondaryStage();
         SceneChanger.loadMainPage();
     }
@@ -24,9 +24,11 @@ public class Main extends Application {
     public static File getDatabaseFolder() {
         return _databaseFolder;
     }
-    public static void setDatabaseFolder(File databaseFolder){
+
+    public static void setDatabaseFolder(File databaseFolder) {
         _databaseFolder = databaseFolder;
     }
+
     //Initialises all the necessary folders during startup
     public static void initialiseFolders() {
 
@@ -56,4 +58,5 @@ public class Main extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+    
 }

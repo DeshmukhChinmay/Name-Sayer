@@ -6,16 +6,16 @@ import javafx.scene.control.ProgressBar;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 
+import main.Audio;
+import main.PlayableNames;
+import main.SceneChanger;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-
-import main.Audio;
-import main.PlayableNames;
-import main.SceneChanger;
 
 public class PracticeMenuController {
 
@@ -39,7 +39,6 @@ public class PracticeMenuController {
     private boolean stop = false;
     private boolean recording = false;
     private PlayableNames name;
-
     private boolean fileSaved = false;
 
     // Compares user recorded audio with that of the database audio

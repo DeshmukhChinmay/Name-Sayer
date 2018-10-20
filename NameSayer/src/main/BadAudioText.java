@@ -16,7 +16,7 @@ public class BadAudioText {
     private BadAudioText() {
     }
 
-    //Writes the given string into the text file
+    // Writes the given string into the text file
     public void writeText(String textToAdd) throws IOException {
         FileWriter bad_names = new FileWriter("Bad_Recordings.txt", true);
         PrintWriter writer = new PrintWriter(bad_names);
@@ -24,8 +24,8 @@ public class BadAudioText {
         writer.close();
     }
 
-    //Removes the given string in a text field by creating a updateNameObjects folder and moving all but that line into the new file
-    //and renaming it
+    // Removes the given string in a text field by creating a updateNameObjects folder and moving all but that line into the new file
+    // and renaming it
     public void removeTextFromFile(String versionName) throws IOException {
         //Gets the files for a Temp file and Recordings
         File temp = new File("Temp_Bad.txt");
@@ -34,6 +34,7 @@ public class BadAudioText {
         BufferedReader reader = new BufferedReader(new FileReader(main));
         BufferedWriter writer = new BufferedWriter(new FileWriter(temp));
         String current;
+
         while ((current = reader.readLine()) != null) {
             // trim newline when comparing with lineToRemove
             String trimmedLine = current.trim();
@@ -43,6 +44,7 @@ public class BadAudioText {
                 writer.write(current + System.getProperty("line.separator"));
             }
         }
+
         writer.close();
         reader.close();
         temp.renameTo(main);
