@@ -160,7 +160,6 @@ public class PracticeMenuController {
             @Override
             public Void call() throws Exception {
                 // Linux command ffplay to play the audio
-                Audio.getInstance().normalizeAndCutSilenceOfUserRecording();
                 ProcessBuilder playProcess = new ProcessBuilder("ffplay", "-autoexit", "-nodisp", (currentWorkingDir + "/NameSayer/Temp/tempAudio.wav"));
                 Process process = playProcess.start();
                 process.waitFor();
