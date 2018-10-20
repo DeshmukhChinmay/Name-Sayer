@@ -19,6 +19,7 @@ import java.util.Collections;
 import java.util.ResourceBundle;
 
 public class PlayMenuController implements Initializable {
+
     @FXML
     private ToggleButton qualityButton;
     @FXML
@@ -32,15 +33,19 @@ public class PlayMenuController implements Initializable {
 
     public ListView<PlayableNames> selectedListView;
     private ObservableList<PlayableNames> selectedVersionList;
+
     private PlayableNames currentSelection;
+
     public boolean single;
     public boolean fromUpload;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        prevButton.setDisable(true);//Makes it so that prevButton is always disabled
 
-        // Setting the cell of the selectedListView to a custom cell so custom text is displayed
+        // Disabling the previous button when initializing the scene
+        prevButton.setDisable(true);
+
+        // Setting the cell of the selectedListView to a custom cell so that custom text is displayed
         selectedListView.setCellFactory(param -> new ListCell<PlayableNames>() {
 
             @Override

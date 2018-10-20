@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+
 import main.Main;
 import main.SceneChanger;
 
@@ -14,10 +15,9 @@ import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.TargetDataLine;
-import java.awt.*;
+
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 
 public class SettingsMenuController {
 
@@ -31,11 +31,13 @@ public class SettingsMenuController {
     private byte[] audioData;
     private TargetDataLine line;
 
-    //Opens a mic line to enable the line to be read
+    // Opens a mic line to enable the line to be read
     private void openMicLine() {
+
         micVolume.progressProperty().setValue(0);
         AudioFormat fmt = new AudioFormat(44100f, 16, 1, true, false);
         final int bufferByteSize = 2048;
+
         try {
             line = AudioSystem.getTargetDataLine(fmt);
             line.open(fmt, bufferByteSize);
@@ -46,10 +48,12 @@ public class SettingsMenuController {
 
         audioData = new byte[bufferByteSize];
         line.start();
+
     }
 
-    //This code was found from https://stackoverflow.com/questions/3899585/microphone-level-in-java
+    // This code was found from https://stackoverflow.com/questions/3899585/microphone-level-in-java
     private int calculateRMSLevel(byte[] audioData) {
+
         long lSum = 0;
         for (int i = 0; i < audioData.length; i++)
             lSum = lSum + audioData[i];
@@ -63,10 +67,11 @@ public class SettingsMenuController {
         double averageMeanSquare = sumMeanSquare / audioData.length;
 
         return (int) (Math.pow(averageMeanSquare, 0.5d) + 0.5);
+
     }
 
-    //Opens the mic line and then continuously reads the input until the window is exited and then also displays it in a
-    //progressbar
+    // Opens the mic line and then continuously reads the input until the window is exited and then also displays it in a
+    // progressbar
     public void testMic() {
         testButton.setDisable(true);
         openMicLine();
@@ -88,7 +93,7 @@ public class SettingsMenuController {
         new Thread(updateMicBar).start();
     }
 
-    //When back button is pressed disables the while loop to read the mic input and changes scene back to Main menu
+    // When back button is pressed disables the while loop to read the mic input and changes scene back to Main menu
     public void backButtonPressed() {
         testButton.setDisable(false);
         startTest = false;
@@ -98,15 +103,18 @@ public class SettingsMenuController {
         SceneChanger.loadMainPage();
     }
 
-    //Allows user to choose another database to add to the current one
+    // Allows user to choose another database to add to the current one
     public void onAddDatabase() {
-        DirectoryChooser databaseChooser = new DirectoryChooser(); //Creates a new stage and opens a directory chooser window
+
+        // Creates a new stage and opens a directory chooser window
+        DirectoryChooser databaseChooser = new DirectoryChooser();
         File databaseDirectory = databaseChooser.showDialog(new Stage());
 
         if (databaseDirectory != null) {
             Main.setDatabaseFolder(databaseDirectory.getAbsoluteFile());
             try {
-                SceneChanger.getListMenuController().reinitialiseAll(); //initialises the new database folder
+                // Initialising the new database folder
+                SceneChanger.getListMenuController().reinitialiseAll();
             } catch (IOException e) {
                 Alert errorAlert = new Alert(Alert.AlertType.WARNING);
                 errorAlert.setTitle("Failed to initialise new DatabaseFolder");
@@ -115,9 +123,10 @@ public class SettingsMenuController {
                 errorAlert.showAndWait();
             }
         }
+
     }
 
-    //Opens the github wiki page when help button is pressed
+    // Opens a new stage that displays the read me
     public void onHelpButtonPressed() {
         SceneChanger.loadHelpMenu();
     }
