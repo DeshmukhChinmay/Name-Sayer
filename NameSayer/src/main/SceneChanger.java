@@ -29,7 +29,7 @@ public class SceneChanger {
     private static PlayMenuController playMenuController;
     private static PracticeMenuController practiceMenuController;
     private static SettingsMenuController settingsMenuController;
-    private static UploadSearchMenuController uploadSearchMenuController;
+    private static EnterNamesMenuController enterNamesMenuController;
     private static HelpMenuController helpMenuController;
 
     public static SceneChanger getInstance() {
@@ -52,10 +52,10 @@ public class SceneChanger {
         listMenuScene = new Scene(listMenuPane, 1366, 768);
         listMenuController = listLoader.getController();
 
-        FXMLLoader uploadSearchLoader = new FXMLLoader(getClass().getResource("/fxmlFiles/uploadSearchMenu.fxml"));
+        FXMLLoader uploadSearchLoader = new FXMLLoader(getClass().getResource("/fxmlFiles/enterNamesMenu.fxml"));
         Parent uploadSearchPane = uploadSearchLoader.load();
         uploadSearchScene = new Scene(uploadSearchPane, 1366, 768);
-        uploadSearchMenuController = uploadSearchLoader.getController();
+        enterNamesMenuController = uploadSearchLoader.getController();
 
         FXMLLoader playLoader = new FXMLLoader(getClass().getResource("/fxmlFiles/playMenu.fxml"));
         Parent playMenuPane = playLoader.load();
@@ -79,7 +79,7 @@ public class SceneChanger {
 
         FXMLLoader helpLoader = new FXMLLoader(getClass().getResource("/fxmlFiles/helpMenu.fxml"));
         Parent helpPane = helpLoader.load();
-        helpMenuScene = new Scene(helpPane, 650, 750);
+        helpMenuScene = new Scene(helpPane, 650, 700);
         helpMenuController = helpLoader.getController();
     }
 
@@ -122,8 +122,9 @@ public class SceneChanger {
     }
 
     public static void loadHelpMenu(){
-        _secondaryStage.setScene(helpMenuScene);
-        _secondaryStage.show();
+        Stage helpStage = new Stage();
+        helpStage.setScene(helpMenuScene);
+        helpStage.show();
     }
 
     //The following methods all return a instance of the respective controller
@@ -147,8 +148,8 @@ public class SceneChanger {
         return practiceMenuController;
     }
 
-    public static UploadSearchMenuController getUploadSearchMenuController() {
-        return uploadSearchMenuController;
+    public static EnterNamesMenuController getEnterNamesMenuController() {
+        return enterNamesMenuController;
     }
 
     public static SettingsMenuController getSettingsMenuController() {

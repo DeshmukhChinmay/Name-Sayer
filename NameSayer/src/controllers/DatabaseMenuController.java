@@ -9,11 +9,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
-import main.Audio;
-import main.Names;
+import main.*;
 import main.Names.NameVersions;
-import main.PlayableNames;
-import main.SceneChanger;
 
 import java.io.File;
 import java.net.URL;
@@ -165,11 +162,7 @@ public class DatabaseMenuController implements Initializable {
         PlayableNames selectedName = practiceNamesListView.getSelectionModel().getSelectedItem();
         //Checks if there is a name selected or else shows a alert box
         if (selectedName == null) {
-            Alert errorAlert = new Alert(Alert.AlertType.WARNING);
-            errorAlert.setTitle("No Name Selected");
-            errorAlert.setHeaderText(null);
-            errorAlert.setContentText("Please Select a Name");
-            errorAlert.showAndWait();
+           new ErrorAlerts().showError("No Name Selected","Please Select a Name");
         } else {
             //Add the code to ask for confirmation
             Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -209,11 +202,7 @@ public class DatabaseMenuController implements Initializable {
             });
             new Thread(task).start();
         } else {//If no name is selected then it shows an alert to the user
-            Alert errorAlert = new Alert(Alert.AlertType.WARNING);
-            errorAlert.setTitle("No File Selected");
-            errorAlert.setHeaderText(null);
-            errorAlert.setContentText("Please Select File");
-            errorAlert.showAndWait();
+            new ErrorAlerts().showError("No File Selected","Please Select File");
         }
 
     }
@@ -242,11 +231,7 @@ public class DatabaseMenuController implements Initializable {
                 new Thread(task).start();
 
         } else {
-            Alert errorAlert = new Alert(Alert.AlertType.WARNING);
-            errorAlert.setTitle("No Database Name Selected");
-            errorAlert.setHeaderText(null);
-            errorAlert.setContentText("Please Select a Database Names");
-            errorAlert.showAndWait();
+            new ErrorAlerts().showError("No Database Name Selected","Please Select a Database Name");
         }
     }
 

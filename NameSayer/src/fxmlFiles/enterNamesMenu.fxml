@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
 <?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
@@ -16,15 +17,18 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.control.TextArea?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1366.0" style="-fx-background-color: #53667B;" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.UploadSearchMenuController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1366.0" style="-fx-background-color: #53667B;" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EnterNamesMenuController">
     <top>
-        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="89.0" prefWidth="713.0" text="Practice Name(s)" BorderPane.alignment="CENTER">
+        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="89.0" prefWidth="906.0" text="Enter/Upload Name(s)" textFill="WHITE" BorderPane.alignment="CENTER">
             <font>
                 <Font size="75.0" />
             </font>
             <BorderPane.margin>
                 <Insets />
             </BorderPane.margin>
+         <effect>
+            <DropShadow height="51.36" radius="31.25" width="75.64" />
+         </effect>
         </Label>
     </top>
     <center>
@@ -34,7 +38,7 @@
                     <children>
                         <HBox alignment="CENTER" prefHeight="70.0" prefWidth="740.0" spacing="40.0">
                             <children>
-                                <TextField fx:id="enteredName" onKeyReleased="#handleKeyReleased" onMouseClicked="#showSearchList" prefHeight="53.0" prefWidth="431.0" promptText="Enter Name(s)" style="-fx-background-color: #5d728a;">
+                                <TextField fx:id="enteredName" onKeyReleased="#handleKeyReleased" onMouseClicked="#showSearchList" prefHeight="53.0" prefWidth="431.0" promptText="Enter Name(s)">
                                     <font>
                                         <Font size="20.0" />
                                     </font>
@@ -49,7 +53,7 @@
                                 <Insets left="20.0" top="20.0" />
                             </VBox.margin>
                         </HBox>
-                  <Label text="Names in Database">
+                  <Label text="Suggested Names" textFill="#d3d3d3">
                      <font>
                         <Font size="17.0" />
                      </font>

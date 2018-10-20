@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
 <?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
@@ -76,10 +77,13 @@
         </HBox>
     </center>
     <top>
-        <Label text="User Recordings" BorderPane.alignment="CENTER">
+        <Label text="User Recordings" textFill="WHITE" BorderPane.alignment="CENTER">
             <font>
                 <Font size="75.0" />
             </font>
+         <effect>
+            <DropShadow height="48.32" radius="30.490000000000002" width="75.64" />
+         </effect>
         </Label>
     </top>
    <bottom>
@@ -92,7 +96,7 @@
                   </Button>
          </children>
          <padding>
-            <Insets left="20.0" right="20.0" />
+            <Insets bottom="15.0" left="20.0" right="20.0" />
          </padding>
       </HBox>
    </bottom>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
 <?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
@@ -8,10 +9,13 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1366.0" style="-fx-background-color: #53667B;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ListMenuController">
     <top>
-        <Label text="Select Names" BorderPane.alignment="CENTER">
+        <Label text="Database Names List" textFill="WHITE" BorderPane.alignment="CENTER">
             <font>
                 <Font size="75.0" />
             </font>
+         <effect>
+            <DropShadow height="51.36" radius="31.25" width="75.64" />
+         </effect>
         </Label>
     </top>
     <center>
@@ -21,7 +25,7 @@
                     <children>
                         <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                             <children>
-                                <TextField fx:id="nameTagField" maxHeight="309.0" onKeyReleased="#searchFunction" prefHeight="280.0" prefWidth="422.0" promptText="Search Name/Tag" style="-fx-background-color: #5d728a;" />
+                                <TextField fx:id="nameTagField" maxHeight="309.0" onKeyReleased="#searchFunction" prefHeight="280.0" prefWidth="422.0" promptText="Search Name/Tag" />
                                 <ComboBox fx:id="searchBy" prefHeight="27.0" prefWidth="230.0" promptText="Search by" style="-fx-background-color: #95a6b8; -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.5), 10, 0, 0, 0);;" />
                             </children>
                             <VBox.margin>
@@ -188,7 +192,7 @@
                         <Font size="20.0" />
                     </font>
                 </Button>
-                <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#nextButtonPressed" prefHeight="53.0" prefWidth="138.0" styleClass="mainButton" stylesheets="@../css/main.css" text="Next">
+                <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#nextButtonPressed" prefHeight="53.0" prefWidth="138.0" styleClass="mainButton" stylesheets="@../css/main.css" text="Practice">
                     <HBox.margin>
                         <Insets />
                     </HBox.margin>
@@ -198,7 +202,7 @@
                 </Button>
             </children>
             <padding>
-                <Insets bottom="5.0" left="20.0" right="20.0" />
+                <Insets bottom="15.0" left="20.0" right="20.0" />
             </padding>
         </HBox>
     </bottom>

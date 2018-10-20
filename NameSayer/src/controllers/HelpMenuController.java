@@ -3,6 +3,7 @@ package controllers;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextArea;
+import main.ErrorAlerts;
 import main.SceneChanger;
 
 import java.io.BufferedReader;
@@ -25,18 +26,9 @@ public class HelpMenuController {
                 readmeArea.appendText(line + "\n");
             }
         }catch(FileNotFoundException e){
-                Alert errorAlert = new Alert(Alert.AlertType.WARNING);
-                errorAlert.setTitle("No README found");
-                errorAlert.setHeaderText(null);
-                errorAlert.setContentText("No README Found");
-                errorAlert.showAndWait();
+            new ErrorAlerts().showError("No README found","No README Found");
         }
 
     }
-
-    public void onBackButtonPressed(){
-        SceneChanger.loadSettingsPage();
-    }
-
 
 }

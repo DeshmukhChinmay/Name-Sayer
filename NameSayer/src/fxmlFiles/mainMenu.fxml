@@ -16,23 +16,23 @@
                         <Font size="96.0" />
                     </font>
                     <effect>
-                        <DropShadow offsetX="4.0" offsetY="1.0" spread="0.4" />
+                        <DropShadow height="50.0" offsetX="4.0" offsetY="1.0" radius="30.75" spread="0.4" width="75.0" />
                     </effect>
                     <VBox.margin>
                         <Insets top="40.0" />
                     </VBox.margin>
                 </Label>
-                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#listButtonPressed" prefHeight="300.0" prefWidth="407.0" styleClass="mainButton" text="Select Name from List" textAlignment="CENTER" wrapText="true">
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#uploadFilePressed" prefHeight="300.0" prefWidth="400.0" styleClass="mainButton" text="Enter/Upload Names" textAlignment="CENTER" wrapText="true">
                       <font>
                           <Font size="34.0" />
                       </font>
                   </Button>
-                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#uploadFilePressed" prefHeight="300.0" prefWidth="400.0" styleClass="mainButton" text="Upload/Search Name" textAlignment="CENTER" wrapText="true">
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#listButtonPressed" prefHeight="300.0" prefWidth="407.0" styleClass="mainButton" text="Database Names List" textAlignment="CENTER" wrapText="true">
                       <font>
                           <Font size="34.0" />
                       </font>
                   </Button>
-                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#showAttemptsButtonPressed" prefHeight="300.0" prefWidth="400.0" styleClass="mainButton" text="Show Previous Practices" textAlignment="CENTER" wrapText="true">
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#showAttemptsButtonPressed" prefHeight="300.0" prefWidth="400.0" styleClass="mainButton" text="Previous Practices" textAlignment="CENTER" wrapText="true">
                       <font>
                           <Font size="34.0" />
                       </font>

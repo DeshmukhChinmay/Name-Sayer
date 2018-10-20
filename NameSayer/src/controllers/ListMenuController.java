@@ -322,11 +322,7 @@ public class ListMenuController implements Initializable {
 
         } else if(new File(currentWorkingDir+"/NameSayer/Recordings").listFiles() == null ||
                 new File(currentWorkingDir+"/NameSayer/Recordings").listFiles().length == 0 ) {
-            Alert errorAlert = new Alert(Alert.AlertType.WARNING);
-            errorAlert.setTitle("No Default Folder");
-            errorAlert.setHeaderText(null);
-            errorAlert.setHeaderText("No Default Names Folder");
-            errorAlert.showAndWait();
+            new ErrorAlerts().showError("No Default Folder","No Default Names Folder");
         }
 
     }
@@ -383,11 +379,8 @@ public class ListMenuController implements Initializable {
     //Goes to the play menu
     public void nextButtonPressed() {
         if (selectedNames.getItems().size() == 0) {
-            Alert errorAlert = new Alert(Alert.AlertType.WARNING);
-            errorAlert.setTitle("No Names Selected");
-            errorAlert.setHeaderText(null);
-            errorAlert.setContentText("Please Select Names");
-            errorAlert.showAndWait();
+            new ErrorAlerts().showError("No Names Selected","Please Select a Name");
+
         } else {
             //If only one creation selected should not be able to press next or prev
             if (selectedNames.getItems().size() == 1) {
@@ -442,11 +435,8 @@ public class ListMenuController implements Initializable {
     //and then changes the field in the respective NameVersion object and then adds the new tag to the text file
     public void onTagButtonPressed() throws Exception {
         if (currentlySelected == null) {
-            Alert errorAlert = new Alert(Alert.AlertType.WARNING);
-            errorAlert.setTitle("No Name Selected");
-            errorAlert.setHeaderText(null);
-            errorAlert.setContentText("Please Select Name and try again");
-            errorAlert.showAndWait();
+            new ErrorAlerts().showError("No Name Selected","Please Select a Name");
+
         } else {
             if (currentlySelected.getTag() != null) { //Removes current tag from text file and adds new tag
                 TagText.getInstance().removeTextFromFile(currentlySelected.getVersion(), currentlySelected.getTag());

@@ -8,10 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
-import main.Audio;
-import main.BadAudioText;
-import main.PlayableNames;
-import main.SceneChanger;
+import main.*;
 
 import java.io.*;
 import java.net.URL;
@@ -92,38 +89,38 @@ public class PlayMenuController implements Initializable {
     public void getQualityRating(PlayableNames name) {
         if (name.getBadQuality().get()) {
             qualityButton.setSelected(true);
-            qualityButton.setText("Bad Quality");
+            qualityButton.setText("Set As Good Quality");
 
         } else {
             qualityButton.setSelected(false);
-            qualityButton.setText("Good Quality");
+            qualityButton.setText("Set As Bad Quality");
         }
     }
 
     //Sets the quality on the UI screen when the toggle button is toggled
     public void setQualityRating() throws IOException {
         if (currentSelection == null) {
-            if (qualityButton.isSelected()) {
-                qualityButton.setText("Bad Quality");
-            } else {
-                qualityButton.setText("Good Quality");
+            if(qualityButton.isSelected()) {
+                qualityButton.setText("Set As Good Quality");
             }
-            Alert errorAlert = new Alert(Alert.AlertType.WARNING);
-            errorAlert.setTitle("No Name Selected");
-            errorAlert.setHeaderText(null);
-            errorAlert.setContentText("Please Select a Name");
-            errorAlert.showAndWait();
-        } else {
+            else{
+                qualityButton.setText("Set As Bad Quality");
+
+                }
+            new ErrorAlerts().showError("No Names Selected","Please Select a Name");
+
+        }
+            else {
             //Gets the name of the currently playing name
             //and sets the quality good or bad
             if (qualityButton.isSelected()) {
-                qualityButton.setText("Bad Quality");
+                qualityButton.setText("Set As Good Quality");
                 currentSelection.getBadQuality().setValue(true);
                 SceneChanger.getListMenuController().getNameVersionsMap().get(currentSelection.getName()).getBadQuality().setValue(true);
                 //Writes the current selected name to the text file
                 BadAudioText.getInstance().writeText(currentSelection.getName());
             } else {
-                qualityButton.setText("Good Quality");
+                qualityButton.setText("Set As Bad Quality");
                 //Sets value of bad quality name object to false
                 currentSelection.getBadQuality().setValue(false);
                 SceneChanger.getListMenuController().getNameVersionsMap().get(currentSelection.getName()).getBadQuality().setValue(false);
@@ -142,7 +139,7 @@ public class PlayMenuController implements Initializable {
         selectedListView.getSelectionModel().clearSelection();
         if (fromUpload) {
             SceneChanger.loadUploadSearchPage();
-            SceneChanger.getUploadSearchMenuController().showSearchList();
+            SceneChanger.getEnterNamesMenuController().showSearchList();
         } else {
             SceneChanger.loadListPage();
 
@@ -237,7 +234,7 @@ public class PlayMenuController implements Initializable {
     // Setting the list to be displayed for playing
     public void setDisplayList() {
         if (fromUpload) {
-            selectedVersionList = SceneChanger.getUploadSearchMenuController().getPlayableNamesObjects();
+            selectedVersionList = SceneChanger.getEnterNamesMenuController().getPlayableNamesObjects();
         } else {
             selectedVersionList = SceneChanger.getListMenuController().getPlayableNamesObjects();
         }
