@@ -16,7 +16,7 @@ public class TagText {
     private TagText() {
     }
 
-    //Writes the given string into the text file
+    // Writes the given string into the text file
     public void writeText(String versionName, String tag) throws IOException {
         FileWriter tagFile = new FileWriter("Tags_File.txt", true);
         PrintWriter writer = new PrintWriter(tagFile);
@@ -24,8 +24,8 @@ public class TagText {
         writer.close();
     }
 
-    //Removes the given string in a text field by creating a updateNameObjects folder and moving all but that line into the new file
-    //and renaming it
+    // Removes the given string in a text field by creating a updateNameObjects folder and moving all but that line into the new file
+    // and renaming it
     public void removeTextFromFile(String versionName, String tag) throws IOException {
         //Gets the files for a Temp file and Recordings
         File temp = new File("temp_Tags.txt");
@@ -34,8 +34,9 @@ public class TagText {
         BufferedReader reader = new BufferedReader(new FileReader(main));
         BufferedWriter writer = new BufferedWriter(new FileWriter(temp));
         String current;
+
         while ((current = reader.readLine()) != null) {
-            // trim newline when comparing with lineToRemove
+            // Trim newline when comparing with lineToRemove
             String trimmedLine = current.trim();
             if (trimmedLine.equals(versionName + "_" + tag)) {
                 continue;

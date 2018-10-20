@@ -1,23 +1,8 @@
 package controllers;
 
-import javafx.fxml.Initializable;
-
-import main.BadAudioText;
 import main.SceneChanger;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-
-public class MainMenuController implements Initializable {
-
-    //Initialize method to create the text file if not made
-    public void initialize(URL location, ResourceBundle resources) {
-        try {
-            BadAudioText.getInstance();
-        } catch (IOException e) {
-        }
-    }
+public class MainMenuController {
 
     //Changes scene to where the list view of all creations are shown
     public void listButtonPressed() {
@@ -36,9 +21,8 @@ public class MainMenuController implements Initializable {
 
     // Changes scene to the scene where the user can select names or upload a txt file containing names
     public void uploadFilePressed() {
-
         SceneChanger.getEnterNamesMenuController().setSearchList();
         SceneChanger.getEnterNamesMenuController().showSearchList();
-        SceneChanger.loadUploadSearchPage();
+        SceneChanger.loadEnterNamesPage();
     }
 }

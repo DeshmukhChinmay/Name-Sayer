@@ -3,7 +3,7 @@ package main;
 import javafx.scene.control.Alert;
 
 public class ErrorAlerts {
-    //This method creates the appropriate alert for the user on unexpected intput
+    //This method creates the appropriate alerts for the user for an unexpected input
     public void showError(String title, String content){
 
     Alert errorAlert = new Alert(Alert.AlertType.WARNING);

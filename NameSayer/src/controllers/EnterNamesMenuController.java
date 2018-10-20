@@ -35,27 +35,27 @@ public class EnterNamesMenuController implements Initializable {
     @FXML
     private Button selectButton;
     @FXML
-    private ListView searchList;
+    private ListView nameSuggestionsListView;
 
     private File fileUploaded = null;
 
     private ObservableList<String> playableNames = FXCollections.observableArrayList();
     private ObservableList<PlayableNames> playableNamesObjects = FXCollections.observableArrayList();
-    private ObservableList<String> namesSearchViewList = FXCollections.observableArrayList();
+    private ObservableList<String> nameSuggestionsList = FXCollections.observableArrayList();
 
     private int characterLimit = 50;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        //Makes the suggestion list for the names in the database not clickable but still enabling the user
-        //to scroll through the list
-        searchList.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+        // Makes the suggestion list for the names in the database not clickable but still enabling the user
+        // to scroll through the list
+        nameSuggestionsListView.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue observable, Number oldValue, Number newValue) {
                 Platform.runLater(new Runnable() {
                     public void run() {
-                        searchList.getSelectionModel().select(-1);
+                        nameSuggestionsListView.getSelectionModel().select(-1);
                     }
                 });
 
@@ -130,7 +130,7 @@ public class EnterNamesMenuController implements Initializable {
             playableNames.clear();
             playableNamesListView.setItems(playableNames);
             inputFileTextArea.setVisible(true);
-            searchList.setVisible(false);
+            nameSuggestionsListView.setVisible(false);
 
             BufferedReader reader = new BufferedReader(new FileReader(fileUploaded));
             String line = null;
@@ -250,11 +250,11 @@ public class EnterNamesMenuController implements Initializable {
         }
     }
 
-    // Getting the input from the textfield when the enter key is pressed and filters the searchList
+    // Getting the input from the textfield when the enter key is pressed and filters the nameSuggestionsListView
     public void handleKeyReleased() {
 
         // Clears the list so there are no duplicate names shown
-        namesSearchViewList.clear();
+        nameSuggestionsList.clear();
         String text = enteredName.getText();
         String temp = text.replace("-", " ");//replaces - with spaces
 
@@ -277,22 +277,22 @@ public class EnterNamesMenuController implements Initializable {
                     if ((n.getName().length() >= charAfterSpace-1) &&
                             (n.getName().substring(0, charAfterSpace-1).toLowerCase().equals(temp.substring((temp.lastIndexOf(" "))).trim().toLowerCase()))) {
                         // If names are equal adds to observable list
-                        namesSearchViewList.add(n.getName());
+                        nameSuggestionsList.add(n.getName());
                     }
                 }
 
-                searchList.setItems(namesSearchViewList);
+                nameSuggestionsListView.setItems(nameSuggestionsList);
 
             } else {
                 // Loops through all names and checks if the first letters are matching and outputs it
                 for (Names n : SceneChanger.getListMenuController().getNameObjects()) {
                     if ((n.getName().length() >= temp.length()) &&
                             (n.getName().substring(0, temp.length()).toLowerCase().equals(temp.toLowerCase()))) {
-                        namesSearchViewList.add(n.getName());
+                        nameSuggestionsList.add(n.getName());
                     }
                 }
 
-                searchList.setItems(namesSearchViewList);
+                nameSuggestionsListView.setItems(nameSuggestionsList);
             }
         }
 
@@ -310,12 +310,12 @@ public class EnterNamesMenuController implements Initializable {
 
     // Sets the search list with all items
     public void setSearchList() {
-        searchList.setItems(SceneChanger.getListMenuController().namesListView.getItems());
+        nameSuggestionsListView.setItems(SceneChanger.getListMenuController().namesListView.getItems());
     }
 
     // Sets search list to visible and text area to not visible
     public void showSearchList() {
-        searchList.setVisible(true);
+        nameSuggestionsListView.setVisible(true);
         inputFileTextArea.setVisible(false);
     }
 
