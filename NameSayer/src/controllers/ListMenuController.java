@@ -389,6 +389,8 @@ public class ListMenuController implements Initializable {
     public void backButtonPressed() {
         clearInfoPanel();
         clearSelection();
+        namesListView.setItems(null);
+        namesListView.setItems(namesViewList.sorted());
         SceneChanger.loadMainPage();
     }
 
