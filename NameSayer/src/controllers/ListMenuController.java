@@ -388,6 +388,7 @@ public class ListMenuController implements Initializable {
     // Returns to the main menu
     public void backButtonPressed() {
         clearInfoPanel();
+        clearSelection();
         SceneChanger.loadMainPage();
     }
 
