@@ -469,6 +469,7 @@ public class ListMenuController implements Initializable {
         }
 
         currentlySelected = null;
+        tagField.clear();
         selectedNames.getSelectionModel().clearSelection();
         namesVersionListView.getSelectionModel().clearSelection();
 
